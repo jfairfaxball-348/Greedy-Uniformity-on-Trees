@@ -1,1 +1,1 @@
-import GreedyUniformity.TreeA
+import GreedyUniformity.TheoremA
