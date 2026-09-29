@@ -1,7 +1,7 @@
 # Lean formalisation status
 
 **Stage:** 5 of 8 — IN PROGRESS  
-**Checkpoint:** 2 — exact finite permutation-law bridge  
+**Checkpoint:** 3 — Frozen Theorem A formalised  
 **Date:** 2026-09-29
 
 This directory documents the formalisation boundary. It does not mark Stage 5 complete.
@@ -73,23 +73,43 @@ In particular:
 
 Thus the implemented finite fibres are now connected by proved theorems—not only definitions—to the frozen random-permutation law.
 
-## Verification at checkpoint 2
+## Frozen Theorem A
 
-The root library imports `GreedyUniformity.Bridge`. GitHub Actions run #43 passed:
+The tree obstruction is now fully formalised across:
+
+    GreedyUniformity/Counting.lean
+    GreedyUniformity/Pendant.lean
+    GreedyUniformity/Marginal.lean
+    GreedyUniformity/OrderCount.lean
+    GreedyUniformity/MultiLeaf.lean
+    GreedyUniformity/OneLeaf.lean
+    GreedyUniformity/TreeA.lean
+    GreedyUniformity/TheoremA.lean
+
+The final exact statements are:
+
+    GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
+    GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
+
+Here `IsK1OrK2 G` means that `G` is graph-isomorphic to the complete graph on `Fin 1` or `Fin 2`. The exactly-one-pendant-leaf case is proved by an explicit finite permutation-fibre comparison using the involution `Equiv.swap x y`, together with a concrete fibre order missed by the image; the Stage-3 continuous-priority integral is not needed in the Lean proof.
+
+## Verification at checkpoint 3
+
+GitHub Actions run #84 passed:
 
 - `lake build`;
-- the forbidden-placeholder check;
+- the forbidden-placeholder check for `sorry`, `admit`, and `native_decide`;
 - `python -m pytest -q`, with `4 passed`.
 
-No Lean/Mathlib version was changed.
+`GreedyUniformity/AxiomCheck.lean` records Lean axiom printing for the two final A statements. Both report exactly:
+
+    [propext, Classical.choice, Quot.sound]
+
+These are standard Lean/Mathlib logical foundations used by the proof; there is no project-specific mathematical axiom in the Frozen A proof chain. No Lean/Mathlib version was changed.
 
 ## Not yet proved
 
-Checkpoint 2 does **not** claim either frozen main theorem is formalised. Remaining Stage-5 work is:
-
-1. formalise the structural tree lemmas and Frozen Theorem A;
-2. formalise the mixed-spider maximal sets, exact probabilities, tuned bias identity, positivity, and asymptotic bounds for Frozen Theorem B;
-3. inspect and accurately record the axioms of the final A/B theorems.
+Frozen Theorem A is complete. Remaining Stage-5 work is Frozen Theorem B only: formalise the mixed-spider maximal sets, exact probabilities, tuned bias identity, positivity, and asymptotic bounds, then perform the corresponding final B axiom inspection and full-stage verification.
 
 No project-specific axiom, `sorry`, `admit`, or `native_decide` is permitted in the final proof chain.
 
