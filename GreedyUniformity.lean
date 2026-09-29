@@ -1,1 +1,1 @@
-import GreedyUniformity.Model
+import GreedyUniformity.Model\nimport GreedyUniformity.Scan\n
