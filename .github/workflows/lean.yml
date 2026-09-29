@@ -15,14 +15,7 @@ jobs:
           build: false
           test: false
           lint: false
-      - name: Resolve pinned dependencies
-        run: |
-          lake update
-          echo '--- LAKE MANIFEST BEGIN ---'
-          cat lake-manifest.json
-          echo '--- LAKE MANIFEST END ---'
-      - name: Fetch Mathlib cache
-        run: lake exe cache get
+          use-mathlib-cache: true
       - name: Build
         run: lake build
       - name: Explore API
