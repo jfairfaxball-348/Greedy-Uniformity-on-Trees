@@ -89,13 +89,17 @@ theorem maximalIndependentOn_erase_of_not_mem (G : SimpleGraph V)
   · intro w hw hwI
     exact hI.2.2 (Finset.mem_of_mem_erase hw) hwI
 
+noncomputable def nonneighborsIn (G : SimpleGraph V) (S : Finset V) (z : V) :
+    Finset V := by
+  classical
+  exact S.filter fun w => ¬ G.Adj z w
+
 theorem erase_eq_inter_nonneighbors_of_extension (G : SimpleGraph V)
     {S I K : Finset V} {z : V}
     (hI : IsMaximalIndependentOn G S I) (hz : z ∈ I)
     (hK : IsMaximalIndependentOn G (S.erase z) K)
     (hsub : I.erase z ⊆ K) :
-    I.erase z =
-      K ∩ ((S.erase z).filter fun w => ¬ G.Adj z w) := by
+    I.erase z = K ∩ nonneighborsIn G (S.erase z) z := by
   classical
   ext x
   constructor
@@ -105,11 +109,15 @@ theorem erase_eq_inter_nonneighbors_of_extension (G : SimpleGraph V)
     have hxNoAdj : ¬ G.Adj z x :=
       hI.2.1 hz hxe.2
     exact Finset.mem_inter.mpr
-      ⟨hxK, Finset.mem_filter.mpr
-        ⟨Finset.mem_erase.mpr ⟨hxe.1, hI.1 hxe.2⟩, hxNoAdj⟩⟩
+      ⟨hxK, by
+        simp only [nonneighborsIn, Finset.mem_filter]
+        exact ⟨Finset.mem_erase.mpr ⟨hxe.1, hI.1 hxe.2⟩, hxNoAdj⟩⟩
   · intro hx
     rcases Finset.mem_inter.mp hx with ⟨hxK, hxF⟩
-    rcases Finset.mem_filter.mp hxF with ⟨hxSz, hxNoAdj⟩
+    have hxF' :
+        x ∈ S.erase z ∧ ¬ G.Adj z x := by
+      simpa only [nonneighborsIn, Finset.mem_filter] using hxF
+    rcases hxF' with ⟨hxSz, hxNoAdj⟩
     rcases Finset.mem_erase.mp hxSz with ⟨hxne, hxS⟩
     have hxI : x ∈ I := by
       by_contra hxi
@@ -137,11 +145,13 @@ theorem maximalIndependentSetsOn_card_le_two_mul_erase
       (false, I)
   have hmaps :
       Set.MapsTo encode (A : Set (Finset V))
-        ((Finset.univ : Finset Bool) ×ˢ B) := by
+        ((((Finset.univ : Finset Bool) ×ˢ B) :
+          Finset (Bool × Finset V)) : Set (Bool × Finset V)) := by
     intro I hIA
     have hI : IsMaximalIndependentOn G S I := by
       exact (mem_maximalIndependentSetsOn_iff G).1 hIA
-    rw [Finset.mem_coe, Finset.mem_product]
+    change encode I ∈ ((Finset.univ : Finset Bool) ×ˢ B)
+    rw [Finset.mem_product]
     constructor
     · exact Finset.mem_univ _
     · by_cases hz : z ∈ I
