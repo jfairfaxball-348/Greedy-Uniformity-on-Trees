@@ -83,14 +83,16 @@ theorem greedyScan_subset_union (I : Finset V) (l : List V) :
     greedyScan G I l ⊆ I ∪ l.toFinset := by
   induction l generalizing I with
   | nil =>
-      simpa using (show I ⊆ I from fun _ h => h)
+      simp [greedyScan]
   | cons v l ih =>
       intro x hx
       have hx' := ih (greedyStep G I v) hx
       simp only [Finset.mem_union, List.toFinset_cons, Finset.mem_insert] at hx' ⊢
       rcases hx' with hstep | hl
       · have hs := greedyStep_subset_insert G I v hstep
-        simpa [Finset.mem_insert] using hs
+        rcases (Finset.mem_insert.mp hs) with rfl | hxI
+        · exact Or.inr (Or.inl rfl)
+        · exact Or.inl hxI
       · exact Or.inr (Or.inr hl)
 
 theorem greedyList_rejected_has_predecessor (a b : List V) (w : V)
@@ -101,7 +103,9 @@ theorem greedyList_rejected_has_predecessor (a b : List V) (w : V)
   have hscan :
       greedyList G (a ++ w :: b) =
         greedyScan G (greedyStep G J w) b := by
-    simp [greedyList, greedyScan_append, J]
+    unfold greedyList
+    rw [greedyScan_append]
+    rfl
   have hblock : ∃ u ∈ J, G.Adj u w := by
     by_contra h
     have hwstep : w ∈ greedyStep G J w := by
@@ -131,30 +135,39 @@ theorem greedyScan_take_eq_inter (l : List V) (I : Finset V)
       simp [greedyScan]
   | succ n ih =>
       by_cases hn : n < l.length
-      · rw [← List.take_concat_get' l n hn]
-        rw [greedyScan_append]
+      · let v : V := l[n]
+        have htake :
+            l.take (n + 1) = l.take n ++ [v] := by
+          simpa [v] using (List.take_concat_get' l n hn).symm
+        rw [htake, greedyScan_append]
         simp only [greedyScan]
         rw [ih]
-        let v : V := l[n]
         by_cases hv : v ∈ I
         · have hblock :
               ¬ ∃ u ∈ I ∩ (l.take n).toFinset, G.Adj u v := by
             rintro ⟨u, hu, hadj⟩
-            exact hI hu.1 hv hadj
-          simp [greedyStep, hblock, hv, v]
+            have huI : u ∈ I := (Finset.mem_inter.mp hu).1
+            exact (hI huI hv) hadj
+          rw [greedyStep]
+          simp only [hblock, if_false]
+          ext x
+          simp [htake, hv]
         · rcases hcert hv with ⟨u, huI, hadj, hprec⟩
           have hul : u ∈ l := precedes_mem_left hprec
           have hidx : l.idxOf u < l.idxOf v :=
             precedes_idxOf_lt hl hprec
           have hvidx : l.idxOf v = n := by
-            simpa [v] using hl.idxOf_getElem ⟨n, hn⟩
+            simpa [v] using hl.idxOf_getElem n hn
           have hutake : u ∈ l.take n := by
             apply (List.mem_take_iff_idxOf_lt hul).2
             simpa [hvidx] using hidx
           have hblock :
               ∃ x ∈ I ∩ (l.take n).toFinset, G.Adj x v := by
             exact ⟨u, by simp [huI, hutake], hadj⟩
-          simp [greedyStep, hblock, hv, v]
+          rw [greedyStep]
+          simp only [hblock, if_true]
+          ext x
+          simp [htake, hv]
       · have hle : l.length ≤ n := Nat.le_of_not_gt hn
         have htakeN : l.take n = l :=
           (List.take_eq_self_iff l).2 hle
@@ -219,12 +232,16 @@ theorem fibre_nonempty_of_maximal (G : SimpleGraph V) {I : Finset V}
     rw [List.disjoint_iff_ne]
     intro a ha b hb hab
     subst b
-    simp at ha hb
+    simp only [Finset.mem_toList, Finset.mem_sdiff,
+      Finset.mem_univ, true_and] at ha hb
+    exact hb ha
   have horder : IsVertexOrder l := by
     unfold IsVertexOrder
     apply (List.perm_ext_iff_of_nodup hnodup (Finset.nodup_toList _)).2
     intro x
-    simp [l]
+    by_cases hx : x ∈ I
+    · simp [l, hx]
+    · simp [l, hx]
   have hcert : PriorityCertificate G I l := by
     refine ⟨horder, hI, ?_⟩
     intro w hw
@@ -378,6 +395,13 @@ theorem bias_eq_zero_iff_greedyLawEqUniform (G : SimpleGraph V) :
       intro I hI
       rw [abs_eq_zero, sub_eq_zero]
       exact h I ((mem_maximalIndependentSets_iff G).1 hI)
-    simp [hz]
+    have hsum :
+        (∑ I ∈ maximalIndependentSets G,
+          |greedyProb G I -
+            1 / ((maximalIndependentSets G).card : ℚ)|) = 0 := by
+      apply Finset.sum_eq_zero
+      intro I hI
+      exact hz I hI
+    rw [hsum, mul_zero]
 
 end GreedyUniformity
