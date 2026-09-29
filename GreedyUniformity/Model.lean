@@ -29,7 +29,7 @@ noncomputable def maximalIndependentSets (G : SimpleGraph V) : Finset (Finset V)
 def greedyStep (G : SimpleGraph V) [DecidableRel G.Adj] (I : Finset V) (v : V) : Finset V :=
   if ∃ u ∈ I, G.Adj u v then I else insert v I
 
-/-- Greedy scan from an already selected independent accumulator. -/
+/-- Greedy scan from an already selected accumulator. -/
 def greedyScan (G : SimpleGraph V) [DecidableRel G.Adj] : Finset V → List V → Finset V
   | I, [] => I
   | I, v :: l => greedyScan G (greedyStep G I v) l
@@ -38,37 +38,34 @@ def greedyScan (G : SimpleGraph V) [DecidableRel G.Adj] : Finset V → List V �
 def greedyList (G : SimpleGraph V) [DecidableRel G.Adj] (l : List V) : Finset V :=
   greedyScan G ∅ l
 
-/-- Canonical enumeration used only to turn a permutation into an ordered list. -/
-noncomputable def baseEquiv : V ≃ Fin (Fintype.card V) :=
-  Fintype.equivFin V
+/-- The finite sample space of all vertex scan orders. -/
+noncomputable def vertexOrders : Finset (List V) := by
+  classical
+  exact (Finset.univ.toList.permutations).toFinset
 
-/-- The scan list associated to a permutation of the finite vertex type. -/
-noncomputable def permutationOrder (π : Equiv.Perm V) : List V :=
-  List.ofFn fun i : Fin (Fintype.card V) => π ((baseEquiv (V := V)).symm i)
+/-- A list is a complete vertex order precisely when it permutes the full vertex list. -/
+def IsVertexOrder (l : List V) : Prop :=
+  l.Perm Finset.univ.toList
 
-/-- Rank of a vertex in the scan order attached to `π`. -/
-noncomputable def rank (π : Equiv.Perm V) (v : V) : Fin (Fintype.card V) :=
-  baseEquiv (V := V) (π.symm v)
-
-def Precedes (π : Equiv.Perm V) (u v : V) : Prop :=
-  rank π u < rank π v
-
-/-- Actual deterministic greedy output associated to the permutation `π`. -/
-noncomputable def greedyOutput (G : SimpleGraph V) (π : Equiv.Perm V) : Finset V := by
+/-- Actual deterministic greedy output associated to a scan order. -/
+noncomputable def greedyOutput (G : SimpleGraph V) (l : List V) : Finset V := by
   classical
   letI : DecidableRel G.Adj := Classical.decRel _
-  exact greedyList G (permutationOrder π)
+  exact greedyList G l
+
+/-- `u` appears strictly before `v` in a list. -/
+def Precedes (l : List V) (u v : V) : Prop :=
+  ∃ a b c : List V, l = a ++ u :: b ++ v :: c
 
 /-- Exact finite priority certificate for a maximal independent set. -/
-def PriorityCertificate (G : SimpleGraph V) (I : Finset V) (π : Equiv.Perm V) : Prop :=
-  IsMaximalIndependent G I ∧
-    ∀ ⦃w⦄, w ∉ I → ∃ u ∈ I, G.Adj u w ∧ Precedes π u w
+def PriorityCertificate (G : SimpleGraph V) (I : Finset V) (l : List V) : Prop :=
+  IsVertexOrder l ∧ IsMaximalIndependent G I ∧
+    ∀ ⦃w⦄, w ∉ I → ∃ u ∈ I, G.Adj u w ∧ Precedes l u w
 
-/-- The exact permutation fibre of a target output. -/
-noncomputable def fibre (G : SimpleGraph V) (I : Finset V) :
-    Finset (Equiv.Perm V) := by
+/-- The exact permutation fibre of a target greedy output. -/
+noncomputable def fibre (G : SimpleGraph V) (I : Finset V) : Finset (List V) := by
   classical
-  exact Finset.univ.filter fun π => greedyOutput G π = I
+  exact vertexOrders.filter fun l => greedyOutput G l = I
 
 noncomputable def fibreCount (G : SimpleGraph V) (I : Finset V) : ℕ :=
   (fibre G I).card
@@ -82,7 +79,7 @@ def UniformFibres (G : SimpleGraph V) : Prop :=
 
 /-- Exact rational greedy output probability of a target set. -/
 noncomputable def greedyProb (G : SimpleGraph V) (I : Finset V) : ℚ :=
-  (fibreCount G I : ℚ) / Nat.factorial (Fintype.card V)
+  (fibreCount G I : ℚ) / ((vertexOrders (V := V)).card : ℚ)
 
 /-- Exact rational uniform probability on maximal independent sets. -/
 noncomputable def uniformProb (G : SimpleGraph V) (I : Finset V) : ℚ := by
