@@ -144,8 +144,8 @@ theorem tree_not_uniformFibres_of_three_le_card
         apply hab
         exact hax.trans h.symm
       exact not_uniformFibres_of_two_pendantLeaves
-        G hyz hleaf hxL hb hbx.symm
+        G hyz hleaf hxL hb (Ne.symm hbx)
     · exact not_uniformFibres_of_two_pendantLeaves
-        G hyz hleaf hxL ha hax.symm
+        G hyz hleaf hxL ha (Ne.symm hax)
 
 end GreedyUniformity
