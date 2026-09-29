@@ -170,6 +170,80 @@ theorem leaf_z_insert_maximal_of_not_dominates_z
   rcases hA.2.2 hwF hwA with ⟨a, ha, haw⟩
   exact ⟨a, by simp [ha], haw⟩
 
+
+theorem swap_leaf_fibre_to_center
+    {y z x : V} (hyz : G.Adj y z)
+    (hleaf : ∀ q : V, G.Adj y q → q ≠ z → G.degree q = 1)
+    (hx : x ∈ pendantLeaves G y z)
+    {A : Finset V}
+    (hA : IsMaximalIndependentOn G (pendantF G y z) A)
+    {l : List V} (hl : l ∈ fibre G (insert x A)) :
+    l.map (Equiv.swap x y) ∈ fibre G (insert y A) := by
+  classical
+  let σ : Equiv.Perm V := Equiv.swap x y
+  have hxy : x ≠ y := ((mem_pendantLeaves_iff G).1 hx |>.2).ne.symm
+  have hyA : y ∉ A := by
+    intro hyA
+    exact ((mem_pendantF_iff G).1 (hA.1 hyA)).2.1 rfl
+  have hxA : x ∉ A := by
+    intro hxA
+    exact ((mem_pendantF_iff G).1 (hA.1 hxA)).2.2 hx
+  have hdata := (fibre_mem_iff G (insert x A) l).1 hl
+  have hcert : PriorityCertificate G (insert x A) l :=
+    (priorityCertificate_iff_greedyOutput_eq G hdata.1).2 hdata.2
+  have horder' : IsVertexOrder (l.map σ) :=
+    map_equiv_isVertexOrder σ hdata.1
+  apply (fibre_mem_iff G (insert y A) (l.map σ)).2
+  refine ⟨horder', ?_⟩
+  apply greedyOutput_eq_of_priorityCertificate G
+  refine ⟨horder', center_insert_maximal_of_maximalOn_pendantF G hyz hA, ?_⟩
+  intro w hw
+  by_cases hwx : w = x
+  · subst w
+    have hyIx : y ∉ insert x A := by
+      simp [hxy.symm, hyA]
+    rcases hcert.2.2 hyIx with ⟨u, hu, huyadj, hprec⟩
+    have hux : u = x := by
+      rcases Finset.mem_insert.mp hu with hux | huA
+      · exact hux
+      · exfalso
+        exact pendantF_not_adj_center G (hA.1 huA) (G.adj_symm huyadj)
+    subst u
+    refine ⟨y, by simp, (mem_pendantLeaves_iff G).1 hx |>.2, ?_⟩
+    simpa [σ] using (precedes_map_equiv σ hprec)
+  · have hwy : w ≠ y := by
+      intro hwy
+      subst w
+      exact hw (by simp)
+    have hwA : w ∉ A := by
+      intro hwA
+      exact hw (Finset.mem_insert_of_mem hwA)
+    have hwIx : w ∉ insert x A := by
+      simp [hwx, hwA]
+    rcases hcert.2.2 hwIx with ⟨u, hu, hadj, hprec⟩
+    have huA : u ∈ A := by
+      rcases Finset.mem_insert.mp hu with hux | huA
+      · subst u
+        have hwy' : w = y :=
+          pendantLeaves_unique_neighbor G hleaf hx hadj
+        exact (hwy hwy').elim
+      · exact huA
+    have hux : u ≠ x := by
+      intro h
+      subst u
+      exact hxA huA
+    have huy : u ≠ y := by
+      intro h
+      subst u
+      exact hyA huA
+    refine ⟨u, by simp [huA], hadj, ?_⟩
+    have hp := precedes_map_equiv σ hprec
+    have hfixu : σ u = u :=
+      Equiv.swap_apply_of_ne_of_ne hux huy
+    have hfixw : σ w = w :=
+      Equiv.swap_apply_of_ne_of_ne hwx hwy
+    simpa [hfixu, hfixw] using hp
+
 end OneLeaf
 
 end GreedyUniformity
