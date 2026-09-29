@@ -52,7 +52,8 @@ theorem tree_maximalPath_pendantStar
     intro huz
     apply hu_not_tail
     have hzmem : z ∈ p.tail.support := by
-      simpa [z] using p.tail.snd_mem_support
+      apply List.mem_of_mem_tail
+      simpa [z] using p.tail.snd_mem_tail_support htailnil
     simpa only [← huz] using hzmem
   refine ⟨y, z, huy, hyz, huz, hdeg_u, ?_⟩
   intro w hyw hwz
