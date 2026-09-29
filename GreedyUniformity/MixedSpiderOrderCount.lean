@@ -268,7 +268,8 @@ theorem two_pow_mul_mixedSpiderOrientationOrders_card
           rw [heq S]
     _ = ∑ T ∈ (Finset.univ : Finset (Finset (Fin k))),
           (mixedSpiderOrientationOrders (l := l) ∅).card := by
-          simp
+          rw [Finset.sum_const, nsmul_eq_mul, Finset.card_univ,
+            Fintype.card_finset, Fintype.card_fin]
     _ = ∑ T ∈ (Finset.univ : Finset (Finset (Fin k))),
           (mixedSpiderOrientationOrders (l := l) T).card := by
           apply Finset.sum_congr rfl
