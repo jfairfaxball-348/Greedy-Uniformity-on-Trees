@@ -69,6 +69,61 @@ theorem bias_mixedSpider_tuned_eq_expectation
   rw [bias_mixedSpider_eq_formulaBias (mixedSpiderTunedL_pos k)]
   exact mixedSpiderFormulaBias_tuned_eq_expectation hk
 
+/-- Frozen positive-bias assertion for the tuned family. -/
+theorem bias_mixedSpider_tuned_pos
+    {k : ℕ} (hk : 0 < k) :
+    0 < bias (mixedSpider k (mixedSpiderTunedL k)) := by
+  have hW : mixedSpiderW k 0 ≠ 0 := by
+    have hkQ : (k : ℚ) ≠ 0 := by
+      exact_mod_cast (Nat.ne_of_gt hk)
+    simpa [mixedSpiderW] using (neg_ne_zero.mpr hkQ)
+  have hA : mixedSpiderA k ≠ 0 := by
+    unfold mixedSpiderA
+    positivity
+  have hAW :
+      mixedSpiderA k + mixedSpiderW k 0 ≠ 0 :=
+    ne_of_gt (mixedSpider_tuned_A_add_W_pos
+      (k := k) (j := 0) (Nat.zero_le k))
+  have hN : (2 ^ k : ℚ) ≠ 0 := by positivity
+  have hdev :=
+    mixedSpiderNoncenterFormula_tuned_sub_uniform
+      (k := k) (j := 0) hk (Nat.zero_le k)
+  have hsubne :
+      mixedSpiderNoncenterFormula k (mixedSpiderTunedL k) 0 -
+          mixedSpiderUniformMass k ≠ 0 := by
+    rw [mixedSpiderUniformMass_eq, hdev]
+    exact div_ne_zero hW
+      (mul_ne_zero (mul_ne_zero hN hA) hAW)
+  have hneq :
+      mixedSpiderNoncenterFormula k (mixedSpiderTunedL k) 0 ≠
+        mixedSpiderUniformMass k :=
+    sub_ne_zero.mp hsubne
+  have hbne :
+      bias (mixedSpider k (mixedSpiderTunedL k)) ≠ 0 := by
+    intro hb
+    have hLaw :=
+      (bias_eq_zero_iff_greedyLawEqUniform
+        (mixedSpider k (mixedSpiderTunedL k))).1 hb
+    have hmax :=
+      mixedSpiderNoncenterSet_maximal
+        (mixedSpiderTunedL_pos k) (∅ : Finset (Fin k))
+    have heq :=
+      (greedyLawEqUniform_iff_on_maximal
+        (mixedSpider k (mixedSpiderTunedL k))).1 hLaw
+        (mixedSpiderNoncenterSet
+          (l := mixedSpiderTunedL k) (∅ : Finset (Fin k))) hmax
+    rw [greedyProb_mixedSpiderNoncenter
+      (mixedSpiderTunedL_pos k) (∅ : Finset (Fin k))] at heq
+    rw [mixedSpider_uniform_denominator
+      (k := k) (l := mixedSpiderTunedL k) (mixedSpiderTunedL_pos k)] at heq
+    simp only [Finset.card_empty] at heq
+    exact hneq heq
+  have hnonneg :
+      0 ≤ bias (mixedSpider k (mixedSpiderTunedL k)) := by
+    unfold bias
+    positivity
+  exact lt_of_le_of_ne hnonneg (Ne.symm hbne)
+
 end BiasBridge
 
 end GreedyUniformity
