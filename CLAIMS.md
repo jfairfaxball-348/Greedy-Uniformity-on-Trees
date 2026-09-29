@@ -1,10 +1,10 @@
 # Claim ledger
 
-Status vocabulary: **definition**, **proved-background**, **proved-informal**, **frozen-for-formalisation**, **verified-derivation**, **computational-evidence**, **conjecture**, **open-target**, **audit-status**.
+Status vocabulary: **definition**, **proved-background**, **proved-informal**, **formalised-foundation**, **frozen-for-formalisation**, **verified-derivation**, **computational-evidence**, **conjecture**, **open-target**, **audit-status**.
 
 | ID | Claim | Status | Audit / evidence |
 |---|---|---|---|
-| M1 | Greedy scanning of any vertex order returns an inclusion-maximal independent set. | proved-background | Elementary deterministic fact; same model appears in classical greedy MIS/RSA literature. |
+| M1 | Greedy scanning of any vertex order returns an inclusion-maximal independent set. | **proved-background / formalised-foundation** | Elementary deterministic fact; Lean formalisation is in `GreedyUniformity/Basic.lean` (`greedyOutput_maximal`). |
 | M2 | Random-permutation greedy is equivalent in law to iid continuous priorities, or to repeatedly choosing uniformly from currently available vertices. | proved-background | Standard random-order/iid-label/RSA/IMIS formulations; rechecked against KMMSh, Pippenger and Kryven–Versendaal–de Vries. |
 | R1 | For a finite graph \(G\), maximal independent set \(I\), and \(n=|V(G)|\), \(\Pr_G(I)=n^{-1}\sum_{v\in I}\Pr_{G-N[v]}(I\setminus\{v\})\). | **proved-informal** | Stage 3, Lemma 2. Elementary first-choice conditioning; not a standalone novelty claim. |
 | R2 | For a disjoint union, greedy output probabilities factor over components and permutation fibres acquire the exact multinomial interleaving factor. | **proved-informal** | Stage 3, Lemma 3. Elementary component independence/interleaving; not a standalone novelty claim. |
@@ -28,4 +28,4 @@ Status vocabulary: **definition**, **proved-background**, **proved-informal**, *
 
 Stages 1–4 are complete. The exact A+B package above is **frozen for Stage 5**. Theorem A and Theorem B are both classified by the final audit as plausibly new with bounded uncertainty; no collision or narrowing was required.
 
-No Lean formalisation, Palomar registration, research paper, or arXiv submission has begun. Stage 5 must formalise the frozen statements without silently strengthening them. In particular, do not add an all-\(n\) extremal or optimality theorem, and do not claim the unproved implication “uniform greedy law implies well-covered”.
+Stage 5 has begun and the finite greedy-order foundation is formalised, but Frozen A and Frozen B remain **not yet fully formalised**. Palomar registration, research-paper writing, and arXiv submission have not begun. Continue Stage 5 without silently strengthening the frozen statements. In particular, do not add an all-\(n\) extremal or optimality theorem, and do not claim the unproved implication “uniform greedy law implies well-covered”.

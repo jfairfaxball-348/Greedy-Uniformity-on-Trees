@@ -1,0 +1,31 @@
+name: Lean
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+      - name: Build
+        run: lake build
+      - name: Reject placeholders
+        run: |
+          if grep -R -n -E '\\b(sorry|admit|native_decide)\\b' GreedyUniformity GreedyUniformity.lean; then
+            echo "Forbidden Lean placeholder found"
+            exit 1
+          fi
+      - name: Python tests
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pytest -q

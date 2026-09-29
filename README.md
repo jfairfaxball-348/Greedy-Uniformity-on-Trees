@@ -4,7 +4,7 @@ Research repository for the distribution of random greedy maximal independent se
 
 ## Current status
 
-**Stages 1–4 completed on 2026-09-29. Stage 4 verdict: PASS — FREEZE FOR FORMALISATION. Stage 5 (Lean formalisation) is next.**
+**Stages 1–4 are complete. Stage 5 (Lean formalisation) is IN PROGRESS. The first formalisation checkpoint pins the Lean/Mathlib environment and implements the exact finite greedy-order model plus the deterministic maximality foundation. Frozen Theorems A and B are not yet fully formalised.**
 
 Stage 2 gave PASS FOR PROOF, not a priority certificate. Stage 3 produced the complete informal proof. Stage 4 then re-audited the **actual proved theorem and proof shape** against current primary literature. The final classification is deliberately bounded: both A and B are **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
 
@@ -49,6 +49,16 @@ See audit/PRIOR_ART_NOVELTY_AUDIT.md and audit/SEARCH_LOG.md for the complete fi
 
 ## Reproducibility
 
+The Stage-5 Lean environment is pinned to **Lean 4.34.1** and Mathlib commit `d13f23b723b8a846827a245b89c10fc7d3f11612` (Mathlib tag `v4.34.1`). The exact dependency graph is committed in `lake-manifest.json`. The formal source currently lives under `GreedyUniformity/`; see `formal/README.md` for the precise checkpoint boundary.
+
+Lean build:
+
+    lake build
+
+Python regression suite:
+
+    python -m pytest -q
+
 The repository contains exact rational experiments with independent verification routes: exhaustive vertex permutations on tiny trees, first-vertex recursion, independent maximal-set enumeration, and a closed mixed-spider formula. The census covers all 436 nonisomorphic trees on 1–11 vertices and finds only \(K_1,K_2\) uniform.
 
 Stage 3 added a targeted proof-certificate checker rather than a larger blind census. Across the 434 nontrivial trees through order 11 it checks 9 diameter-2 stars, 200 multi-leaf cases, 225 one-leaf cases, and 1103 exact paired-set inequalities. These computations test the proof; they are not the proof.
@@ -57,6 +67,6 @@ Stage 3 added a targeted proof-certificate checker rather than a larger blind ce
 
 This project is separate from **ProbStack — Random Stacking on Trees** and from TreeStack. No conclusion from those repositories is imported as evidence.
 
-No Lean formalisation, Palomar registration, research paper, or arXiv submission has begun in this project yet. Stage 5 must formalise the frozen statements without silently strengthening them.
+Lean formalisation has begun, but Stage 5 is not complete: the frozen A+B theorem package has not yet been fully proved in Lean. Palomar registration, paper writing, and arXiv submission have not begun. Stage 5 must continue without silently strengthening or weakening the frozen statements.
 
 Start with PROJECT_CHARTER.md, CLAIMS.md, audit/PRIOR_ART_NOVELTY_AUDIT.md, audit/SEARCH_LOG.md, proof/INFORMAL_PROOF.md, experiments/VERIFIED_RESULTS.md, and HANDOVER.md.
