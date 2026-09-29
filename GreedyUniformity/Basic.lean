@@ -118,11 +118,13 @@ theorem fibre_eq_empty_of_not_maximal (G : SimpleGraph V) {I : Finset V}
     (hI : ¬ IsMaximalIndependent G I) : fibre G I = ∅ := by
   classical
   ext l
-  simp only [Finset.not_mem_empty, iff_false]
-  intro hl
-  have horder : IsVertexOrder l := (fibre_mem_iff G I l).1 hl |>.1
-  have hout : greedyOutput G l = I := (fibre_mem_iff G I l).1 hl |>.2
-  exact hI (hout ▸ greedyOutput_maximal G horder)
+  constructor
+  · intro hl
+    have horder : IsVertexOrder l := (fibre_mem_iff G I l).1 hl |>.1
+    have hout : greedyOutput G l = I := (fibre_mem_iff G I l).1 hl |>.2
+    exact False.elim (hI (hout ▸ greedyOutput_maximal G horder))
+  · intro hl
+    simpa using hl
 
 theorem fibreCount_eq_zero_of_not_maximal (G : SimpleGraph V) {I : Finset V}
     (hI : ¬ IsMaximalIndependent G I) : fibreCount G I = 0 := by
