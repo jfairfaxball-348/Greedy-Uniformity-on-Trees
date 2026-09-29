@@ -108,11 +108,14 @@ theorem tree_isK1OrK2_iff_card_eq_one_or_two
     (G : SimpleGraph V) (hT : G.IsTree) :
     IsK1OrK2 G ↔ Fintype.card V = 1 ∨ Fintype.card V = 2 := by
   constructor
-  · rintro (⟨e⟩ | ⟨e⟩)
-    · left
-      simpa using e.card_eq
-    · right
-      simpa using e.card_eq
+  · intro hK
+    rcases hK with hK1 | hK2
+    · rcases hK1 with ⟨e⟩
+      left
+      simpa using SimpleGraph.Iso.card_eq e
+    · rcases hK2 with ⟨e⟩
+      right
+      simpa using SimpleGraph.Iso.card_eq e
   · rintro (h1 | h2)
     · left
       let e : V ≃ Fin 1 := Fintype.equivFinOfCardEq h1
