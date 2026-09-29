@@ -35,8 +35,8 @@ theorem greedyStep_independent {I : Finset V} {v : V}
     simp only [Finset.mem_insert] at ha hb
     rcases ha with rfl | ha
     · rcases hb with rfl | hb
-      · exact G.loopless _ hab
-      · exact h ⟨b, hb, G.symm hab⟩
+      · exact G.irrefl hab
+      · exact h ⟨b, hb, G.adj_symm hab⟩
     · rcases hb with rfl | hb
       · exact h ⟨a, ha, hab⟩
       · exact hI ha hb hab
@@ -55,8 +55,9 @@ theorem greedyScan_mem_or_adj (I : Finset V) (l : List V) {w : V}
   | nil => simp at hw
   | cons v l ih =>
       simp only [List.mem_cons] at hw
-      rcases hw with rfl | hw
-      · simp only [greedyScan]
+      rcases hw with hw | hw
+      · subst w
+        simp only [greedyScan]
         unfold greedyStep
         split_ifs with h
         · right
@@ -90,9 +91,6 @@ theorem isVertexOrder_complete {l : List V} (hl : IsVertexOrder l) :
   have hv : v ∈ (Finset.univ.toList : List V) := by simp
   exact (hl.mem_iff).2 hv
 
-theorem isVertexOrder_nodup {l : List V} (hl : IsVertexOrder l) : l.Nodup := by
-  exact hl.nodup (by simp)
-
 theorem greedyOutput_maximal (G : SimpleGraph V) {l : List V}
     (hl : IsVertexOrder l) :
     IsMaximalIndependent G (greedyOutput G l) := by
@@ -105,15 +103,6 @@ theorem mem_vertexOrders_iff {l : List V} :
   classical
   unfold vertexOrders IsVertexOrder
   simp
-
-theorem vertexOrders_card :
-    (vertexOrders (V := V)).card = Nat.factorial (Fintype.card V) := by
-  classical
-  unfold vertexOrders
-  rw [List.toFinset_card_of_nodup]
-  · rw [List.length_permutations]
-    simp
-  · exact (List.nodup_permutations_iff.mpr (by simp))
 
 theorem fibre_mem_iff (G : SimpleGraph V) (I : Finset V) (l : List V) :
     l ∈ fibre G I ↔ IsVertexOrder l ∧ greedyOutput G l = I := by
@@ -128,8 +117,9 @@ theorem fibreCount_eq_card_filter (G : SimpleGraph V) (I : Finset V) :
 theorem fibre_eq_empty_of_not_maximal (G : SimpleGraph V) {I : Finset V}
     (hI : ¬ IsMaximalIndependent G I) : fibre G I = ∅ := by
   classical
-  apply Finset.eq_empty_iff_forall_not_mem.mpr
-  intro l hl
+  ext l
+  simp only [Finset.not_mem_empty, iff_false]
+  intro hl
   have horder : IsVertexOrder l := (fibre_mem_iff G I l).1 hl |>.1
   have hout : greedyOutput G l = I := (fibre_mem_iff G I l).1 hl |>.2
   exact hI (hout ▸ greedyOutput_maximal G horder)
