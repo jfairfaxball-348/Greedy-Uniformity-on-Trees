@@ -32,7 +32,7 @@ theorem precedes_or_precedes_of_isVertexOrder
   have hy : y ∈ order := isVertexOrder_complete horder y
   rcases List.append_of_mem hx with ⟨a, b, rfl⟩
   have hy' : y ∈ a ∨ y ∈ b := by
-    simpa [hxy.symm] using hy
+    simpa [Ne.symm hxy] using hy
   rcases hy' with hya | hyb
   · right
     rcases List.append_of_mem hya with ⟨a₁, a₂, rfl⟩
