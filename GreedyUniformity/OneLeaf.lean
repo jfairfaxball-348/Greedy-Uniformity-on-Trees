@@ -127,16 +127,14 @@ theorem leaf_z_insert_maximal_of_not_dominates_z
     rcases ha with rfl | (rfl | ha)
     · rcases hb with rfl | (rfl | hb)
       · exact G.irrefl hab
-      · have hzy : z = y :=
-          pendantLeaves_unique_neighbor G hleaf hx hab
-        exact hyz.ne hzy.symm
+      · exact hyz.ne
+          (pendantLeaves_unique_neighbor G hleaf hx hab).symm
       · have hby : b = y :=
           pendantLeaves_unique_neighbor G hleaf hx hab
         exact ((mem_pendantF_iff G).1 (hA.1 hb)).2.1 hby
     · rcases hb with rfl | (rfl | hb)
-      · have hzy : z = y :=
-          pendantLeaves_unique_neighbor G hleaf hx (G.adj_symm hab)
-        exact hyz.ne hzy.symm
+      · exact hyz.ne
+          (pendantLeaves_unique_neighbor G hleaf hx (G.adj_symm hab)).symm
       · exact G.irrefl hab
       · exact hdom ⟨b, hb, G.adj_symm hab⟩
     · rcases hb with rfl | (rfl | hb)
