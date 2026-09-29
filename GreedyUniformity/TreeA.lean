@@ -1,4 +1,4 @@
-import GreedyUniformity.Pendant
+import GreedyUniformity.MultiLeaf
 
 namespace GreedyUniformity
 
