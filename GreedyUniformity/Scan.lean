@@ -109,7 +109,7 @@ theorem greedyPrefix_spec (π : Equiv.Perm V) {n : ℕ}
           rcases ha with rfl | ha <;> rcases hb with rfl | hb
           · exact G.loopless.irrefl _
           · intro hadj
-            exact hblock ⟨b, hb, G.symm.symm hadj⟩
+            exact hblock ⟨b, hb, G.symm.symm v b hadj⟩
           · intro hadj
             exact hblock ⟨a, ha, hadj⟩
           · exact hprev.2.1 ha hb
