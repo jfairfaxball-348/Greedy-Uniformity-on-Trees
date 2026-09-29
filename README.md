@@ -4,7 +4,7 @@ Research repository for the distribution of random greedy maximal independent se
 
 ## Current status
 
-**Stages 1–4 are complete. Stage 5 (Lean formalisation) is IN PROGRESS. The first formalisation checkpoint pins the Lean/Mathlib environment and implements the exact finite greedy-order model plus the deterministic maximality foundation. Frozen Theorems A and B are not yet fully formalised.**
+**Stages 1–4 are complete. Stage 5 (Lean formalisation) is IN PROGRESS. Checkpoint 2 now includes the pinned Lean/Mathlib environment, the exact finite greedy-order model, the deterministic maximality foundation, and the complete finite permutation-fibre/probability bridge. Frozen Theorems A and B are not yet fully formalised.**
 
 Stage 2 gave PASS FOR PROOF, not a priority certificate. Stage 3 produced the complete informal proof. Stage 4 then re-audited the **actual proved theorem and proof shape** against current primary literature. The final classification is deliberately bounded: both A and B are **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
 
@@ -49,7 +49,7 @@ See audit/PRIOR_ART_NOVELTY_AUDIT.md and audit/SEARCH_LOG.md for the complete fi
 
 ## Reproducibility
 
-The Stage-5 Lean environment is pinned to **Lean 4.34.1** and Mathlib commit `d13f23b723b8a846827a245b89c10fc7d3f11612` (Mathlib tag `v4.34.1`). The exact dependency graph is committed in `lake-manifest.json`. The formal source currently lives under `GreedyUniformity/`; see `formal/README.md` for the precise checkpoint boundary.
+The Stage-5 Lean environment is pinned to **Lean 4.34.1** and Mathlib commit `d13f23b723b8a846827a245b89c10fc7d3f11612` (Mathlib tag `v4.34.1`). The exact dependency graph is committed in `lake-manifest.json`. The formal source currently lives under `GreedyUniformity/`. `GreedyUniformity/Bridge.lean` proves the factorial order-space count, the exact finite priority-certificate equivalence, positive fibres for every maximal independent set, `UniformFibres G ↔ GreedyLawEqUniform G`, and `bias G = 0 ↔ GreedyLawEqUniform G`. See `formal/README.md` for the precise checkpoint boundary.
 
 Lean build:
 
@@ -67,6 +67,6 @@ Stage 3 added a targeted proof-certificate checker rather than a larger blind ce
 
 This project is separate from **ProbStack — Random Stacking on Trees** and from TreeStack. No conclusion from those repositories is imported as evidence.
 
-Lean formalisation has begun, but Stage 5 is not complete: the frozen A+B theorem package has not yet been fully proved in Lean. Palomar registration, paper writing, and arXiv submission have not begun. Stage 5 must continue without silently strengthening or weakening the frozen statements.
+Lean formalisation has reached a second verified checkpoint, but Stage 5 is not complete: the finite-law bridge is formalised, while the frozen A+B theorem package has not yet been fully proved in Lean. Palomar registration, paper writing, and arXiv submission have not begun. Stage 5 must continue without silently strengthening or weakening the frozen statements.
 
 Start with PROJECT_CHARTER.md, CLAIMS.md, audit/PRIOR_ART_NOVELTY_AUDIT.md, audit/SEARCH_LOG.md, proof/INFORMAL_PROOF.md, experiments/VERIFIED_RESULTS.md, and HANDOVER.md.
