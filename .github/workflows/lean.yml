@@ -11,14 +11,25 @@ jobs:
       - uses: actions/checkout@v4
       - uses: leanprover/lean-action@v1
         with:
-          use-mathlib-cache: true
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+      - name: Resolve pinned dependencies
+        run: |
+          lake update
+          echo '--- LAKE MANIFEST BEGIN ---'
+          cat lake-manifest.json
+          echo '--- LAKE MANIFEST END ---'
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
       - name: Build
         run: lake build
       - name: Explore API
         run: lake env lean Explore.lean
       - name: Reject placeholders
         run: |
-          if grep -R -n -E '\b(sorry|admit|native_decide)\b' GreedyUniformity GreedyUniformity.lean; then
+          if grep -R -n -E '\\b(sorry|admit|native_decide)\\b' GreedyUniformity GreedyUniformity.lean; then
             echo "Forbidden Lean placeholder found"
             exit 1
           fi
