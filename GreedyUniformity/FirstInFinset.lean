@@ -21,6 +21,42 @@ theorem firstInFinset_mem
     (Function.argminOn_mem
       (fun x : V => order.idxOf x) (↑R : Set V) (by simpa using hR))
 
+theorem precedes_or_precedes_of_isVertexOrder_firstIn
+    {order : List V} (horder : IsVertexOrder order)
+    {a b : V} (hab : a ≠ b) :
+    Precedes order a b ∨ Precedes order b a := by
+  have ha : a ∈ order := isVertexOrder_complete horder a
+  have hb : b ∈ order := isVertexOrder_complete horder b
+  rcases List.append_of_mem ha with ⟨p, q, rfl⟩
+  have hb' : b ∈ p ∨ b = a ∨ b ∈ q := by
+    simpa using hb
+  rcases hb' with hbp | hba | hbq
+  · right
+    exact precedes_append_of_mem hbp (by simp)
+  · exact (hab hba.symm).elim
+  · left
+    rcases List.append_of_mem hbq with ⟨q₁, q₂, rfl⟩
+    refine ⟨p, q₁, q₂, ?_⟩
+    simp [List.append_assoc]
+
+theorem precedes_map_equiv_firstIn
+    (σ : Equiv.Perm V) {order : List V} {a b : V}
+    (h : Precedes order a b) :
+    Precedes (order.map σ) (σ a) (σ b) := by
+  rcases h with ⟨p, q, r, rfl⟩
+  refine ⟨p.map σ, q.map σ, r.map σ, ?_⟩
+  simp [List.map_append, List.append_assoc]
+
+theorem precedes_map_equiv_iff_firstIn
+    (σ : Equiv.Perm V) (order : List V) (a b : V) :
+    Precedes (order.map σ) (σ a) (σ b) ↔ Precedes order a b := by
+  constructor
+  · intro h
+    have h' := precedes_map_equiv_firstIn (σ := σ.symm) h
+    simpa [List.map_map, Function.comp_def] using h'
+  · intro h
+    exact precedes_map_equiv_firstIn σ h
+
 /-- On a complete order, firstInFinset = a is equivalent to a preceding
 every other member of the finite set. -/
 theorem firstInFinset_eq_iff
@@ -35,7 +71,7 @@ theorem firstInFinset_eq_iff
       exact firstInFinset_mem R hR order
     refine ⟨ha, ?_⟩
     intro b hb hba
-    rcases precedes_or_precedes_of_isVertexOrder horder hba.symm with
+    rcases precedes_or_precedes_of_isVertexOrder_firstIn horder (Ne.symm hba) with
       hab | hbaPrec
     · exact hab
     · have hlt :=
@@ -115,7 +151,7 @@ theorem firstInFinset_map_swap
     ((firstInFinset_eq_iff R hR horder a).1 hfirst).2 y hyR hya
   have hmapped :
       Precedes (order.map σ) (σ a) (σ y) :=
-    (precedes_map_equiv_iff σ order a y).2 hsource
+    (precedes_map_equiv_iff_firstIn σ order a y).2 hsource
   simpa [σ, hyz] using hmapped
 
 theorem firstInFinsetOrders_card_eq
@@ -145,7 +181,7 @@ theorem firstInFinsetOrders_card_eq
       · apply (mem_firstInFinsetOrders_iff).2
         refine ⟨map_equiv_isVertexOrder σ horder, ?_⟩
         have hback :=
-          firstInFinset_map_swap hR hb ha hab.symm horder hfirst
+          firstInFinset_map_swap hR hb ha (Ne.symm hab) horder hfirst
         simpa [σ, Equiv.swap_comm] using hback
       · simpa [List.map_map, Function.comp_def, σ] using
           (rfl : order = order)
