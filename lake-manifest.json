@@ -111,7 +111,7 @@
       "configFile": "lakefile.toml"
     }
   ],
-  "name": "greedy-uniformity",
+  "name": "GreedyUniformity",
   "lakeDir": ".lake",
   "fixedToolchain": false
 }
