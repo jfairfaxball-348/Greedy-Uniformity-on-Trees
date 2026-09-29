@@ -85,8 +85,9 @@ noncomputable def greedyProb (G : SimpleGraph V) (I : Finset V) : ℚ :=
   (fibreCount G I : ℚ) / Nat.factorial (Fintype.card V)
 
 /-- Exact rational uniform probability on maximal independent sets. -/
-noncomputable def uniformProb (G : SimpleGraph V) (I : Finset V) : ℚ :=
-  if IsMaximalIndependent G I then
+noncomputable def uniformProb (G : SimpleGraph V) (I : Finset V) : ℚ := by
+  classical
+  exact if IsMaximalIndependent G I then
     1 / ((maximalIndependentSets G).card : ℚ)
   else 0
 
