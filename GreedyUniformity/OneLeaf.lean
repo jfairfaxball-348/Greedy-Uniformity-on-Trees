@@ -171,6 +171,70 @@ theorem leaf_z_insert_maximal_of_not_dominates_z
   exact ⟨a, by simp [ha], haw⟩
 
 
+
+theorem exists_fibre_order_with_adjacent_prefix
+    {I : Finset V} (hI : IsMaximalIndependent G I)
+    {v w : V} (hv : v ∈ I) (hw : w ∉ I) (hvw : G.Adj v w) :
+    ∃ l ∈ fibre G I, ∃ t : List V, l = v :: w :: t := by
+  classical
+  let J : Finset V := I.erase v
+  let R : Finset V := Finset.univ \ insert w I
+  let l : List V := v :: w :: (J.toList ++ R.toList)
+  have hnodupJR : (J.toList ++ R.toList).Nodup := by
+    rw [List.nodup_append']
+    refine ⟨Finset.nodup_toList _, Finset.nodup_toList _, ?_⟩
+    rw [List.disjoint_iff_ne]
+    intro a ha b hb hab
+    subst b
+    have haI : a ∈ I := by
+      have haJ : a ∈ J := by simpa using ha
+      exact Finset.mem_of_mem_erase haJ
+    have hbR : a ∈ Finset.univ \ insert w I := by
+      simpa [R] using hb
+    exact (Finset.mem_sdiff.mp hbR).2 (Finset.mem_insert_of_mem haI)
+  have hnodup : l.Nodup := by
+    simp [l, J, R, hvw.ne, hv, hw, hnodupJR]
+  have horder : IsVertexOrder l := by
+    unfold IsVertexOrder
+    apply (List.perm_ext_iff_of_nodup hnodup (Finset.nodup_toList _)).2
+    intro a
+    by_cases hav : a = v
+    · subst a
+      simp [l]
+    by_cases haw : a = w
+    · subst a
+      simp [l]
+    by_cases haI : a ∈ I
+    · simp [l, J, R, hav, haw, haI]
+    · simp [l, J, R, hav, haw, haI]
+  have hcert : PriorityCertificate G I l := by
+    refine ⟨horder, hI, ?_⟩
+    intro q hqI
+    by_cases hqw : q = w
+    · subst q
+      refine ⟨v, hv, hvw, ?_⟩
+      refine ⟨[], [], J.toList ++ R.toList, ?_⟩
+      simp [l]
+    · have hqR : q ∈ R := by
+        simp [R, hqI, hqw]
+      rcases hI.2.2 (by simp) hqI with ⟨u, huI, huq⟩
+      refine ⟨u, huI, huq, ?_⟩
+      have huPrefix : u ∈ v :: w :: J.toList := by
+        simp only [List.mem_cons, Finset.mem_toList]
+        by_cases huv : u = v
+        · exact Or.inl huv
+        · exact Or.inr (Or.inr (Finset.mem_erase.mpr ⟨huv, huI⟩))
+      have hqTail : q ∈ R.toList := by
+        simpa using hqR
+      have hp :=
+        precedes_append_of_mem
+          (a := v :: w :: J.toList) (b := R.toList) huPrefix hqTail
+      simpa [l] using hp
+  have hout : greedyOutput G l = I :=
+    greedyOutput_eq_of_priorityCertificate G hcert
+  refine ⟨l, (fibre_mem_iff G I l).2 ⟨horder, hout⟩,
+    J.toList ++ R.toList, rfl⟩
+
 theorem swap_leaf_fibre_to_center
     {y z x : V} (hyz : G.Adj y z)
     (hleaf : ∀ q : V, G.Adj y q → q ≠ z → G.degree q = 1)
