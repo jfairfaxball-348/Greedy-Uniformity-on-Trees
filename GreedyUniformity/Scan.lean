@@ -172,8 +172,9 @@ theorem priorityCertificate_unique (π : Equiv.Perm V) {I J : Finset V}
         · intro hvJ
           by_contra hvI
           obtain ⟨u, huI, hadj, hprec⟩ := hI.2 hvI
+          have hprec' : (rank π u).val < (rank π v).val := hprec
           have hlt : (rank π u).val < n := by
-            simpa [Precedes, hvn] using hprec
+            omega
           have huJ : u ∈ J := (ih _ hlt u rfl).1 huI
           exact (hindJ huJ hvJ) hadj
   apply Finset.ext
