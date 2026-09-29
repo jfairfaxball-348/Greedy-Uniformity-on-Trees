@@ -1,1 +1,1 @@
-import GreedyUniformity.TheoremA
+import GreedyUniformity.AxiomCheck
