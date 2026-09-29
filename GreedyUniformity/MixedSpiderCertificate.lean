@@ -59,7 +59,9 @@ theorem priorityCertificate_mixedSpiderNoncenter_iff
           have hi : i ∈ S := by simpa using hu
           exact ⟨i, hi, hprec⟩
       | outer i =>
-          simp at hadj
+          exfalso
+          exact (mixedSpider_not_adj_center_outer (k := k) (l := l) i)
+            ((mixedSpider k l).adj_symm hadj)
       | leaf r =>
           left
           exact ⟨r, hprec⟩
