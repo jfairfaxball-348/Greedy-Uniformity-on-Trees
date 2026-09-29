@@ -61,13 +61,19 @@ theorem exists_firstOfThree_not_selecting
   have hyx₂ : y ≠ x₂ := ((mem_pendantLeaves_iff G).1 hx₂ |>.2).ne
   have hx₁y : x₁ ≠ y := hyx₁.symm
   have hx₂y : x₂ ≠ y := hyx₂.symm
+  have hRnodup : R.toList.Nodup := Finset.nodup_toList _
+  have hzR : z ∉ R.toList := by
+    simp [R]
+  have hyR : y ∉ R.toList := by
+    simp [R]
   have hnodup : l.Nodup := by
-    simp [l, R, hzy, hyz.ne]
+    simp [l, hzy, hzR, hyR, hRnodup]
   have horder : IsVertexOrder l := by
     unfold IsVertexOrder
     apply (List.perm_ext_iff_of_nodup hnodup (Finset.nodup_toList _)).2
     intro w
     simp [l, R]
+    tauto
   have hx₁R : x₁ ∈ R.toList := by
     simp [R, hx₁z, hx₁y]
   have hx₂R : x₂ ∈ R.toList := by
@@ -135,8 +141,8 @@ theorem three_mul_ordersSelecting_lt_vertexOrders_of_two_pendantLeaves
     three_mul_firstOfThreeOrders_card hyx₁ hyx₂ hxne
   calc
     3 * (ordersSelecting G y).card <
-        3 * (firstOfThreeOrders y x₁ x₂).card :=
-      Nat.mul_lt_mul_left 3 hlt
+        3 * (firstOfThreeOrders y x₁ x₂).card := by
+      omega
     _ = (vertexOrders (V := V)).card := htriple
 
 theorem not_uniformFibres_of_two_pendantLeaves
