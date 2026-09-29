@@ -34,7 +34,7 @@ noncomputable def mixedSpiderTunedExpectation (k : ℕ) : ℚ :=
 
 theorem mixedSpiderUniformMass_eq (k : ℕ) :
     mixedSpiderUniformMass k = 1 / mixedSpiderA k := by
-  rfl
+  simp [mixedSpiderUniformMass, mixedSpiderA, mixedSpiderN]
 
 theorem binomialAverageQ_const (k : ℕ) (c : ℚ) :
     binomialAverageQ k (fun _ => c) = c := by
@@ -70,10 +70,16 @@ theorem binomialAverageQ_const_mul
     binomialAverageQ k (fun j => c * f j) =
       c * binomialAverageQ k f := by
   unfold binomialAverageQ
-  rw [← Finset.mul_sum]
-  apply congrArg (fun x : ℚ => (1 / (2 ^ k : ℚ)) * x)
-  apply Finset.sum_congr rfl
-  intro j hj
+  have hsum :
+      (∑ j ∈ Finset.range (k + 1),
+          (k.choose j : ℚ) * (c * f j)) =
+        c * ∑ j ∈ Finset.range (k + 1),
+          (k.choose j : ℚ) * f j := by
+    rw [Finset.mul_sum]
+    apply Finset.sum_congr rfl
+    intro j hj
+    ring
+  rw [hsum]
   ring
 
 theorem mixedSpider_tuned_A_add_W_pos
@@ -170,7 +176,6 @@ theorem abs_mixedSpiderNoncenterFormula_tuned_sub_uniform
   rw [abs_div, abs_mul, abs_mul, abs_of_pos hN,
     abs_of_pos hA, abs_of_pos hAW]
   field_simp
-  ring
 
 /-- Frozen exact expectation identity for l=2^k-k, at the closed-form B2
 level. The graph-law bridge is proved separately. -/
