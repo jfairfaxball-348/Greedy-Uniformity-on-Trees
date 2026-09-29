@@ -1,4 +1,4 @@
-import GreedyUniformity.Counting
+import GreedyUniformity.Pendant
 
 namespace GreedyUniformity
 
