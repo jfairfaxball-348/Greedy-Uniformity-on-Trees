@@ -80,4 +80,42 @@ theorem tree_maximalPath_pendantStar
     simp only [SimpleGraph.Walk.length_cons] at hle
     lia
 
+
+/-- Every finite tree on at least three vertices has the pendant-star
+configuration needed for the local imbalance argument. -/
+theorem tree_exists_pendantStar_of_three_le_card
+    (G : SimpleGraph V) [DecidableRel G.Adj] (hT : G.IsTree)
+    (hcard : 3 ≤ Fintype.card V) :
+    ∃ x y z : V,
+      G.Adj x y ∧ G.Adj y z ∧ x ≠ z ∧ G.degree x = 1 ∧
+        ∀ w : V, G.Adj y w → w ≠ z → G.degree w = 1 := by
+  have hnotTop : G ≠ ⊤ := by
+    intro htop
+    have hac : (⊤ : SimpleGraph V).IsAcyclic := by
+      simpa [htop] using hT.isAcyclic
+    have hzero : (⊤ : SimpleGraph V).girth = 0 :=
+      hac.girth_eq_zero
+    have hthree : (⊤ : SimpleGraph V).girth = 3 := by
+      apply SimpleGraph.girth_top
+      simpa only [ENat.card_eq_coe_fintype_card, Nat.cast_le] using hcard
+    omega
+  obtain ⟨a, b, hab, hnadj⟩ :=
+    (SimpleGraph.ne_top_iff_exists_not_adj).1 hnotTop
+  obtain ⟨q, hq⟩ := hT.connected.exists_isPath a b
+  have hqlen : 2 ≤ q.length := by
+    have hzero : q.length ≠ 0 := by
+      intro hz
+      exact hab (SimpleGraph.Walk.exists_length_eq_zero_iff.1 ⟨q, hz⟩)
+    have hone : q.length ≠ 1 := by
+      intro ho
+      exact hnadj (SimpleGraph.Walk.exists_length_eq_one_iff.1 ⟨q, ho⟩)
+    omega
+  obtain ⟨u, v, p, hp, hmax⟩ :=
+    SimpleGraph.exists_isPath_forall_isPath_length_le_length G
+  have hplen : 2 ≤ p.length :=
+    hqlen.trans (hmax a b q hq)
+  rcases tree_maximalPath_pendantStar G hT p hp hmax hplen with
+    ⟨y, z, huy, hyz, huz, hdu, hleaf⟩
+  exact ⟨u, y, z, huy, hyz, huz, hdu, hleaf⟩
+
 end GreedyUniformity
