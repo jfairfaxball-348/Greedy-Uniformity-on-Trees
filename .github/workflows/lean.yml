@@ -22,8 +22,6 @@ jobs:
           use-mathlib-cache: true
       - name: Build
         run: lake build
-      - name: Explore API
-        run: lake env lean Explore.lean
       - name: Reject placeholders
         run: |
           if grep -R -n -E '\\b(sorry|admit|native_decide)\\b' GreedyUniformity GreedyUniformity.lean; then
