@@ -28,7 +28,6 @@ theorem mixedSpiderN_pos (k : ℕ) : 0 < mixedSpiderN k := by
 
 theorem mixedSpiderDenom_pos (l j : ℕ) : 0 < mixedSpiderDenom l j := by
   simp [mixedSpiderDenom]
-  omega
 
 /-- The non-centre closed form in the exact quotient presentation frozen in B2. -/
 theorem mixedSpiderNoncenterFormula_eq
@@ -39,6 +38,7 @@ theorem mixedSpiderNoncenterFormula_eq
   have hN : (2 ^ k : ℚ) ≠ 0 := by positivity
   have hd : (l + 2 * j + 1 : ℚ) ≠ 0 := by positivity
   simp only [mixedSpiderNoncenterFormula, mixedSpiderN, mixedSpiderDenom]
+  push_cast
   field_simp
   ring
 
@@ -68,7 +68,8 @@ theorem mixedSpiderCenterFormula_eq_powerset_average
           1 / (mixedSpiderDenom l S.card : ℚ) := by
   rw [mixedSpiderCenterFormula]
   congr 1
-  rw [mixedSpider_sum_powerset_by_card]
+  rw [mixedSpider_sum_powerset_by_card k
+    (fun j => 1 / (mixedSpiderDenom l j : ℚ))]
   apply Finset.sum_congr rfl
   intro j hj
   simp only [nsmul_eq_mul]
