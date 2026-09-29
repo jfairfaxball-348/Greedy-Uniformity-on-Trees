@@ -49,7 +49,7 @@ theorem mem_greedyStep_iff {I : Finset V} {v w : V} :
   classical
   by_cases h : ∃ u ∈ I, G.Adj u v
   · simp [greedyStep, h]
-  · simp [greedyStep, h, eq_comm]
+  · simp [greedyStep, h, eq_comm, or_comm]
 
 theorem greedyPrefix_step (π : Equiv.Perm V) {n : ℕ}
     (hn : n < Fintype.card V) :
@@ -107,16 +107,20 @@ theorem greedyPrefix_spec (π : Equiv.Perm V) {n : ℕ}
         · intro a ha b hb
           simp only [Finset.mem_insert] at ha hb
           rcases ha with rfl | ha <;> rcases hb with rfl | hb
-          · exact G.loopless _
+          · exact G.loopless.irrefl _
           · intro hadj
-            exact hblock ⟨b, hb, G.symm hadj⟩
+            exact hblock ⟨b, hb, G.symm.symm hadj⟩
           · intro hadj
             exact hblock ⟨a, ha, hadj⟩
           · exact hprev.2.1 ha hb
         · intro w hrw hnot
-          have hnot' := Finset.not_mem_insert.mp hnot
-          have hwv : w ≠ v := hnot'.1
-          have hnotI : w ∉ greedyPrefix G π n := hnot'.2
+          have hwv : w ≠ v := by
+            intro hwv
+            subst w
+            exact hnot (Finset.mem_insert_self _ _)
+          have hnotI : w ∉ greedyPrefix G π n := by
+            intro hw
+            exact hnot (Finset.mem_insert_of_mem hw)
           have hlt : (rank π w).val < n := by
             by_contra hnl
             have heq : (rank π w).val = n := by omega
@@ -160,8 +164,9 @@ theorem priorityCertificate_unique (π : Equiv.Perm V) {I J : Finset V}
         · intro hvI
           by_contra hvJ
           obtain ⟨u, huJ, hadj, hprec⟩ := hJ.2 hvJ
+          have hprec' : (rank π u).val < (rank π v).val := hprec
           have hlt : (rank π u).val < n := by
-            simpa [Precedes, hvn] using hprec
+            omega
           have huI : u ∈ I := (ih _ hlt u rfl).2 huJ
           exact (hindI huI hvI) hadj
         · intro hvJ
