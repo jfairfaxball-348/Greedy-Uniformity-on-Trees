@@ -143,6 +143,22 @@ def family_bias_formula(k: int, l: int):
     return total / 2
 
 
+def tuned_family_expectation_formula(k: int):
+    """Exact Stage-3 expectation identity for l = 2^k - k."""
+    if k < 1:
+        raise ValueError("k must be >=1")
+    N = 2**k
+    A = N + 1
+    first = Fraction(0)
+    second = Fraction(0)
+    for j in range(k + 1):
+        w = 2*j - k
+        weight = Fraction(math.comb(k, j), N)
+        first += weight * Fraction(w*w, A*A*(A + w))
+        second += weight * Fraction(abs(w), A*(A + w))
+    return (first + second) / 2
+
+
 def census(max_n=11):
     rows = []
     total = 0
