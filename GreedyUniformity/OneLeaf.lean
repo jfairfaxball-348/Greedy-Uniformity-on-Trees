@@ -235,6 +235,22 @@ theorem exists_fibre_order_with_adjacent_prefix
   refine ⟨l, (fibre_mem_iff G I l).2 ⟨horder, hout⟩,
     J.toList ++ R.toList, rfl⟩
 
+
+theorem mem_image_map_swap_iff (x y : V) (s : Finset (List V)) (l : List V) :
+    l ∈ s.image (fun q => q.map (Equiv.swap x y)) ↔
+      l.map (Equiv.swap x y) ∈ s := by
+  classical
+  constructor
+  · intro hl
+    rcases Finset.mem_image.mp hl with ⟨q, hq, hql⟩
+    subst l
+    simpa [List.map_map, Function.comp_def] using hq
+  · intro hl
+    apply Finset.mem_image.mpr
+    refine ⟨l.map (Equiv.swap x y), hl, ?_⟩
+    simpa [List.map_map, Function.comp_def]
+
+
 theorem swap_leaf_fibre_to_center
     {y z x : V} (hyz : G.Adj y z)
     (hleaf : ∀ q : V, G.Adj y q → q ≠ z → G.degree q = 1)
