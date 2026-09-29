@@ -198,3 +198,216 @@ Proceed to Stage 3 with the following central candidate:
 > **Candidate theorem.** For every finite nonempty tree (T), the random-permutation greedy maximal-independent-set law is uniform on (mathcal M(T)) iff (Tcong K_1) or (K_2). Nevertheless, for (T_k=T_{k,2^k-k}), (b(T_k)>0) and (b(T_k)=O(sqrt{k}/4^k)=O(sqrt{log n_k}/n_k^2)) along (n_k=2^k+k+1).
 
 The B part is already a verified lemma-level calculation; **A is the serious proof problem**. Passing this audit authorizes proof research only. It does not freeze the theorem and does not establish uniqueness.
+
+---
+
+# Stage-4 final theorem-level prior-art / uniqueness audit
+
+**Audit date:** 2026-09-29  
+**Stage:** 4 of 8  
+**Objects audited:** the exact Stage-3 Theorems A and B, together with the proof shape actually used.  
+**Verdict:** **PASS — FREEZE FOR FORMALISATION.**
+
+This section is the post-proof audit required by the project workflow. It does not rewrite the historical Stage-2 verdict above. Stage 2 authorized proof research; this Stage-4 audit asks whether the theorem that was actually proved is already known, is a routine corollary, or is materially subsumed by checked literature.
+
+The verdict is deliberately bounded: **plausibly new with bounded uncertainty**, not a claim of worldwide uniqueness or priority.
+
+## 14. Frozen Stage-3 statements under audit
+
+### A — exact obstruction
+
+For every finite nonempty simple undirected tree \(T\),
+\[
+G_T=U_T
+\quad\Longleftrightarrow\quad
+T\cong K_1\text{ or }K_2.
+\]
+Equivalently, \(b(T)=0\) iff \(T\cong K_1\) or \(K_2\).
+
+### B — mixed-spider near-uniformity
+
+For the mixed spider \(T_{k,l}\) with centre \(c\), \(k\) arms \(c-u_i-v_i\) and \(l\) additional leaves at \(c\), put \(N=2^k\). There are \(N+1\) maximal independent sets. The unique centre-containing set has probability
+\[
+p_c=\frac1N\sum_{j=0}^k\binom{k}{j}\frac1{l+2j+1},
+\]
+and each particular non-centre maximal independent set containing exactly \(j\) inner vertices \(u_i\) has probability
+\[
+q_j=\frac{l+2j}{N(l+2j+1)},
+\]
+with multiplicity \(\binom{k}{j}\).
+
+For \(l=2^k-k\), let \(A=2^k+1\), \(J\sim{\rm Bin}(k,1/2)\), \(W=2J-k\), and \(n_k=2^k+k+1\). Then
+\[
+b(T_{k,2^k-k})
+=\frac12\left(
+\mathbb E\frac{W^2}{A^2(A+W)}
++\mathbb E\frac{|W|}{A(A+W)}
+\right)>0,
+\]
+and
+\[
+b(T_{k,2^k-k})
+=O\!\left(\frac{\sqrt{k}}{4^k}\right)
+=O\!\left(\frac{\sqrt{\log n_k}}{n_k^2}\right)
+\qquad(k\to\infty).
+\]
+No all-\(n\), sharp extremal, lower-bound, or optimality assertion is included.
+
+## 15. Recheck of the closest 2026 source
+
+The current arXiv record for Ivan Kryven, Rik Versendaal and Mike de Vries, *Unified framework for asymptotically uniform iterative construction of generalised random graphs with local constraints*, is still arXiv:2608.07239v1, submitted 2026-08-07. No later arXiv revision was present when this audit was run.
+
+The decisive locations were re-read in the current v1 HTML:
+
+- **Definition 3.6:** the IMIS process repeatedly chooses uniformly from vertices outside the closed neighbourhood of the current independent set. On a finite graph this is the same law as random-permutation greedy MIS.
+- **Definition 3.7:** “regular independent sets” means the number of available vertices after an independent set depends only on its size.
+- **Proposition 3.8:** regular independent sets imply that every IMIS sequence is equally likely, all maximal independent sets are maximum, and the terminal IMIS is uniform.
+- **Definition 3.13:** 2-uniformity adds a further two-neighbours-in-each-MIS condition to regular independent sets.
+- **Theorem 3.23:** classifies 2-uniform graphs as configuration spaces, bipartite configuration spaces, \(K_{k\times2}\), or the Schläfli graph.
+
+The key logical point remains unchanged from Stage 2: **Proposition 3.8 is sufficient, not converse.** No statement in the checked current version proves
+\[
+\text{uniform IMIS output}\Longrightarrow\text{regular independent sets}
+\]
+or
+\[
+\text{uniform IMIS output}\Longrightarrow\text{2-uniformity}.
+\]
+Therefore Theorem 3.23 does not classify all graphs having uniform IMIS output and does not make Theorem A a routine specialization.
+
+There is a useful one-way consistency check: equality of the regular-independent-set parameter on singleton independent sets forces ordinary vertex-regularity. Hence a connected tree satisfying the sufficient hypothesis of Proposition 3.8 is \(K_1\) or \(K_2\). This recovers the positive examples under a stronger hypothesis; it does **not** prove the necessity direction of A.
+
+The classification citation in Theorem 3.23 was chased to François Zara, *Graphes Lies aux Espaces Polaires*, European Journal of Combinatorics 5 (1984), 255–290, especially the source identified by Kryven–Versendaal–de Vries as Section 7, Part A, Remark 7.7. Zara studies graphs satisfying fixed maximal-clique size (A1) and a fixed number \(t\) of neighbours into each maximal clique (A2), including the \(t=r-2\) classification used after complementation. This is a structural antecedent of the 2-uniform classification, not a theorem about random greedy terminal probabilities.
+
+## 16. Audit of A against adjacent literature
+
+### Same process, different observable
+
+Krivelevich–Mészáros–Michaeli–Shikhelman, *Greedy maximal independent sets via local limits*, uses exactly the random-order greedy MIS process and the equivalent iid-\([0,1]\)-label representation. Its primary observable is the **size/density** of the resulting set and asymptotics under local convergence, including trees. It does not supply a finite-tree characterization of when the complete terminal set is equiprobable over all maximal independent sets.
+
+Nicholas Pippenger, *Random Sequential Adsorption on Graphs* (SIAM J. Discrete Math. 2 (1989), 393–401), is an early exact match to the random-order blocking/RSA dynamics. It studies occupation probabilities and jamming limits on regular/high-girth graphs and related lattices. It does not classify finite trees by the full terminal configuration law.
+
+Dall'Asta–Pin–Ramezanpour, *Statistical Mechanics of maximal independent sets*, explicitly places maximal independent sets in the blocked-state/Edwards-measure setting and Section V.1 gives Gazmuri's sequential greedy algorithm. The paper studies densities and large deviations in random graph ensembles, not equality of all complete-output probabilities on a fixed finite tree.
+
+Thus the algorithm, iid-priority/RSA language, and flat-versus-dynamical comparison are background, not contributions of this project.
+
+### A new 2025 overlap: deterministic reachability and the smallest biased tree
+
+Maximilien Gadouleau and David C. Kutner, *Generalising the maximum independent set algorithm via Boolean networks*, Information and Computation 303 (2025), 105266, studies the same deterministic greedy MIS map under arbitrary update words and starting configurations. **Example 1.1** is the path \(P_3\): from the empty set the two permutations beginning at the middle vertex yield the singleton middle MIS, while the other four permutations yield the two-endpoint MIS.
+
+This explicitly exhibits unequal permutation-fibre sizes for the smallest nontrivial tree and should be acknowledged. The paper's theorems concern reachability, fixing words, fixing permutations (“permises”), and complexity; no checked theorem characterizes graphs or trees for which a uniformly random permutation yields a uniform distribution over maximal independent sets. It therefore overlaps an example and the deterministic map, but does not subsume A.
+
+### Terminology false positive: “equal weight”
+
+Caro–Ellingham–Ramey, *Local Structure When All Maximal Independent Sets Have Equal Weight*, SIAM J. Discrete Math. 11 (1998), 644–654, is not about output probability or basin size. “Weight” is the sum of assigned vertex weights in an abelian group, encompassing well-coveredness and parity questions. It is relevant to avoid a misleading title match, but it does not collide with A.
+
+### No checked graph characterization implying A
+
+Searches using “equiprobable maximal independent sets”, “equal basin sizes”, “greedy permutation fibres”, “uniform maximal independent set output”, “random-order greedy MIS”, IMIS, RSA, parking, jammed/blocked states, Edwards/dynamical measures, trees/forests/acyclic graphs, and graph-characterization terminology did not locate:
+
+1. a necessary-and-sufficient characterization of graphs with exact uniform greedy MIS output;
+2. a converse to Kryven–Versendaal–de Vries Proposition 3.8;
+3. a stronger graph theorem whose specialization to connected trees immediately yields \(K_1,K_2\);
+4. a finite-tree theorem equivalent to A.
+
+This is a bounded negative search, not proof of absence.
+
+### Classification for A
+
+**A: plausibly new with bounded uncertainty.** It is not already known, a routine corollary, or materially subsumed by any checked result.
+
+## 17. Proof-shape overlap
+
+The audit distinguishes standard ingredients from the contribution-level assembly.
+
+### Background / elementary ingredients
+
+- Greedy scanning produces a maximal independent set.
+- Uniform random order, iid continuous priorities, and repeated uniform choice among currently available vertices are equivalent formulations.
+- Component factorisation and conditioning on the first selected vertex are elementary consequences of the process.
+- The integer permutation-fibre recurrence is the counting form of that conditioning/interleaving argument. No exact prior statement was located, but it is elementary and is **not** claimed as a novelty contribution.
+- The iid-priority certificate and its integral are a direct fixed-output consequence of the standard iid-priority formulation. The exact displayed integral was not located in the checked sources, but the project does **not** rely on novelty of this lemma.
+- The diameter-end pendant-star structure is elementary tree geometry.
+- The maximal-independent-set counting machinery is standard. In particular, Sagan–Vatter, *Maximal and maximum independent sets in graphs with at most r cycles*, Proposition 1.7 gives the standard “m-bound”
+  \[
+  m(G)\le m(G-v)+m(G-N[v]).
+  \]
+  Stage-3 Lemma 6, \(m(H)\le2m(H-v)\), is a short consequence after comparing \(m(H-N[v])\) with \(m(H-v)\). It is not a novelty claim.
+
+### Assembly not found in the checked literature
+
+No checked source used the Stage-3 diameter-end split to prove complete-output nonuniformity:
+
+- two or more leaves at the support vertex via a greedy-vs-uniform inclusion marginal;
+- exactly one pendant leaf via the canonical pair \(I_y\) versus \(I_x\) and a strict priority comparison for every residual maximal set.
+
+Individual ingredients are standard or elementary. The audited contribution is the structural assembly yielding the exact all-tree obstruction, not ownership of those ingredients.
+
+The unproved implication “uniform greedy law \(\Rightarrow\) well-covered” remains unclaimed and unused.
+
+## 18. Audit of B
+
+Searches covered spider tree, starlike tree, subdivided star, mixed arms of lengths one and two, RSA/parking on spiders, greedy MIS on spiders, terminal-state probabilities, almost/near/asymptotically uniform greedy laws, and direct formula fragments.
+
+No checked source contained the pair
+\[
+p_c=\frac1{2^k}\sum_{j=0}^k\binom{k}{j}\frac1{l+2j+1},
+\qquad
+q_j=\frac{l+2j}{2^k(l+2j+1)},
+\]
+the tuning \(l=2^k-k\), or an equivalent construction giving the Stage-3 expectation identity and
+\[
+O(\sqrt{k}/4^k)=O(\sqrt{\log n_k}/n_k^2)
+\]
+along connected trees.
+
+Searches for a stronger existing theorem asserting arbitrary closeness of the random greedy complete-output law to the uniform maximal-independent-set law on connected trees also returned no relevant result. Hits about greedy independent sets being near-optimal refer to **cardinality/optimization**, not total-variation proximity of complete-output laws.
+
+### Classification for B
+
+**B: plausibly new with bounded uncertainty.** No checked source gives the exact family/formula/tuning/rate or a stronger connected-tree construction that would subsume it.
+
+## 19. Discrepancies and refinements relative to Stage 2
+
+There is no priority collision and no theorem revision forced by Stage 4.
+
+Stage 4 nevertheless sharpens the novelty boundary in four ways:
+
+1. the Kryven–Versendaal–de Vries arXiv record was rechecked and remains v1; its exact-uniformity result is still one-way;
+2. Gadouleau–Kutner (2025) is now recorded as a close deterministic-algorithm source and as an explicit \(P_3\) permutation-fibre example;
+3. Sagan–Vatter Proposition 1.7 makes clear that the maximal-set counting inequality used in the proof is standard/background-level;
+4. Caro–Ellingham–Ramey's “equal weight” terminology is explicitly separated from equal output probability.
+
+These refinements reduce the set of ingredients that should ever be described as novel; they do not alter A or B.
+
+## 20. Audit limitations
+
+This audit used primary arXiv/manuscript/publisher sources where decisive, plus citation chasing from the closest paper. It did not amount to an exhaustive search of every subscription-only MathSciNet/zbMATH record, unpublished manuscript, thesis, or non-English source, and no author correspondence was undertaken. The August 2026 Kryven–Versendaal–de Vries preprint is recent, so its citation network can still change.
+
+For that reason the correct language is **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
+
+## 21. Stage-4 verdict
+
+# PASS — FREEZE FOR FORMALISATION
+
+The checked literature leaves the proved A+B package plausibly new and mathematically substantive enough to proceed. A is a nontrivial structural necessity theorem for every finite tree; B supplies a quantitatively near-uniform connected-tree sequence showing that the exact obstruction has no fixed positive total-variation gap.
+
+### Exact frozen package for Stage 5
+
+**Frozen A.** For every finite nonempty simple undirected tree \(T\), the random-permutation greedy maximal-independent-set law is uniform on \(\mathcal M(T)\) iff \(T\cong K_1\) or \(K_2\). Equivalently \(b(T)=0\) iff \(T\cong K_1\) or \(K_2\).
+
+**Frozen B.** For \(T_{k,l}\), the \(2^k+1\) maximal independent sets have exact probabilities \(p_c\) and \(q_j\) displayed in Section 14. For \(l=2^k-k\),
+\[
+0<b(T_{k,2^k-k})
+=\frac12\left(
+\mathbb E\frac{W^2}{A^2(A+W)}
++\mathbb E\frac{|W|}{A(A+W)}
+\right)
+=O(\sqrt{k}/4^k)
+=O(\sqrt{\log n_k}/n_k^2),
+\]
+where \(A=2^k+1\), \(J\sim{\rm Bin}(k,1/2)\), \(W=2J-k\), and \(n_k=2^k+k+1\).
+
+There is **no** all-\(n\) or optimality claim. C remains optional/open and is not part of the frozen formalisation target.
+
+Stage 5 may now formalise exactly this package. No substantive Lean work was begun in Stage 4.
