@@ -1,6 +1,6 @@
 # Claim ledger
 
-Status vocabulary: **definition**, **proved-background**, **proved-informal**, **formalised-foundation**, **frozen-for-formalisation**, **verified-derivation**, **computational-evidence**, **conjecture**, **open-target**, **audit-status**.
+Status vocabulary: **definition**, **proved-background**, **proved-informal**, **formalised-foundation**, **formalised-bridge**, **frozen-for-formalisation**, **verified-derivation**, **computational-evidence**, **conjecture**, **open-target**, **audit-status**.
 
 | ID | Claim | Status | Audit / evidence |
 |---|---|---|---|
@@ -10,6 +10,7 @@ Status vocabulary: **definition**, **proved-background**, **proved-informal**, *
 | R2 | For a disjoint union, greedy output probabilities factor over components and permutation fibres acquire the exact multinomial interleaving factor. | **proved-informal** | Stage 3, Lemma 3. Elementary component independence/interleaving; not a standalone novelty claim. |
 | R3 | If \(g_G(I)\) counts permutations producing \(I\) and \(r_v=|V(G-N[v])|\), then \(g_G(I)=\sum_{v\in I}(n-1)!/r_v!\,g_{G-N[v]}(I\setminus\{v\})\). | **proved-informal** | Stage 3, Lemma 4. Counting form of first-choice conditioning; exact prior statement not located, but treated as elementary rather than contribution-level novelty. |
 | P1 | A fixed maximal independent set \(I\) is the greedy output iff every outside vertex has an earlier-priority neighbour in \(I\); equivalently its probability is the integral in Lemma 5. | **proved-informal** | Stage 3, Lemma 5. Standard iid-priority representation plus an elementary fixed-output certificate; no standalone novelty claim. |
+| F1 | In the exact finite permutation model, `|vertexOrders|=|V|!`; for complete orders the finite `PriorityCertificate` is equivalent to the deterministic greedy output; every maximal independent set has a nonempty fibre; `UniformFibres G ↔ GreedyLawEqUniform G`; and `bias G = 0 ↔ GreedyLawEqUniform G`. | **formalised-bridge** | `GreedyUniformity/Bridge.lean`: `vertexOrders_card`, `priorityCertificate_iff_greedyOutput_eq`, `fibre_nonempty_of_maximal`, `uniformFibres_iff_greedyLawEqUniform`, `bias_eq_zero_iff_greedyLawEqUniform`. This formalises the finite-law bridge, not the iid integral formula in P1. |
 | M3 | For every finite graph \(H\) and vertex \(z\), \(m(H)\le2m(H-z)\). | **proved-informal / background-level** | Stage 3, Lemma 6. Sagan–Vatter Proposition 1.7 gives \(m(H)\le m(H-z)+m(H-N[z])\); the factor-two form follows from the Stage-3 injection \(m(H-N[z])\le m(H-z)\). |
 | A | For every finite nonempty tree, \(b(T)=0\) iff \(T\cong K_1\) or \(K_2\). | **proved-informal / frozen-for-formalisation** | Complete Stage-3 structural proof. Stage-4 audit verdict: **plausibly new with bounded uncertainty**; no equivalent theorem, converse to KVD Prop. 3.8, or stronger checked graph characterization was found. |
 | B1 | \(T_{k,l}\) has \(2^k+1\) maximal independent sets. | **proved-informal / frozen-for-formalisation** | Direct structural enumeration in Stage 3. |
@@ -28,4 +29,4 @@ Status vocabulary: **definition**, **proved-background**, **proved-informal**, *
 
 Stages 1–4 are complete. The exact A+B package above is **frozen for Stage 5**. Theorem A and Theorem B are both classified by the final audit as plausibly new with bounded uncertainty; no collision or narrowing was required.
 
-Stage 5 has begun and the finite greedy-order foundation is formalised, but Frozen A and Frozen B remain **not yet fully formalised**. Palomar registration, research-paper writing, and arXiv submission have not begun. Continue Stage 5 without silently strengthening the frozen statements. In particular, do not add an all-\(n\) extremal or optimality theorem, and do not claim the unproved implication “uniform greedy law implies well-covered”.
+Stage 5 has reached checkpoint 2: the finite greedy-order foundation and the exact finite permutation-fibre/probability bridge are formalised, but Frozen A and Frozen B remain **not yet fully formalised**. Palomar registration, research-paper writing, and arXiv submission have not begun. Continue Stage 5 without silently strengthening the frozen statements. In particular, do not add an all-\(n\) extremal or optimality theorem, and do not claim the unproved implication “uniform greedy law implies well-covered”.
