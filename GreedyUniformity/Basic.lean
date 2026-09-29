@@ -124,7 +124,7 @@ theorem fibre_eq_empty_of_not_maximal (G : SimpleGraph V) {I : Finset V}
     have hout : greedyOutput G l = I := (fibre_mem_iff G I l).1 hl |>.2
     exact False.elim (hI (hout ▸ greedyOutput_maximal G horder))
   · intro hl
-    simpa using hl
+    exact (by simpa using hl : False).elim
 
 theorem fibreCount_eq_zero_of_not_maximal (G : SimpleGraph V) {I : Finset V}
     (hI : ¬ IsMaximalIndependent G I) : fibreCount G I = 0 := by
