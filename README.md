@@ -4,38 +4,59 @@ Research repository for the distribution of random greedy maximal independent se
 
 ## Current status
 
-**Stages 1–3 completed on 2026-09-29. Stage 4 (final theorem-level prior-art/uniqueness audit) is next.**
+**Stages 1–4 completed on 2026-09-29. Stage 4 verdict: PASS — FREEZE FOR FORMALISATION. Stage 5 (Lean formalisation) is next.**
 
-Stage 2 gave **PASS FOR PROOF**, not a priority certificate. Stage 3 has now produced a complete informal structural proof of the exact tree obstruction, but the theorem is not frozen for Lean until Stage 4 checks the actual proved statement against the literature again.
+Stage 2 gave PASS FOR PROOF, not a priority certificate. Stage 3 produced the complete informal proof. Stage 4 then re-audited the **actual proved theorem and proof shape** against current primary literature. The final classification is deliberately bounded: both A and B are **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
 
-The model: choose a uniformly random permutation of the vertices of a finite nonempty simple undirected tree, scan it once, and select a vertex iff no previously selected neighbour has been selected. The output is an inclusion-maximal independent set.
+The closest source remains Kryven–Versendaal–de Vries (arXiv:2608.07239v1). Their Definition 3.6 is the same finite IMIS law, and Proposition 3.8 gives a sufficient exact-uniformity condition (regular independent sets), but the checked paper states no converse. Its Theorem 3.23 classifies the stronger 2-uniform class and therefore does not make the tree obstruction routine.
 
-For a tree T, let \(G_T\) be the greedy output law and \(U_T\) uniform on its maximal independent sets \(\mathcal M(T)\). We study
+## Model
+
+Choose a uniformly random permutation of the vertices of a finite nonempty simple undirected tree, scan it once, and select a vertex iff it has no previously selected neighbour. The output is an inclusion-maximal independent set.
+
+For a tree \(T\), let \(G_T\) be the greedy output law and \(U_T\) uniform on its maximal independent sets \(\mathcal M(T)\). Define
 \[
 b(T)=\frac12\sum_{I\in\mathcal M(T)}
 \left|G_T(I)-\frac1{|\mathcal M(T)|}\right|.
 \]
 
-## Stage-3 theorem package
+## Frozen theorem package for Stage 5
 
-- **A — proved informally, pending Stage-4 audit:** \(b(T)=0\) iff \(T\cong K_1\) or \(K_2\).
-- **B — proved informally, pending Stage-4 audit:** the mixed spider \(T_{k,2^k-k}\) has positive bias tending to zero with \(O(\sqrt{k}/4^k)=O(\sqrt{\log n_k}/n_k^2)\) along \(n_k=2^k+k+1\).
-- **C — optional/open:** determine sharp extremal behaviour of \(a_n=\min_{|V(T)|=n}b(T)\).
+- **A — exact obstruction:** for every finite nonempty tree \(T\),
+  \[
+  G_T=U_T\iff T\cong K_1\text{ or }K_2,
+  \]
+  equivalently \(b(T)=0\) iff \(T\cong K_1\) or \(K_2\).
 
-The proof of A is tree-structural. At a diameter endpoint, its support vertex has a pendant star and at most one nonleaf neighbour. Two or more pendant leaves force a mismatch between the greedy and uniform inclusion marginals. Exactly one pendant leaf yields a canonical pair of maximal independent sets with strictly unequal greedy probabilities, proved by an iid-priority certificate. See proof/INFORMAL_PROOF.md.
+- **B — explicit near-uniform connected trees:** for the mixed spider \(T_{k,l}\), Stage 3 gives exact probabilities \(p_c\) and \(q_j\). Under the tuning \(l=2^k-k\),
+  \[
+  0<b(T_{k,2^k-k})
+  =O(\sqrt{k}/4^k)
+  =O(\sqrt{\log n_k}/n_k^2),
+  \qquad n_k=2^k+k+1,
+  \]
+  together with the exact expectation identity recorded in proof/INFORMAL_PROOF.md and HANDOVER.md.
 
-The proof document also derives the exact first-vertex recurrence, component factorisation, and integer permutation-fibre recurrence requested for later formalisation.
+There is no all-\(n\) or optimality claim. The extremal problem \(a_n=\min_{|V(T)|=n}b(T)\) remains optional/open and is not part of the frozen Stage-5 target.
+
+## Proof and audit boundary
+
+The proof of A is tree-structural. At a diameter endpoint, the support vertex has a pendant star and at most one nonleaf neighbour. Two or more pendant leaves force a greedy-vs-uniform marginal mismatch. Exactly one pendant leaf yields a canonical pair of maximal independent sets with strictly unequal greedy probabilities.
+
+Stage 4 deliberately does **not** claim novelty for the process, iid-priority/RSA formulation, elementary first-choice/fibre recurrences, the maximal-independent-set count bound, or diameter-end tree geometry. New Stage-4 sources include Gadouleau–Kutner (2025), whose Example 1.1 already displays the unequal \(P_3\) permutation fibres, and Sagan–Vatter (2006), whose Proposition 1.7 supplies a standard maximal-set counting bound. Neither source subsumes A.
+
+See audit/PRIOR_ART_NOVELTY_AUDIT.md and audit/SEARCH_LOG.md for the complete final audit.
 
 ## Reproducibility
 
-The repository contains exact rational experiments with independent verification routes: exhaustive vertex permutations on tiny trees, first-vertex recursion, independent maximal-set enumeration, and a closed mixed-spider formula. The original census covers all 436 nonisomorphic trees on 1–11 vertices and finds only \(K_1,K_2\) uniform.
+The repository contains exact rational experiments with independent verification routes: exhaustive vertex permutations on tiny trees, first-vertex recursion, independent maximal-set enumeration, and a closed mixed-spider formula. The census covers all 436 nonisomorphic trees on 1–11 vertices and finds only \(K_1,K_2\) uniform.
 
-Stage 3 added a **targeted** proof-certificate check rather than a larger blind census. On the 434 trees of orders 3–11 it verifies the local diameter-end cases used by the proof, including 1103 paired-set inequalities in the one-leaf case. These computations test the argument; they are not the proof.
+Stage 3 added a targeted proof-certificate checker rather than a larger blind census. Across the 434 nontrivial trees through order 11 it checks 9 diameter-2 stars, 200 multi-leaf cases, 225 one-leaf cases, and 1103 exact paired-set inequalities. These computations test the proof; they are not the proof.
 
 ## Independence and integrity
 
 This project is separate from **ProbStack — Random Stacking on Trees** and from TreeStack. No conclusion from those repositories is imported as evidence.
 
-The underlying greedy/RSA process and the general flat-vs-dynamical blocked-state comparison are prior art; the repository makes no novelty claim for them. No Lean formalisation, Palomar registration, research paper, or arXiv submission has been begun in this project yet.
+No Lean formalisation, Palomar registration, research paper, or arXiv submission has begun in this project yet. Stage 5 must formalise the frozen statements without silently strengthening them.
 
-Start with PROJECT_CHARTER.md, CLAIMS.md, audit/PRIOR_ART_NOVELTY_AUDIT.md, proof/INFORMAL_PROOF.md, experiments/VERIFIED_RESULTS.md, and HANDOVER.md.
+Start with PROJECT_CHARTER.md, CLAIMS.md, audit/PRIOR_ART_NOVELTY_AUDIT.md, audit/SEARCH_LOG.md, proof/INFORMAL_PROOF.md, experiments/VERIFIED_RESULTS.md, and HANDOVER.md.
