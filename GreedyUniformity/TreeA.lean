@@ -1,4 +1,4 @@
-import GreedyUniformity.Bridge
+import GreedyUniformity.Counting
 
 namespace GreedyUniformity
 
