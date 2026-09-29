@@ -51,8 +51,9 @@ theorem tree_maximalPath_pendantStar
   have huz : u ≠ z := by
     intro huz
     apply hu_not_tail
-    rw [huz]
-    exact p.tail.snd_mem_support
+    have hzmem : z ∈ p.tail.support := by
+      simpa [z] using p.tail.snd_mem_support
+    simpa only [← huz] using hzmem
   refine ⟨y, z, huy, hyz, huz, hdeg_u, ?_⟩
   intro w hyw hwz
   rw [SimpleGraph.degree_eq_one_iff_existsUnique_adj]
