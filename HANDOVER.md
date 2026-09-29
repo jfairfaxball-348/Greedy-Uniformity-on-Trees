@@ -3,107 +3,146 @@
 **Date:** 2026-09-29  
 **Completed:** Stages 1–4  
 **Current stage:** Stage 5 — Lean formalisation, **IN PROGRESS**  
-**Checkpoint reached:** 2 — exact finite permutation-law bridge  
+**Checkpoint reached:** partial checkpoint 3 — Frozen Theorem A structural/counting layer  
+**Working branch:** `stage5-theorem-a`  
+**Open PR:** #3, `Stage 5: formalise Frozen Theorem A`  
+**Pre-handover code head:** `2c3b79d6d672def2fa9b5f1c70ab2a57a2772cce`  
 **Do not begin:** Stages 6–8
 
-The Stage-4 verdict remains **PASS — FREEZE FOR FORMALISATION**. Frozen Theorems A and B remain exactly the statements recorded in `CLAIMS.md` and `proof/INFORMAL_PROOF.md`; neither has been weakened, strengthened, or replaced.
+The Stage-4 verdict remains **PASS — FREEZE FOR FORMALISATION**. Frozen Theorems A and B remain exactly the statements recorded in `CLAIMS.md` and `proof/INFORMAL_PROOF.md`.
 
 ## Pinned environment
 
 - Lean: **4.34.1**
 - Toolchain: `leanprover/lean4:v4.34.1`
-- Mathlib: **d13f23b723b8a846827a245b89c10fc7d3f11612** (tag `v4.34.1`)
+- Mathlib: **d13f23b723b8a846827a245b89c10fc7d3f11612**
 - Dependency lock: `lake-manifest.json`
 - CI: `.github/workflows/lean.yml`
 
-Do not casually change these versions in the next Stage-5 slice.
+Do not casually change these versions.
 
-## Formal source
+## Formal source now relevant
 
 - `GreedyUniformity/Model.lean`
 - `GreedyUniformity/Basic.lean`
 - `GreedyUniformity/Bridge.lean`
+- `GreedyUniformity/Counting.lean`
+- `GreedyUniformity/Pendant.lean`
+- `GreedyUniformity/Marginal.lean`
+- `GreedyUniformity/OrderCount.lean`
+- `GreedyUniformity/MultiLeaf.lean`
+- `GreedyUniformity/OneLeaf.lean`
+- `GreedyUniformity/TreeA.lean`
 - `GreedyUniformity.lean`
-- `formal/README.md`
 
-The model uses literal finite vertex-order fibres. `vertexOrders` is the set of permutations of `Finset.univ.toList`; `fibre G I` is the set of complete orders with deterministic output `I`; `greedyProb`, `uniformProb`, `GreedyLawEqUniform`, and `bias` are exact rational finite-law definitions.
+## Previously completed bridge
 
-## Checkpoint 1 foundation retained
+The exact finite permutation-law bridge remains complete. Key theorems include:
 
-The central deterministic theorem remains:
+    vertexOrders_card
+    priorityCertificate_iff_greedyOutput_eq
+    fibre_nonempty_of_maximal
+    sum_fibreCount_eq_vertexOrders_card
+    uniformFibres_iff_greedyLawEqUniform
+    bias_eq_zero_iff_greedyLawEqUniform
 
-    GreedyUniformity.greedyOutput_maximal
+## New Stage-5 progress in this slice
 
-Every complete vertex order produces an inclusion-maximal independent set.
+The branch now contains the main structural/counting machinery for Frozen Theorem A.
 
-Do not replace this implementation with a second unrelated greedy model unless a genuine defect is found.
+### Generic counting layer
 
-## Checkpoint 2 bridge completed
+`GreedyUniformity/Counting.lean` proves, among other helpers,
 
-`GreedyUniformity/Bridge.lean` now proves the exact finite-order/probability bridge. Important theorem names are:
+    maximalIndependentSetsOn_card_le_two_mul_erase
 
-    GreedyUniformity.vertexOrders_card
-    GreedyUniformity.greedyOutput_priorityCertificate
-    GreedyUniformity.greedyOutput_eq_of_priorityCertificate
-    GreedyUniformity.priorityCertificate_iff_greedyOutput_eq
-    GreedyUniformity.fibre_nonempty_of_maximal
-    GreedyUniformity.fibreCount_pos_of_maximal
-    GreedyUniformity.sum_fibreCount_eq_vertexOrders_card
-    GreedyUniformity.uniformFibres_iff_greedyLawEqUniform
-    GreedyUniformity.greedyLawEqUniform_iff_on_maximal
-    GreedyUniformity.bias_eq_zero_iff_greedyLawEqUniform
+formalising the factor-two maximal-independent-set counting bound needed by the pendant argument.
 
-Consequences now formally established:
+### Pendant decomposition
 
-1. the complete order sample space has cardinality `|V|!`;
-2. for a complete order, the earlier-selected-neighbour `PriorityCertificate` is equivalent to deterministic greedy output;
-3. every maximal independent set has positive permutation fibre, by placing all target vertices before all outside vertices;
-4. equal maximal-set fibre sizes are equivalent to equality of the exact greedy and uniform laws;
-5. zero total-variation bias is equivalent to equality of those laws.
+`GreedyUniformity/Pendant.lean` formalises the support-vertex decomposition and proves the corresponding containing/excluding maximal-independent-set counts, including
 
-This closes the finite-law bridge requested at the start of checkpoint 2.
+    maximalIndependentSetsExcluding_card_le_two_mul_containing
 
-## Verification
+### Marginal bridge
 
-The root library imports `GreedyUniformity.Bridge`. GitHub Actions run #43 passed:
+`GreedyUniformity/Marginal.lean` relates orders selecting a vertex to sums of greedy fibres and proves
 
-    lake build
-    placeholder rejection
-    python -m pytest -q
+    uniformFibres_implies_vertexOrders_le_three_mul_ordersSelecting
 
-The Python result was:
+under the factor-two maximal-set count.
 
-    4 passed
+### Three-order counting and multiple-leaf obstruction
 
-There is no `sorry`, `admit`, project-specific mathematical axiom, or `native_decide` in the project Lean proof chain checked by CI.
+`GreedyUniformity/OrderCount.lean` now has a simplified finite-order proof that one of three distinct vertices is first with exactly one-third of the complete orders.
 
-No genuine mathematical discrepancy was found while formalising the bridge. The fixes required after the first CI pass were Lean-engineering fixes only: finite-set membership projections, list/get-element argument shapes, and simplification normal forms.
+`GreedyUniformity/MultiLeaf.lean` proves the strict multiple-pendant-leaf contradiction, culminating in
 
-## Frozen main-theorem status
+    not_uniformFibres_of_two_pendantLeaves
 
-- **Finite-order/probability bridge:** COMPLETE.
-- **Frozen Theorem A:** NOT YET fully formalised.
-- **Frozen Theorem B:** NOT YET fully formalised.
-- **Final A/B axiom inspection:** NOT YET applicable.
+The CI run immediately before the final TreeA API fixes compiled `Counting`, `OrderCount`, `Pendant`, `Marginal`, and `MultiLeaf` successfully. Its only remaining failures were in `TreeA.lean` and were API/cast issues, not mathematical failures.
 
-Stage 5 remains **IN PROGRESS**. The project is **not ready for Stage 6**.
+### Tree structure
 
-## Recommended next Stage-5 slice: Frozen Theorem A
+`GreedyUniformity/TreeA.lean` contains:
 
-Do not redo Stages 1–4 and do not redo the finite-law bridge except for a targeted correction genuinely required by A.
+    tree_maximalPath_pendantStar
+    tree_exists_pendantStar_of_three_le_card
 
-Formalise A using the Stage-3 architecture:
+The two last reported errors in this file were fixed at commit
 
-1. diameter-end pendant-star structure;
-2. the maximal-independent-set counting bound `m(H) ≤ 2 m(H-z)`;
-3. the multiple-pendant-leaf greedy-vs-uniform marginal mismatch;
-4. the exactly-one-pendant-leaf strict paired-set imbalance;
-5. direct `K₁` and `K₂` base cases;
-6. conclude both the law-equality and zero-bias formulations using the completed bridge.
+    679ffafa18f6feff1eacb99328c5198f0fb98aa0
 
-For the one-pendant-leaf case, a finite permutation-fibre injection, bijection, or involution may replace the Stage-3 iid-integral argument if it proves exactly the same strict comparison. Do not weaken A to bounded-size trees, paths, spiders, well-covered trees, or an extra-hypothesis subclass.
+by correcting the extended-natural cardinal cast and the namespace of the longest-path existence theorem.
 
-If A consumes the next full session, stop at a clean third Stage-5 checkpoint rather than rushing Frozen B. A later Stage-5 slice should then concentrate on the mixed-spider family and asymptotics.
+### One-leaf case: foundation added, strict fibre comparison still missing
+
+`GreedyUniformity/OneLeaf.lean` was added at commit
+
+    51ddafdd74021ec49b49296599fb91b329605acd
+
+and `TreeA.lean` was changed to import it at
+
+    2c3b79d6d672def2fa9b5f1c70ab2a57a2772cce
+
+It currently contains:
+
+    precedes_map_equiv
+    pendantLeaves_eq_singleton_of_card_eq_one
+    center_insert_maximal_of_maximalOn_pendantF
+    leaf_insert_maximal_of_dominates_z
+    leaf_z_insert_maximal_of_not_dominates_z
+
+These establish the local paired maximal sets needed for the exactly-one-pendant-leaf case.
+
+At handover time, GitHub Actions run **#65** for code head `2c3b79d6...` was still in progress, so do not assume the new `OneLeaf.lean` foundation is CI-green until checking that run first.
+
+## Recommended next proof route
+
+Continue Frozen Theorem A only.
+
+1. Check Actions run #65 first and repair any Lean-engineering errors in `OneLeaf.lean` or `TreeA.lean`.
+2. Finish the exactly-one-pendant-leaf case using a **finite permutation-fibre comparison**, avoiding the Stage-3 continuous integral if possible.
+3. The intended route is to swap the labels/positions of the unique leaf `x` and support vertex `y` in complete orders:
+   - use `precedes_map_equiv`;
+   - use the priority-certificate/output equivalence from `Bridge.lean`;
+   - prove an injection from the fibre of the centre-containing paired set into the appropriate leaf-containing paired set;
+   - exhibit a target order outside the image to get strict inequality of fibre sizes.
+4. Derive `¬ UniformFibres G` for the one-leaf support configuration.
+5. Combine it with `not_uniformFibres_of_two_pendantLeaves` and `tree_exists_pendantStar_of_three_le_card` to prove the ≥3-vertex obstruction.
+6. Add direct `K₁` and `K₂` base cases.
+7. State Frozen Theorem A in both law-equality and zero-bias forms using the completed bridge.
+8. Run full CI and inspect axioms before declaring A formalised.
+
+If finishing A consumes the next session, stop there. Do not rush Frozen B.
+
+## Useful recent commits
+
+- `c6d11d9cbe9202151024038cd0f64e981514d6c4` — simplify three-order counting proof.
+- `8d2f9e0bb54012623dccbde3a94c24e076c5f423` — repair multi-leaf order witness.
+- `679ffafa18f6feff1eacb99328c5198f0fb98aa0` — repair TreeA path/cardinality APIs.
+- `51ddafdd74021ec49b49296599fb91b329605acd` — add one-leaf paired-set foundations.
+- `2c3b79d6d672def2fa9b5f1c70ab2a57a2772cce` — layer TreeA over OneLeaf.
 
 ## Integrity constraints
 
