@@ -43,6 +43,18 @@ theorem mem_firstOfThreeOrders_iff {a b c : V} {l : List V} :
   classical
   simp [firstOfThreeOrders, mem_vertexOrders_iff]
 
+theorem firstOfThreeOrders_swap_tail (a b c : V) :
+    firstOfThreeOrders a b c = firstOfThreeOrders a c b := by
+  classical
+  ext l
+  constructor
+  · intro h
+    rcases (mem_firstOfThreeOrders_iff).1 h with ⟨ho, hab, hac⟩
+    exact (mem_firstOfThreeOrders_iff).2 ⟨ho, hac, hab⟩
+  · intro h
+    rcases (mem_firstOfThreeOrders_iff).1 h with ⟨ho, hac, hab⟩
+    exact (mem_firstOfThreeOrders_iff).2 ⟨ho, hab, hac⟩
+
 theorem firstOfThreeOrders_card_swap_first_second
     {a b c : V} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     (firstOfThreeOrders a b c).card =
@@ -73,26 +85,33 @@ theorem firstOfThreeOrders_card_swap_first_second
     · have h := (mem_firstOfThreeOrders_iff).1 hm
       apply (mem_firstOfThreeOrders_iff).2
       refine ⟨map_equiv_isVertexOrder σ h.1, ?_, ?_⟩
-      · have hapos : ((m.map σ).map σ).idxOf a = m.idxOf a := by
-          simp [σ, List.map_map]
-        have hbpos : ((m.map σ).map σ).idxOf b = m.idxOf b := by
-          simp [σ, List.map_map]
+      · have hapos : (m.map σ).idxOf a = m.idxOf b := by
+          simpa [σ] using idxOf_map_equiv σ m b
+        have hbpos : (m.map σ).idxOf b = m.idxOf a := by
+          simpa [σ] using idxOf_map_equiv σ m a
         simpa [hapos, hbpos] using h.2.1
-      · have hapos : ((m.map σ).map σ).idxOf a = m.idxOf a := by
-          simp [σ, List.map_map]
-        have hcpos : ((m.map σ).map σ).idxOf c = m.idxOf c := by
-          simp [σ, List.map_map]
+      · have hapos : (m.map σ).idxOf a = m.idxOf b := by
+          simpa [σ] using idxOf_map_equiv σ m b
+        have hcpos : (m.map σ).idxOf c = m.idxOf c := by
+          have hs : σ c = c := by
+            exact Equiv.swap_apply_of_ne_of_ne hac.symm hbc.symm
+          simpa [hs] using idxOf_map_equiv σ m c
         simpa [hapos, hcpos] using h.2.2
-    · simp [σ, List.map_map]
+    · simpa [List.map_map, Function.comp_def, σ] using (rfl : m = m)
 
 theorem firstOfThreeOrders_card_swap_first_third
     {a b c : V} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
     (firstOfThreeOrders a b c).card =
       (firstOfThreeOrders c b a).card := by
-  have h :=
-    firstOfThreeOrders_card_swap_first_second
-      (a := a) (b := c) (c := b) hac hab hbc.symm
-  simpa [and_comm] using h
+  calc
+    (firstOfThreeOrders a b c).card =
+        (firstOfThreeOrders a c b).card := by
+          rw [firstOfThreeOrders_swap_tail]
+    _ = (firstOfThreeOrders c a b).card :=
+      firstOfThreeOrders_card_swap_first_second
+        (a := a) (b := c) (c := b) hac hab hbc.symm
+    _ = (firstOfThreeOrders c b a).card := by
+      rw [firstOfThreeOrders_swap_tail]
 
 theorem vertexOrders_partition_firstOfThree
     {a b c : V} (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) :
@@ -112,48 +131,36 @@ theorem vertexOrders_partition_firstOfThree
       have ha : a ∈ l := isVertexOrder_complete horder a
       have hb : b ∈ l := isVertexOrder_complete horder b
       have hc : c ∈ l := isVertexOrder_complete horder c
-      have hai : l.idxOf a < l.length := List.idxOf_lt_length_iff.2 ha
-      have hbi : l.idxOf b < l.length := List.idxOf_lt_length_iff.2 hb
-      have hci : l.idxOf c < l.length := List.idxOf_lt_length_iff.2 hc
       have hiab : l.idxOf a ≠ l.idxOf b := by
         intro h
-        have hnd := isVertexOrder_nodup horder
-        have haeq : l.get ⟨l.idxOf a, hai⟩ = a := List.idxOf_get hai
-        have hbeq : l.get ⟨l.idxOf b, hbi⟩ = b := List.idxOf_get hbi
-        have : a = b := by
-          rw [← haeq, ← hbeq, h]
-        exact hab this
+        exact hab ((List.idxOf_inj ha).1 h)
       have hiac : l.idxOf a ≠ l.idxOf c := by
         intro h
-        have haeq : l.get ⟨l.idxOf a, hai⟩ = a := List.idxOf_get hai
-        have hceq : l.get ⟨l.idxOf c, hci⟩ = c := List.idxOf_get hci
-        have : a = c := by
-          rw [← haeq, ← hceq, h]
-        exact hac this
+        exact hac ((List.idxOf_inj ha).1 h)
       have hibc : l.idxOf b ≠ l.idxOf c := by
         intro h
-        have hbeq : l.get ⟨l.idxOf b, hbi⟩ = b := List.idxOf_get hbi
-        have hceq : l.get ⟨l.idxOf c, hci⟩ = c := List.idxOf_get hci
-        have : b = c := by
-          rw [← hbeq, ← hceq, h]
-        exact hbc this
-      simp only [Finset.mem_union]
+        exact hbc ((List.idxOf_inj hb).1 h)
       rcases lt_trichotomy (l.idxOf a) (l.idxOf b) with hablt | habeq | hbalt
       · rcases lt_trichotomy (l.idxOf a) (l.idxOf c) with haclt | haceq | hcalt
-        · left
+        · apply Finset.mem_union.mpr
+          left
+          apply Finset.mem_union.mpr
+          left
           exact (mem_firstOfThreeOrders_iff).2 ⟨horder, hablt, haclt⟩
         · exact (hiac haceq).elim
-        · right
+        · apply Finset.mem_union.mpr
           right
           have hcb : l.idxOf c < l.idxOf b := hcalt.trans hablt
           exact (mem_firstOfThreeOrders_iff).2 ⟨horder, hcalt, hcb⟩
       · exact (hiab habeq).elim
       · rcases lt_trichotomy (l.idxOf b) (l.idxOf c) with hbclt | hbceq | hcblt
-        · right
+        · apply Finset.mem_union.mpr
           left
+          apply Finset.mem_union.mpr
+          right
           exact (mem_firstOfThreeOrders_iff).2 ⟨horder, hbalt, hbclt⟩
         · exact (hibc hbceq).elim
-        · right
+        · apply Finset.mem_union.mpr
           right
           have hca : l.idxOf c < l.idxOf a := hcblt.trans hbalt
           exact (mem_firstOfThreeOrders_iff).2 ⟨horder, hca, hcblt⟩
@@ -193,9 +200,16 @@ theorem three_mul_firstOfThreeOrders_card
     (a := a) (b := b) (c := c) hab hac hbc
   have habc := firstOfThreeOrders_card_swap_first_second
     (a := a) (b := b) (c := c) hab hac hbc
-  have hacb := firstOfThreeOrders_card_swap_first_third
-    (a := a) (b := b) (c := c) hab hac hbc
-  rw [← habc, ← hacb] at hpart
+  have hacard :
+      (firstOfThreeOrders a b c).card =
+        (firstOfThreeOrders c a b).card := by
+    calc
+      (firstOfThreeOrders a b c).card =
+          (firstOfThreeOrders a c b).card := by
+            rw [firstOfThreeOrders_swap_tail]
+      _ = (firstOfThreeOrders c a b).card :=
+        firstOfThreeOrders_card_swap_first_second
+          (a := a) (b := c) (c := b) hac hab hbc.symm
   omega
 
 end GreedyUniformity
