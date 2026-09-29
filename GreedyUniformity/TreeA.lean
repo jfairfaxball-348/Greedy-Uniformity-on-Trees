@@ -111,6 +111,7 @@ theorem tree_exists_pendantStar_of_three_le_card
       intro ho
       exact hnadj (SimpleGraph.Walk.exists_length_eq_one_iff.1 ⟨q, ho⟩)
     omega
+  letI : Nonempty V := Fintype.card_pos_iff.mp (by omega)
   obtain ⟨u, v, p, hp, hmax⟩ :=
     SimpleGraph.Walk.exists_isPath_forall_isPath_length_le_length G
   have hplen : 2 ≤ p.length :=
