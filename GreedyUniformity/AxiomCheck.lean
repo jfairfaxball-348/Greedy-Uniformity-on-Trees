@@ -1,4 +1,13 @@
 import GreedyUniformity.TheoremA
+import GreedyUniformity.TheoremB
 
 #print axioms GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
 #print axioms GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
+
+#print axioms GreedyUniformity.mixedSpider_maximalIndependentSets_card
+#print axioms GreedyUniformity.greedyProb_mixedSpiderCenter
+#print axioms GreedyUniformity.greedyProb_mixedSpiderNoncenter
+#print axioms GreedyUniformity.bias_mixedSpider_tuned_eq_expectation
+#print axioms GreedyUniformity.bias_mixedSpider_tuned_pos
+#print axioms GreedyUniformity.bias_mixedSpider_tuned_isBigO
+#print axioms GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
