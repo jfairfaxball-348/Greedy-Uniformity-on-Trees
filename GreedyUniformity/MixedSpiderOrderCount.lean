@@ -17,7 +17,8 @@ theorem precedes_map_equiv_iff
     have h' := congrArg (List.map σ.symm) h
     simp only [List.map_append, List.map_cons, List.map_map,
       Function.comp_def, σ.symm_apply_apply] at h'
-    exact ⟨a.map σ.symm, b.map σ.symm, c.map σ.symm, h'⟩
+    refine ⟨a.map σ.symm, b.map σ.symm, c.map σ.symm, ?_⟩
+    simpa using h'
   · rintro ⟨a, b, c, rfl⟩
     refine ⟨a.map σ, b.map σ, c.map σ, ?_⟩
     simp [List.map_append]
@@ -60,7 +61,7 @@ theorem precedes_reverse_iff_not
     Precedes order y x ↔ ¬ Precedes order x y := by
   constructor
   · intro hyx hxyPrec
-    exact not_precedes_reverse_of_isVertexOrder horder hxy hyx hxyPrec
+    exact (not_precedes_reverse_of_isVertexOrder horder hxy hxyPrec) hyx
   · intro hnot
     rcases precedes_or_precedes_of_isVertexOrder horder hxy with hxyPrec | hyxPrec
     · exact (hnot hxyPrec).elim
@@ -136,20 +137,26 @@ theorem mem_mixedSpiderArmPattern_map_armFlip_iff
       ((i ∈ D ∧ i ∉ mixedSpiderArmPattern order) ∨
         (i ∉ D ∧ i ∈ mixedSpiderArmPattern order)) := by
   classical
+  rw [mem_mixedSpiderArmPattern_iff]
   by_cases hiD : i ∈ D
-  · have horder' :=
-      map_equiv_isVertexOrder (mixedSpiderArmFlip (l := l) D) horder
-    rw [mem_mixedSpiderArmPattern_iff, mixedSpiderArmFlip_inner,
-      mixedSpiderArmFlip_outer]
-    simp only [hiD, if_true]
-    rw [precedes_map_equiv_iff]
-    rw [precedes_reverse_iff_not horder
+  · have hmap :
+        Precedes (order.map (mixedSpiderArmFlip (l := l) D))
+            (inner i) (outer i) ↔
+          Precedes order (outer i) (inner i) := by
+      simpa [mixedSpiderArmFlip, hiD] using
+        (precedes_map_equiv_iff
+          (mixedSpiderArmFlip (l := l) D) order (outer i) (inner i))
+    rw [hmap, precedes_reverse_iff_not horder
       (by simp : (inner i : MixedSpiderVertex k l) ≠ outer i)]
     simp [mem_mixedSpiderArmPattern_iff, hiD]
-  · rw [mem_mixedSpiderArmPattern_iff, mixedSpiderArmFlip_inner,
-      mixedSpiderArmFlip_outer]
-    simp only [hiD, if_false]
-    rw [precedes_map_equiv_iff]
+  · have hmap :
+        Precedes (order.map (mixedSpiderArmFlip (l := l) D))
+            (inner i) (outer i) ↔
+          Precedes order (inner i) (outer i) := by
+      simpa [mixedSpiderArmFlip, hiD] using
+        (precedes_map_equiv_iff
+          (mixedSpiderArmFlip (l := l) D) order (inner i) (outer i))
+    rw [hmap]
     simp [mem_mixedSpiderArmPattern_iff, hiD]
 
 theorem mixedSpiderArmFlip_involutive
@@ -191,10 +198,7 @@ theorem armPattern_map_flip_self_eq_empty
         (order.map (mixedSpiderArmFlip (l := l) S)) = ∅ := by
   classical
   ext i
-  rw [Finset.not_mem_empty]
-  push_neg
-  rw [mem_mixedSpiderArmPattern_map_armFlip_iff horder S i, hpat]
-  simp
+  simp [mem_mixedSpiderArmPattern_map_armFlip_iff horder S i, hpat]
 
 theorem armPattern_map_flip_empty_eq_self
     {S : Finset (Fin k)} {order : List (MixedSpiderVertex k l)}
@@ -211,7 +215,8 @@ theorem armPattern_map_flip_empty_eq_self
 theorem mixedSpiderOrientationOrders_card_eq_empty
     (S : Finset (Fin k)) :
     (mixedSpiderOrientationOrders (l := l) S).card =
-      (mixedSpiderOrientationOrders (l := l) ∅).card := by
+      (mixedSpiderOrientationOrders (k := k) (l := l)
+        (∅ : Finset (Fin k))).card := by
   classical
   let σ := mixedSpiderArmFlip (l := l) S
   apply Finset.card_bij (fun order _ => order.map σ)
