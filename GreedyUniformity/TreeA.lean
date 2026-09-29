@@ -1,4 +1,4 @@
-import GreedyUniformity.MultiLeaf
+import GreedyUniformity.OneLeaf
 
 namespace GreedyUniformity
 
