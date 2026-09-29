@@ -112,7 +112,7 @@ theorem tree_exists_pendantStar_of_three_le_card
       exact hnadj (SimpleGraph.Walk.exists_length_eq_one_iff.1 ⟨q, ho⟩)
     omega
   obtain ⟨u, v, p, hp, hmax⟩ :=
-    SimpleGraph.exists_isPath_forall_isPath_length_le_length G
+    SimpleGraph.Walk.exists_isPath_forall_isPath_length_le_length G
   have hplen : 2 ≤ p.length :=
     hqlen.trans (hmax a b q hq)
   rcases tree_maximalPath_pendantStar G hT p hp hmax hplen with
