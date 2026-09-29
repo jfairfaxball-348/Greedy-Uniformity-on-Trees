@@ -48,7 +48,7 @@ noncomputable def mixedSpiderRelevant
     inner i ∈ mixedSpiderRelevant (l := l) S ↔ i ∈ S := by
   classical
   simp [mixedSpiderRelevant, mixedSpiderInnerEmbedding,
-    mixedSpiderOuterEmbedding, mixedSpiderLeafEmbedding]
+    mixedSpiderOuterEmbedding, mixedSpiderLeafEmbedding] <;> aesop
 
 @[simp] theorem outer_mem_mixedSpiderRelevant_iff
     (S : Finset (Fin k)) (i : Fin k) :
@@ -89,12 +89,12 @@ theorem mixedSpiderRelevant_card
     intro x hxA hxBC
     rcases Finset.mem_map.1 hxA with ⟨i, hiS, rfl⟩
     simp [B, C, mixedSpiderOuterEmbedding,
-      mixedSpiderLeafEmbedding] at hxBC
+      mixedSpiderLeafEmbedding] at hxBC <;> aesop
   have hBC : Disjoint B C := by
     rw [Finset.disjoint_left]
     intro x hxB hxC
     rcases Finset.mem_map.1 hxB with ⟨i, hiS, rfl⟩
-    simp [C, mixedSpiderLeafEmbedding] at hxC
+    simp [C, mixedSpiderLeafEmbedding] at hxC <;> aesop
   change (insert center (A ∪ (B ∪ C))).card =
     l + 2 * S.card + 1
   rw [Finset.card_insert_of_notMem hc,
