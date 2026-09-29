@@ -187,7 +187,18 @@ theorem mixedSpiderFormulaBias_tuned_eq_expectation
             (mixedSpiderA k ^ 2 *
               (mixedSpiderA k + mixedSpiderW k j))) := by
     unfold binomialAverageQ
-    positivity
+    apply mul_nonneg
+    · positivity
+    · apply Finset.sum_nonneg
+      intro j hj
+      apply mul_nonneg
+      · positivity
+      · have hjle : j ≤ k := by
+          simpa [Finset.mem_range] using hj
+        have hAW : 0 < mixedSpiderA k + mixedSpiderW k j :=
+          mixedSpider_tuned_A_add_W_pos hjle
+        exact div_nonneg (sq_nonneg _)
+          (mul_nonneg (sq_nonneg _) (le_of_lt hAW))
   rw [abs_of_nonneg hcenter_nonneg]
   have hsum :
       (∑ j ∈ Finset.range (k + 1),
