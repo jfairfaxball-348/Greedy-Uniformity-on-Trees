@@ -99,7 +99,7 @@ theorem maximalIndependentSetsContaining_card_eq_pendantF
       refine ⟨?_, hae.1, ?_⟩
       · intro haz
         subst a
-        exact hIM.1.2.1 hIM.2 (hIM.1.1 (by simp)) hyz
+        exact hIM.1.2.1 hIM.2 hae.2 hyz
       · intro haL
         have haya : G.Adj y a := (mem_pendantLeaves_iff G).1 haL |>.2
         exact hIM.1.2.1 hIM.2 hae.2 haya
@@ -112,7 +112,7 @@ theorem maximalIndependentSetsContaining_card_eq_pendantF
       have hay : a ≠ y := by
         intro hay
         subst a
-        exact pendantF_not_adj_center G hwF (G.adj_symm haw)
+        exact pendantF_not_adj_center G hwF haw
       exact ⟨a, Finset.mem_erase.mpr ⟨hay, haI⟩, haw⟩
   · intro I hI J hJ hEq
     have hi := (mem_maximalIndependentSetsContaining_iff G).1 hI |>.2
@@ -164,10 +164,10 @@ theorem maximalIndependentSetsContaining_card_eq_pendantF
     simp only [I, Finset.mem_erase, Finset.mem_insert]
     constructor
     · rintro ⟨hay, ha | ha⟩
-      · exact (hay rfl).elim
+      · exact (hay ha).elim
       · exact ha
     · intro ha
-      exact ⟨fun h => by subst a; exact pendantF_not_adj_center G (hAM.1 ha) G.irrefl,
+      exact ⟨fun h => ((mem_pendantF_iff G).1 (hAM.1 ha)).2.1 h,
         Or.inr ha⟩
 
 theorem leaf_forced_into_maximal_of_center_absent
@@ -195,7 +195,7 @@ theorem maximalIndependentSetsExcluding_card_eq_pendantR
     apply (mem_maximalIndependentSetsOn_iff G).2
     refine ⟨?_, isIndependent_mono G hIM.1.2.1 (Finset.sdiff_subset), ?_⟩
     · intro a ha
-      have haI : a ∈ I := Finset.mem_of_mem_sdiff ha
+      have haI : a ∈ I := (Finset.mem_sdiff.mp ha).1
       have haL : a ∉ pendantLeaves G y z := (Finset.mem_sdiff.mp ha).2
       exact (mem_pendantR_iff G).2
         ⟨fun hay => hIM.2 (hay ▸ haI), haL⟩
@@ -227,14 +227,14 @@ theorem maximalIndependentSetsExcluding_card_eq_pendantR
       · have haB : a ∈ I \ pendantLeaves G y z :=
           Finset.mem_sdiff.mpr ⟨ha, haL⟩
         have : a ∈ J \ pendantLeaves G y z := hEq ▸ haB
-        exact Finset.mem_of_mem_sdiff this
+        exact (Finset.mem_sdiff.mp this).1
     · intro a ha
       by_cases haL : a ∈ pendantLeaves G y z
       · exact hLI haL
       · have haB : a ∈ J \ pendantLeaves G y z :=
           Finset.mem_sdiff.mpr ⟨ha, haL⟩
         have : a ∈ I \ pendantLeaves G y z := hEq.symm ▸ haB
-        exact Finset.mem_of_mem_sdiff this
+        exact (Finset.mem_sdiff.mp this).1
   · intro B hB
     have hBM : IsMaximalIndependentOn G (pendantR G y z) B :=
       (mem_maximalIndependentSetsOn_iff G).1 hB
