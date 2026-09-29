@@ -120,4 +120,32 @@ theorem tree_exists_pendantStar_of_three_le_card
     ⟨y, z, huy, hyz, huz, hdu, hleaf⟩
   exact ⟨u, y, z, huy, hyz, huz, hdu, hleaf⟩
 
+
+/-- Every finite tree on at least three vertices has non-uniform greedy fibres. -/
+theorem tree_not_uniformFibres_of_three_le_card
+    (G : SimpleGraph V) [DecidableRel G.Adj] (hT : G.IsTree)
+    (hcard : 3 ≤ Fintype.card V) :
+    ¬ UniformFibres G := by
+  obtain ⟨x, y, z, hxy, hyz, hxz, _, hleaf⟩ :=
+    tree_exists_pendantStar_of_three_le_card G hT hcard
+  have hxL : x ∈ pendantLeaves G y z :=
+    (mem_pendantLeaves_iff G).2 ⟨hxz, G.adj_symm hxy⟩
+  by_cases hLcard : (pendantLeaves G y z).card = 1
+  · exact not_uniformFibres_of_one_pendantLeaf
+      G hyz hleaf hxL hLcard
+  · have hpos : 0 < (pendantLeaves G y z).card :=
+      Finset.card_pos.mpr ⟨x, hxL⟩
+    have htwo : 1 < (pendantLeaves G y z).card := by omega
+    rcases (Finset.one_lt_card).1 htwo with
+      ⟨a, ha, b, hb, hab⟩
+    by_cases hax : a = x
+    · have hbx : b ≠ x := by
+        intro h
+        apply hab
+        exact hax.trans h.symm
+      exact not_uniformFibres_of_two_pendantLeaves
+        G hyz hleaf hxL hb hbx.symm
+    · exact not_uniformFibres_of_two_pendantLeaves
+        G hyz hleaf hxL ha hax.symm
+
 end GreedyUniformity
