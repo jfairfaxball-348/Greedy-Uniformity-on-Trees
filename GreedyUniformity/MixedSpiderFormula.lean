@@ -72,7 +72,6 @@ theorem mixedSpiderCenterFormula_eq_powerset_average
     (fun j => 1 / (mixedSpiderDenom l j : ℚ))]
   apply Finset.sum_congr rfl
   intro j hj
-  simp only [nsmul_eq_mul]
   ring
 
 end GreedyUniformity
