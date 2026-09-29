@@ -1,10 +1,10 @@
 # Lean formalisation status
 
 **Stage:** 5 of 8 — IN PROGRESS  
-**Checkpoint:** 2 — exact finite permutation-law bridge  
+**Checkpoint:** 3 — Frozen Theorem A complete  
 **Date:** 2026-09-29
 
-This directory documents the formalisation boundary. It does not mark Stage 5 complete.
+This directory documents the formalisation boundary. Stage 5 is not complete because Frozen Theorem B remains to be formalised.
 
 ## Pinned environment
 
@@ -22,7 +22,7 @@ Run the computational regression suite with:
 
 The GitHub Actions workflow `.github/workflows/lean.yml` builds the root library, rejects `sorry`, `admit`, and `native_decide` in project Lean sources, and runs the Python tests.
 
-## Formal representation
+## Exact finite model and bridge
 
 The random scan order is a duplicate-free list that is a permutation of `Finset.univ.toList`. The finite sample space is `vertexOrders`.
 
@@ -38,61 +38,59 @@ For a finite simple graph `G`:
 - `bias G` is the exact rational total-variation expression;
 - `PriorityCertificate G I l` is the finite earlier-selected-neighbour certificate.
 
-This is an exact finite combinatorial model of the frozen uniformly random vertex-permutation process. Python experiments are not used as proof.
+`GreedyUniformity/Bridge.lean` proves, among other results,
 
-## Proved before this checkpoint
+    vertexOrders_card
+    priorityCertificate_iff_greedyOutput_eq
+    fibre_nonempty_of_maximal
+    sum_fibreCount_eq_vertexOrders_card
+    uniformFibres_iff_greedyLawEqUniform
+    bias_eq_zero_iff_greedyLawEqUniform
 
-`GreedyUniformity/Basic.lean` supplies the deterministic foundation. Its central theorem is:
+Thus the finite fibre model is proved equivalent to the frozen random-permutation law and zero-bias formulation.
 
-    GreedyUniformity.greedyOutput_maximal
+## Frozen Theorem A — formalised
 
-Every complete vertex order produces an inclusion-maximal independent set. Supporting results establish accumulator monotonicity, preservation of independence, domination after scanning, basic fibre membership, and empty fibres for non-maximal targets.
+The structural proof is split across:
 
-## Proved at checkpoint 2
+- `Counting.lean`: the factor-two maximal-independent-set counting bound;
+- `Pendant.lean`: support-vertex decomposition;
+- `Marginal.lean`: uniform-fibre-to-marginal inequality;
+- `OrderCount.lean`: exact one-third first-of-three counting;
+- `MultiLeaf.lean`: the two-or-more-pendant-leaf obstruction;
+- `OneLeaf.lean`: the exactly-one-pendant-leaf obstruction via finite permutation-fibre swaps and explicit missed target orders;
+- `TreeA.lean`: the diameter-end structure and the all-trees-on-at-least-three-vertices obstruction;
+- `TheoremA.lean`: the one/two-vertex base cases and the exact graph-isomorphism statement.
 
-`GreedyUniformity/Bridge.lean` completes the exact finite-law bridge. Important theorems include:
+The final frozen statements are:
 
-    GreedyUniformity.vertexOrders_card
-    GreedyUniformity.greedyOutput_priorityCertificate
-    GreedyUniformity.greedyOutput_eq_of_priorityCertificate
-    GreedyUniformity.priorityCertificate_iff_greedyOutput_eq
-    GreedyUniformity.fibre_nonempty_of_maximal
-    GreedyUniformity.fibreCount_pos_of_maximal
-    GreedyUniformity.sum_fibreCount_eq_vertexOrders_card
-    GreedyUniformity.uniformFibres_iff_greedyLawEqUniform
-    GreedyUniformity.greedyLawEqUniform_iff_on_maximal
-    GreedyUniformity.bias_eq_zero_iff_greedyLawEqUniform
+    GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
+    GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
 
-In particular:
+where `IsK1OrK2 G` means that `G` is graph-isomorphic to the complete graph on one or two vertices, i.e. `K₁` or `K₂`.
 
-1. `|vertexOrders| = (Fintype.card V)!`;
-2. for a complete order, the finite priority certificate is equivalent to being the deterministic greedy output;
-3. every maximal independent set has a nonempty, hence positive-cardinality, permutation fibre, using the order with all target vertices before all outside vertices;
-4. constant maximal-independent-set fibre sizes are equivalent to equality of the exact greedy law and the uniform maximal-independent-set law;
-5. zero exact total-variation bias is equivalent to equality of those laws.
+No bounded-size weakening or subclass restriction is used.
 
-Thus the implemented finite fibres are now connected by proved theorems—not only definitions—to the frozen random-permutation law.
+## Verification of checkpoint 3
 
-## Verification at checkpoint 2
-
-The root library imports `GreedyUniformity.Bridge`. GitHub Actions run #43 passed:
+GitHub Actions run **#84** at verified proof head `4c11ed74a25195d8dbe32f09b5fdeb89692e3977` passed:
 
 - `lake build`;
-- the forbidden-placeholder check;
-- `python -m pytest -q`, with `4 passed`.
+- forbidden-placeholder rejection;
+- `python -m pytest -q` — **4 passed**.
 
-No Lean/Mathlib version was changed.
+`GreedyUniformity/AxiomCheck.lean` prints the axioms of both final A theorems. The run reports exactly:
 
-## Not yet proved
+    [propext, Classical.choice, Quot.sound]
 
-Checkpoint 2 does **not** claim either frozen main theorem is formalised. Remaining Stage-5 work is:
+for each theorem. There are no project-specific mathematical axioms, and the proof chain contains no `sorry`, `admit`, or `native_decide`.
 
-1. formalise the structural tree lemmas and Frozen Theorem A;
-2. formalise the mixed-spider maximal sets, exact probabilities, tuned bias identity, positivity, and asymptotic bounds for Frozen Theorem B;
-3. inspect and accurately record the axioms of the final A/B theorems.
+## Remaining Stage-5 work
 
-No project-specific axiom, `sorry`, `admit`, or `native_decide` is permitted in the final proof chain.
+Frozen Theorem B remains untouched in this checkpoint. The next session should formalise exactly the audited mixed-spider package B1–B3, without adding all-`n`, minimizer, optimality, matching-lower-bound, or worldwide-priority claims.
+
+After B is complete, run the final combined A+B build, placeholder rejection, Python regressions, and theorem axiom inspection before marking Stage 5 complete.
 
 ## Workflow boundary
 
-Do not begin Palomar registration (Stage 6), paper writing (Stage 7), or arXiv submission (Stage 8) until the full frozen A+B package passes Lean and Stage 5 is explicitly marked complete.
+Do not begin Palomar registration (Stage 6), paper writing (Stage 7), or arXiv submission (Stage 8) until Frozen A and B are both soundly formalised and Stage 5 is explicitly complete.

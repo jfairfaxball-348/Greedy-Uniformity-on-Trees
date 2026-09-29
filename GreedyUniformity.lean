@@ -1,1 +1,1 @@
-import GreedyUniformity.Bridge
+import GreedyUniformity.AxiomCheck

@@ -1,122 +1,174 @@
-# Stage-5 continuation handover
+# Stage-5 continuation handover — Frozen Theorem B next
 
 **Date:** 2026-09-29  
-**Completed:** Stages 1–4  
+**Completed:** Stages 1–4; Stage-5 finite-law bridge; **Frozen Theorem A formalisation**  
 **Current stage:** Stage 5 — Lean formalisation, **IN PROGRESS**  
-**Checkpoint reached:** 2 — exact finite permutation-law bridge  
+**Checkpoint reached:** Frozen Theorem A complete  
+**A working branch:** `stage5-theorem-a`  
+**A integration PR:** #3, `Stage 5: formalise Frozen Theorem A`  
+**Verified A theorem/axiom head:** `4c11ed74a25195d8dbe32f09b5fdeb89692e3977`  
+**Pre-handover status-doc head:** `271fa199e899261dde8f9a81003200f2850b38ce`  
 **Do not begin:** Stages 6–8
 
-The Stage-4 verdict remains **PASS — FREEZE FOR FORMALISATION**. Frozen Theorems A and B remain exactly the statements recorded in `CLAIMS.md` and `proof/INFORMAL_PROOF.md`; neither has been weakened, strengthened, or replaced.
+The Stage-4 verdict remains **PASS — FREEZE FOR FORMALISATION**. The novelty classification remains **plausibly new with bounded uncertainty**. No claim of worldwide priority has been added.
+
+## Immediate first action next session
+
+1. Check the latest GitHub Actions result on PR #3 / branch `stage5-theorem-a`.
+2. If the final handover/status head is green, merge PR #3 into `main`.
+3. Create a fresh branch for Frozen Theorem B (recommended: `stage5-theorem-b`).
+4. Continue **Stage 5 only** with Frozen B. Do not reopen Frozen A except for a narrowly targeted integration correction genuinely forced by B.
+
+Do not start B on the A branch before integrating the completed A checkpoint.
+
+## Frozen Theorem A — completed
+
+The exact finite permutation-law bridge remains complete in `Bridge.lean`:
+
+    vertexOrders_card
+    priorityCertificate_iff_greedyOutput_eq
+    fibre_nonempty_of_maximal
+    sum_fibreCount_eq_vertexOrders_card
+    uniformFibres_iff_greedyLawEqUniform
+    bias_eq_zero_iff_greedyLawEqUniform
+
+The structural/counting A chain is complete in:
+
+- `GreedyUniformity/Counting.lean`
+- `GreedyUniformity/Pendant.lean`
+- `GreedyUniformity/Marginal.lean`
+- `GreedyUniformity/OrderCount.lean`
+- `GreedyUniformity/MultiLeaf.lean`
+- `GreedyUniformity/OneLeaf.lean`
+- `GreedyUniformity/TreeA.lean`
+- `GreedyUniformity/TheoremA.lean`
+
+Important completed A theorems include:
+
+    not_uniformFibres_of_two_pendantLeaves
+    fibreCount_leaf_lt_center_of_dominates_z
+    fibreCount_center_lt_leaf_z_of_not_dominates_z
+    not_uniformFibres_of_one_pendantLeaf
+    tree_exists_pendantStar_of_three_le_card
+    tree_not_uniformFibres_of_three_le_card
+    uniformFibres_of_card_le_two
+    tree_uniformFibres_iff_card_eq_one_or_two
+    tree_greedyLawEqUniform_iff_card_eq_one_or_two
+    tree_bias_eq_zero_iff_card_eq_one_or_two
+    tree_greedyLawEqUniform_iff_isK1OrK2
+    tree_bias_eq_zero_iff_isK1OrK2
+
+`IsK1OrK2 G` is the explicit graph-isomorphism formulation: `G` is isomorphic to the complete graph on `Fin 1` or on `Fin 2`.
+
+### One-leaf case
+
+The Stage-3 continuous-priority integral was **not** reproduced. The Lean proof uses a finite permutation-fibre comparison.
+
+For a residual maximal independent set `A`, it builds the paired maximal sets and uses `Equiv.swap x y` on complete orders. The proof transports priority certificates under the swap and gives explicit target orders outside the swap image, yielding strict fibre inequalities in both cases:
+
+- if `A` dominates `z`: leaf fibre < centre fibre;
+- if `A` does not dominate `z`: centre fibre < leaf-plus-`z` fibre.
+
+This culminates in:
+
+    not_uniformFibres_of_one_pendantLeaf
+
+There was no mathematical discrepancy exposed by formalisation; the encountered failures were Lean elaboration/API issues and were repaired without changing the theorem.
+
+## Verification of Frozen A
+
+GitHub Actions run **#84** for head
+
+    4c11ed74a25195d8dbe32f09b5fdeb89692e3977
+
+passed:
+
+- `lake build`;
+- forbidden-placeholder rejection;
+- `python -m pytest -q`, with **4 passed**.
+
+The placeholder check covers `sorry`, `admit`, and `native_decide`.
+
+`GreedyUniformity/AxiomCheck.lean` runs Lean axiom printing on both final A statements. The exact reported dependencies for each are:
+
+    [propext, Classical.choice, Quot.sound]
+
+No project-specific mathematical axiom occurs in the Frozen A proof chain.
 
 ## Pinned environment
 
 - Lean: **4.34.1**
 - Toolchain: `leanprover/lean4:v4.34.1`
-- Mathlib: **d13f23b723b8a846827a245b89c10fc7d3f11612** (tag `v4.34.1`)
+- Mathlib: **d13f23b723b8a846827a245b89c10fc7d3f11612**
 - Dependency lock: `lake-manifest.json`
 - CI: `.github/workflows/lean.yml`
 
-Do not casually change these versions in the next Stage-5 slice.
+Do not casually change these versions.
 
-## Formal source
+## Main objective next session — Frozen Theorem B only
 
-- `GreedyUniformity/Model.lean`
-- `GreedyUniformity/Basic.lean`
-- `GreedyUniformity/Bridge.lean`
-- `GreedyUniformity.lean`
-- `formal/README.md`
+Formalise exactly the Stage-4-frozen mixed-spider theorem package already recorded in `CLAIMS.md` and `proof/INFORMAL_PROOF.md`.
 
-The model uses literal finite vertex-order fibres. `vertexOrders` is the set of permutations of `Finset.univ.toList`; `fibre G I` is the set of complete orders with deterministic output `I`; `greedyProb`, `uniformProb`, `GreedyLawEqUniform`, and `bias` are exact rational finite-law definitions.
+The frozen content is:
 
-## Checkpoint 1 foundation retained
+1. For the mixed spider `T_{k,l}`, the number of maximal independent sets is exactly
+   [
+   2^k+1.
+   ]
 
-The central deterministic theorem remains:
+2. With `N=2^k`, the centre-containing output probability is
+   [
+   p_c=2^{-k}\sum_{j=0}^k {k\choose j}\frac1{l+2j+1},
+   ]
+   and each particular type-`j` non-centre maximal independent set has probability
+   [
+   q_j=\frac{l+2j}{2^k(l+2j+1)}.
+   ]
 
-    GreedyUniformity.greedyOutput_maximal
+3. Under the tuned choice
+   [
+   l=2^k-k,
+   ]
+   prove positive bias and
+   [
+   b(T)=O(\sqrt{k}/4^k)
+        =O(\sqrt{\log n_k}/n_k^2)
+   ]
+   along
+   [
+   n_k=2^k+k+1.
+   ]
 
-Every complete vertex order produces an inclusion-maximal independent set.
+Use the already-formalised finite permutation model where practical. If a rational/probability identity is cleaner via exact finite counting than through continuous priorities, prefer the finite proof.
 
-Do not replace this implementation with a second unrelated greedy model unless a genuine defect is found.
+## Frozen-B integrity constraints
 
-## Checkpoint 2 bridge completed
+Do **not** introduce or claim:
 
-`GreedyUniformity/Bridge.lean` now proves the exact finite-order/probability bridge. Important theorem names are:
+- “uniform greedy law implies well-covered”;
+- an all-(n) extremal theorem;
+- optimality or minimizer claims for the mixed spiders;
+- a matching lower bound for (a_n);
+- worldwide-priority certainty;
+- any strengthening beyond the Stage-4-frozen B package.
 
-    GreedyUniformity.vertexOrders_card
-    GreedyUniformity.greedyOutput_priorityCertificate
-    GreedyUniformity.greedyOutput_eq_of_priorityCertificate
-    GreedyUniformity.priorityCertificate_iff_greedyOutput_eq
-    GreedyUniformity.fibre_nonempty_of_maximal
-    GreedyUniformity.fibreCount_pos_of_maximal
-    GreedyUniformity.sum_fibreCount_eq_vertexOrders_card
-    GreedyUniformity.uniformFibres_iff_greedyLawEqUniform
-    GreedyUniformity.greedyLawEqUniform_iff_on_maximal
-    GreedyUniformity.bias_eq_zero_iff_greedyLawEqUniform
+The novelty verdict remains only **plausibly new with bounded uncertainty**.
 
-Consequences now formally established:
+If formalisation exposes a genuine mathematical discrepancy, document it explicitly in `proof/INFORMAL_PROOF.md` and `CLAIMS.md` rather than weakening or patching silently.
 
-1. the complete order sample space has cardinality `|V|!`;
-2. for a complete order, the earlier-selected-neighbour `PriorityCertificate` is equivalent to deterministic greedy output;
-3. every maximal independent set has positive permutation fibre, by placing all target vertices before all outside vertices;
-4. equal maximal-set fibre sizes are equivalent to equality of the exact greedy and uniform laws;
-5. zero total-variation bias is equivalent to equality of those laws.
+## Completion requirements for Stage 5
 
-This closes the finite-law bridge requested at the start of checkpoint 2.
+Stage 5 is **not complete** at this handover because Frozen B remains.
 
-## Verification
+Before Stage 5 can be declared complete, Frozen B must also have:
 
-The root library imports `GreedyUniformity.Bridge`. GitHub Actions run #43 passed:
-
-    lake build
-    placeholder rejection
-    python -m pytest -q
-
-The Python result was:
-
-    4 passed
-
-There is no `sorry`, `admit`, project-specific mathematical axiom, or `native_decide` in the project Lean proof chain checked by CI.
-
-No genuine mathematical discrepancy was found while formalising the bridge. The fixes required after the first CI pass were Lean-engineering fixes only: finite-set membership projections, list/get-element argument shapes, and simplification normal forms.
-
-## Frozen main-theorem status
-
-- **Finite-order/probability bridge:** COMPLETE.
-- **Frozen Theorem A:** NOT YET fully formalised.
-- **Frozen Theorem B:** NOT YET fully formalised.
-- **Final A/B axiom inspection:** NOT YET applicable.
-
-Stage 5 remains **IN PROGRESS**. The project is **not ready for Stage 6**.
-
-## Recommended next Stage-5 slice: Frozen Theorem A
-
-Do not redo Stages 1–4 and do not redo the finite-law bridge except for a targeted correction genuinely required by A.
-
-Formalise A using the Stage-3 architecture:
-
-1. diameter-end pendant-star structure;
-2. the maximal-independent-set counting bound `m(H) ≤ 2 m(H-z)`;
-3. the multiple-pendant-leaf greedy-vs-uniform marginal mismatch;
-4. the exactly-one-pendant-leaf strict paired-set imbalance;
-5. direct `K₁` and `K₂` base cases;
-6. conclude both the law-equality and zero-bias formulations using the completed bridge.
-
-For the one-pendant-leaf case, a finite permutation-fibre injection, bijection, or involution may replace the Stage-3 iid-integral argument if it proves exactly the same strict comparison. Do not weaken A to bounded-size trees, paths, spiders, well-covered trees, or an extra-hypothesis subclass.
-
-If A consumes the next full session, stop at a clean third Stage-5 checkpoint rather than rushing Frozen B. A later Stage-5 slice should then concentrate on the mixed-spider family and asymptotics.
-
-## Integrity constraints
-
+- a passing `lake build`;
+- passing placeholder rejection;
+- passing Python regression tests;
 - no `sorry`;
 - no `admit`;
-- no project-specific axioms standing in for mathematics;
+- no project-specific mathematical axioms;
 - no `native_decide` in the final proof chain;
-- no Python experiment used as theorem proof;
-- do not introduce “uniform greedy law implies well-covered”;
-- do not add all-n, optimality, minimizer, matching-lower-bound, or `a_n` claims to Frozen B.
+- final theorem axiom inspection recorded accurately.
 
-If Lean exposes a genuine mathematical gap, distinguish it from an engineering issue and update the informal proof and claim ledger honestly.
-
-## Workflow boundary
-
-The novelty audit is complete for this workflow. Do not reopen broad prior-art searching unless formalisation exposes an actual mathematical discrepancy. Do not begin Palomar registration, paper writing, or arXiv submission until Frozen A and B are soundly formalised, final theorem axiom inspection is recorded, and Stage 5 is explicitly complete.
+Only after the full frozen A+B package is formalised and verified should Stage 6 (Palomar registration) begin.
