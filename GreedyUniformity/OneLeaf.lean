@@ -325,6 +325,87 @@ theorem swap_leaf_fibre_to_center
     simpa [hfixu, hfixw] using hp
 
 
+
+theorem fibreCount_leaf_lt_center_of_dominates_z
+    {y z x : V} (hyz : G.Adj y z)
+    (hleaf : ∀ q : V, G.Adj y q → q ≠ z → G.degree q = 1)
+    (hx : x ∈ pendantLeaves G y z)
+    {A : Finset V}
+    (hA : IsMaximalIndependentOn G (pendantF G y z) A)
+    (hdom : ∃ a ∈ A, G.Adj a z) :
+    fibreCount G (insert x A) < fibreCount G (insert y A) := by
+  classical
+  let σ : Equiv.Perm V := Equiv.swap x y
+  let S : Finset (List V) :=
+    (fibre G (insert x A)).image (fun q => q.map σ)
+  have hxz : x ≠ z := (mem_pendantLeaves_iff G).1 hx |>.1
+  have hxy : x ≠ y := ((mem_pendantLeaves_iff G).1 hx |>.2).ne.symm
+  have hzA : z ∉ A := by
+    intro hzA
+    exact ((mem_pendantF_iff G).1 (hA.1 hzA)).1 rfl
+  have hIy : IsMaximalIndependent G (insert y A) :=
+    center_insert_maximal_of_maximalOn_pendantF G hyz hA
+  have hzIy : z ∉ insert y A := by
+    simp [hyz.ne.symm, hzA]
+  obtain ⟨l, hlbig, t, hlt⟩ :=
+    exists_fibre_order_with_adjacent_prefix
+      G hIy (v := y) (w := z) (by simp) hzIy hyz
+  have hfixz : σ z = z :=
+    Equiv.swap_apply_of_ne_of_ne hxz.symm hyz.ne.symm
+  have hmapshape : l.map σ = x :: z :: t.map σ := by
+    rw [hlt]
+    simp [σ, hfixz]
+  have hxznot : ¬ G.Adj x z := by
+    intro hxzadj
+    have hzy : z = y :=
+      pendantLeaves_unique_neighbor G hleaf hx hxzadj
+    exact hyz.ne hzy.symm
+  have hbad : l.map σ ∉ fibre G (insert x A) := by
+    intro hmem
+    have hout := (fibre_mem_iff G (insert x A) (l.map σ)).1 hmem |>.2
+    have hzout : z ∈ greedyOutput G (l.map σ) := by
+      classical
+      letI : DecidableRel G.Adj := Classical.decRel _
+      have hzstep : z ∈ greedyStep G (greedyStep G ∅ x) z := by
+        simp [greedyStep, hxznot]
+      have hzscan :
+          z ∈ greedyList G (x :: z :: t.map σ) := by
+        change z ∈ greedyScan G ∅ (x :: z :: t.map σ)
+        simp only [greedyScan]
+        exact greedyScan_subset G
+          (greedyStep G (greedyStep G ∅ x) z) (t.map σ) hzstep
+      rw [hmapshape]
+      simpa [greedyOutput] using hzscan
+    have hzsmall : z ∈ insert x A := by
+      rw [← hout]
+      exact hzout
+    simp [hxz.symm, hzA] at hzsmall
+  have hsub : S ⊆ fibre G (insert y A) := by
+    intro q hq
+    rcases Finset.mem_image.mp hq with ⟨r, hr, rfl⟩
+    exact swap_leaf_fibre_to_center G hyz hleaf hx hA hr
+  have hmiss : l ∉ S := by
+    intro hlS
+    have hlSwap :
+        l.map (Equiv.swap x y) ∈ fibre G (insert x A) :=
+      (mem_image_map_swap_iff x y (fibre G (insert x A)) l).1
+        (by simpa [S, σ] using hlS)
+    exact hbad (by simpa [σ] using hlSwap)
+  have hproper : S ⊂ fibre G (insert y A) := by
+    rw [Finset.ssubset_iff_subset_ne]
+    refine ⟨hsub, ?_⟩
+    intro heq
+    exact hmiss (heq ▸ hlbig)
+  have hltCard : S.card < (fibre G (insert y A)).card :=
+    Finset.card_lt_card hproper
+  have hcardS : S.card = (fibre G (insert x A)).card := by
+    dsimp [S]
+    exact Finset.card_image_of_injective _
+      (List.map_injective_iff.mpr σ.injective)
+  rw [hcardS] at hltCard
+  simpa [fibreCount] using hltCard
+
+
 theorem swap_center_fibre_to_leaf_z_of_not_dominates_z
     {y z x : V} (hyz : G.Adj y z)
     (hleaf : ∀ q : V, G.Adj y q → q ≠ z → G.degree q = 1)
