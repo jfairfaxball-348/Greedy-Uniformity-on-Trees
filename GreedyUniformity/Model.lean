@@ -29,9 +29,14 @@ noncomputable def maximalIndependentSets (G : SimpleGraph V) : Finset (Finset V)
 def greedyStep (G : SimpleGraph V) [DecidableRel G.Adj] (I : Finset V) (v : V) : Finset V :=
   if ∃ u ∈ I, G.Adj u v then I else insert v I
 
+/-- Greedy scan from an already selected independent accumulator. -/
+def greedyScan (G : SimpleGraph V) [DecidableRel G.Adj] : Finset V → List V → Finset V
+  | I, [] => I
+  | I, v :: l => greedyScan G (greedyStep G I v) l
+
 /-- Greedy output for a concrete scan list. -/
 def greedyList (G : SimpleGraph V) [DecidableRel G.Adj] (l : List V) : Finset V :=
-  l.foldl (greedyStep G) ∅
+  greedyScan G ∅ l
 
 /-- Canonical enumeration used only to turn a permutation into an ordered list. -/
 noncomputable def baseEquiv : V ≃ Fin (Fintype.card V) :=
