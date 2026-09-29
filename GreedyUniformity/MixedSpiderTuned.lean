@@ -61,22 +61,26 @@ theorem binomialAverageQ_W_eq_zero
     cases k with
     | zero => simp at hk
     | succ k =>
-        simp [pow_succ]
+        simpa [pow_succ, mul_comm]
   have hsum :
       (∑ j ∈ Finset.range (k + 1),
           (k.choose j : ℚ) * mixedSpiderW k j) = 0 := by
     calc
       (∑ j ∈ Finset.range (k + 1),
           (k.choose j : ℚ) * mixedSpiderW k j) =
-          2 * (∑ j ∈ Finset.range (k + 1),
-            (j : ℚ) * (k.choose j : ℚ)) -
-          (k : ℚ) * (∑ j ∈ Finset.range (k + 1),
-            (k.choose j : ℚ)) := by
-              rw [Finset.mul_sum, Finset.mul_sum, Finset.sum_sub_distrib]
+          ∑ j ∈ Finset.range (k + 1),
+            (2 * ((j : ℚ) * (k.choose j : ℚ)) -
+              (k : ℚ) * (k.choose j : ℚ)) := by
               apply Finset.sum_congr rfl
               intro j hj
               simp only [mixedSpiderW]
               ring
+      _ =
+          2 * (∑ j ∈ Finset.range (k + 1),
+            (j : ℚ) * (k.choose j : ℚ)) -
+          (k : ℚ) * (∑ j ∈ Finset.range (k + 1),
+            (k.choose j : ℚ)) := by
+              rw [Finset.sum_sub_distrib, ← Finset.mul_sum, ← Finset.mul_sum]
       _ = 0 := by
         rw [hchoose, hjchoose]
         push_cast
@@ -90,7 +94,8 @@ theorem mixedSpiderCenterFormula_tuned_eq_average
     mixedSpiderCenterFormula k (mixedSpiderTunedL k) =
       binomialAverageQ k
         (fun j => 1 / (mixedSpiderA k + mixedSpiderW k j)) := by
-  unfold mixedSpiderCenterFormula binomialAverageQ
+  unfold mixedSpiderCenterFormula binomialAverageQ mixedSpiderN
+  push_cast
   congr 1
   apply Finset.sum_congr rfl
   intro j hj
@@ -119,11 +124,12 @@ theorem mixedSpiderNoncenterFormula_tuned_sub_uniform
   have hA : mixedSpiderA k ≠ 0 := by
     unfold mixedSpiderA
     positivity
-  rw [mixedSpiderNoncenterFormula_eq]
-  simp only [mixedSpiderTunedL, mixedSpiderA, mixedSpiderW]
-  have hle : k ≤ 2 ^ k := Nat.le_of_lt (mixedSpider_nat_lt_two_pow k)
-  rw [Nat.cast_sub hle]
-  field_simp
+  unfold mixedSpiderNoncenterFormula
+  rw [mixedSpider_tuned_denom_eq hj]
+  simp only [mixedSpiderN]
+  push_cast
+  field_simp [hN, hA, hden]
+  unfold mixedSpiderA
   ring
 
 end GreedyUniformity
