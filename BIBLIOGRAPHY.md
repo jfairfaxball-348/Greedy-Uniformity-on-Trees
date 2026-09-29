@@ -55,3 +55,24 @@ All entries below were relevant to the tree project. The separate poset/deletion
 
 12. **Independent_Combinatorics_Directions_2026-09-28.md.** User Library discovery note, dated 2026-09-28.  
     Treated as a preliminary lead document, not a proof or novelty certificate.
+
+## Stage-4 additions and rechecks
+
+13. **Nicholas Pippenger.** “Random Sequential Adsorption on Graphs.” *SIAM Journal on Discrete Mathematics* 2(3) (1989), 393–401. DOI 10.1137/0402034.  
+    Exact random-sequence blocking process on graphs; occupation probabilities and jamming limits, not complete terminal-set equiprobability.
+
+14. **Maximilien Gadouleau, David C. Kutner.** “Generalising the maximum independent set algorithm via Boolean networks.” *Information and Computation* 303 (2025), 105266. DOI 10.1016/j.ic.2025.105266.  
+    Same deterministic greedy MIS map from the empty set; Example 1.1 explicitly gives the \(P_3\) permutation split. Main results concern reachability/fixing words and permutations, not random-output uniformity.
+
+15. **Yair Caro, M. N. Ellingham, J. E. Ramey.** “Local Structure When All Maximal Independent Sets Have Equal Weight.” *SIAM Journal on Discrete Mathematics* 11(4) (1998), 644–654. DOI 10.1137/S0895480196300479.  
+    “Weight” means the sum of assigned vertex weights; this is well-covered/weighted-well-covered theory, not equal probability under a greedy process.
+
+16. **Bruce E. Sagan, Vincent R. Vatter.** “Maximal and maximum independent sets in graphs with at most r cycles.” *Journal of Graph Theory* 53(4) (2006), 283–314. arXiv:math/0505048. DOI 10.1002/jgt.20186.  
+    Proposition 1.7 gives the standard maximal-independent-set “m-bound” \(m(G)\le m(G-v)+m(G-N[v])\), relevant background for Stage-3 Lemma 6.
+
+17. **François Zara.** “Graphes Lies aux Espaces Polaires.” *European Journal of Combinatorics* 5(3) (1984), 255–290. DOI 10.1016/S0195-6698(84)80008-6.  
+    Structural classification under maximal-clique axioms A1/A2; cited by Kryven–Versendaal–de Vries in their proof of Theorem 3.23 after complementation. Not a random-greedy-output theorem.
+
+### 2026 preprint recheck
+
+The Kryven–Versendaal–de Vries entry above was rechecked on 2026-09-29. arXiv:2608.07239 still had only v1 (submitted 2026-08-07). Definition 3.6, Definition 3.7, Proposition 3.8, Definition 3.13 and Theorem 3.23 remain the decisive locations; Proposition 3.8 is still a sufficient condition and no checked converse was found.
