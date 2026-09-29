@@ -97,7 +97,8 @@ theorem tree_exists_pendantStar_of_three_le_card
       hac.girth_eq_zero
     have hthree : (⊤ : SimpleGraph V).girth = 3 := by
       apply SimpleGraph.girth_top
-      simpa only [ENat.card_eq_coe_fintype_card, Nat.cast_le] using hcard
+      rw [ENat.card_eq_coe_fintype_card]
+      exact_mod_cast hcard
     omega
   obtain ⟨a, b, hab, hnadj⟩ :=
     (SimpleGraph.ne_top_iff_exists_not_adj).1 hnotTop
@@ -111,7 +112,7 @@ theorem tree_exists_pendantStar_of_three_le_card
       exact hnadj (SimpleGraph.Walk.exists_length_eq_one_iff.1 ⟨q, ho⟩)
     omega
   obtain ⟨u, v, p, hp, hmax⟩ :=
-    SimpleGraph.exists_isPath_forall_isPath_length_le_length G
+    exists_isPath_forall_isPath_length_le_length G
   have hplen : 2 ≤ p.length :=
     hqlen.trans (hmax a b q hq)
   rcases tree_maximalPath_pendantStar G hT p hp hmax hplen with
