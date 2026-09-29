@@ -88,7 +88,7 @@ theorem mixedSpiderNoncenterSet_independent (S : Finset (Fin k)) :
     IsIndependent (mixedSpider k l) (mixedSpiderNoncenterSet (l := l) S) := by
   intro u hu v hv
   cases u <;> cases v <;>
-    simp_all [mixedSpiderNoncenterSet, mixedSpider, mixedSpiderRel]
+    simp_all [mixedSpiderNoncenterSet, mixedSpider, mixedSpiderRel] <;> aesop
 
 theorem mixedSpiderCenterSet_maximal :
     IsMaximalIndependent (mixedSpider k l) (mixedSpiderCenterSet k l) := by
@@ -226,7 +226,7 @@ theorem mixedSpider_maximalIndependentSets_card
     have hmemEq :=
       congrArg (fun I : Finset (MixedSpiderVertex k l) => center ∈ I) hEq
     simpa [mixedSpiderNoncenterEmbedding] using hmemEq
-  rw [Finset.card_insert_of_not_mem hnot]
+  rw [Finset.card_insert_of_notMem hnot]
   simp [mixedSpiderNoncenterEmbedding]
 
 end MixedSpiderMIS
