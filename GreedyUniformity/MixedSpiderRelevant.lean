@@ -97,7 +97,7 @@ theorem mixedSpiderRelevant_card
     simp [C, mixedSpiderLeafEmbedding] at hxC
   change (insert center (A ∪ (B ∪ C))).card =
     l + 2 * S.card + 1
-  rw [Finset.card_insert_of_not_mem hc,
+  rw [Finset.card_insert_of_notMem hc,
     Finset.card_union_of_disjoint hA,
     Finset.card_union_of_disjoint hBC]
   simp [A, B, C]
