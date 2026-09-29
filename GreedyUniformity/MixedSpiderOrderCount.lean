@@ -133,7 +133,8 @@ theorem mem_mixedSpiderArmPattern_map_armFlip_iff
     (horder : IsVertexOrder order)
     (D : Finset (Fin k)) (i : Fin k) :
     i ∈ mixedSpiderArmPattern (order.map (mixedSpiderArmFlip (l := l) D)) ↔
-      (i ∈ mixedSpiderArmPattern order) != (i ∈ D) := by
+      ((i ∈ D ∧ i ∉ mixedSpiderArmPattern order) ∨
+        (i ∉ D ∧ i ∈ mixedSpiderArmPattern order)) := by
   classical
   by_cases hiD : i ∈ D
   · have horder' :=
