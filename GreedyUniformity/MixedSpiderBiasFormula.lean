@@ -135,12 +135,17 @@ theorem mixedSpiderCenterFormula_tuned_sub_uniform
               (mixedSpiderA k + mixedSpiderW k j)) -
           (1 / mixedSpiderA k ^ 2) * mixedSpiderW k j) := by
     funext j
-    by_cases hj : j ≤ k
-    · rw [mixedSpider_center_pointwise_identity hj]
-      ring
-    · have : j ∉ Finset.range (k + 1) := by
-        simp [Finset.mem_range, Nat.lt_succ_iff, hj]
-      ring
+    have hA : mixedSpiderA k ≠ 0 := by
+      unfold mixedSpiderA
+      positivity
+    have hklt : (k : ℚ) < (2 ^ k : ℚ) := by
+      exact_mod_cast mixedSpider_nat_lt_two_pow k
+    have hjnonneg : 0 ≤ (j : ℚ) := by positivity
+    have hAW : mixedSpiderA k + mixedSpiderW k j ≠ 0 := by
+      unfold mixedSpiderA mixedSpiderW
+      nlinarith
+    field_simp [hA, hAW]
+    ring
   rw [hpoint, binomialAverageQ_sub,
     binomialAverageQ_const_mul, binomialAverageQ_W_eq_zero hk]
   ring
