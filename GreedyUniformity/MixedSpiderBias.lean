@@ -67,7 +67,6 @@ theorem bias_mixedSpider_eq_formulaBias
     (fun j =>
       |mixedSpiderNoncenterFormula k l j -
         mixedSpiderUniformMass k|)]
-  rfl
 
 /-- The exact frozen Stage-3 expectation identity, now for the actual
 permutation-law bias of the tuned mixed spider. -/
