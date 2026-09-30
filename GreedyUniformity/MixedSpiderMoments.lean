@@ -54,8 +54,8 @@ theorem sum_choose_mul_mixedSpiderW_sq (k : ℕ) :
             2 *
               (∑ i ∈ Finset.range (k + 1),
                 (k.choose i : ℚ)) := by
-                  rw [Finset.sum_add_distrib]
                   simp_rw [mul_add]
+                  rw [Finset.sum_add_distrib]
                   rw [Finset.mul_sum, Finset.mul_sum]
                   apply congrArg₂ (· + ·)
                   · apply Finset.sum_congr rfl
