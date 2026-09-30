@@ -188,7 +188,8 @@ centre-first orders removed. -/
 theorem fibre_mixedSpiderNoncenter_eq_sdiff
     (hl : 0 < l) (S : Finset (Fin k)) :
     fibre (mixedSpider k l) (mixedSpiderNoncenterSet (l := l) S) =
-      mixedSpiderOrientationOrders (l := l) S         mixedSpiderExceptionalOrders (l := l) S := by
+      mixedSpiderOrientationOrders (l := l) S \
+        mixedSpiderExceptionalOrders (l := l) S := by
   classical
   ext order
   constructor
