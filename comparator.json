@@ -12,7 +12,9 @@
     "GreedyUniformity.bias_mixedSpider_tuned_isBigO",
     "GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq"
   ],
-  "definition_names": [],
+  "definition_names": [
+    "GreedyUniformity.mixedSpiderNoncenterSet"
+  ],
   "permitted_axioms": [
     "propext",
     "Classical.choice",
