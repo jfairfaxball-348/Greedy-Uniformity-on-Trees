@@ -273,13 +273,14 @@ theorem cast_bias_mixedSpider_tuned_le
       (k : ℝ) / (2 ^ k : ℝ) ^ 3 +
         Real.sqrt (k : ℝ) / (2 ^ k : ℝ) ^ 2 := by
   have hq := bias_mixedSpider_tuned_le_moments hk
-  have hr :
+  have hr0 :
       ((bias (mixedSpider k (mixedSpiderTunedL k)) : ℚ) : ℝ) ≤
-        (k : ℝ) / (2 ^ k : ℝ) ^ 3 +
-          ((binomialAverageQ k
-              (fun j => |mixedSpiderW k j|) : ℚ) : ℝ) /
-            (2 ^ k : ℝ) ^ 2 := by
+        (((k : ℚ) / (2 ^ k : ℚ) ^ 3 +
+          binomialAverageQ k (fun j => |mixedSpiderW k j|) /
+            (2 ^ k : ℚ) ^ 2 : ℚ) : ℝ) := by
     exact_mod_cast hq
+  have hr := hr0
+  push_cast at hr
   rw [cast_binomialAverageQ_abs_W] at hr
   have habs := mixedSpider_absMoment_average_le_sqrt k
   calc
