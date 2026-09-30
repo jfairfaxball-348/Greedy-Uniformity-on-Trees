@@ -1,4 +1,8 @@
-import GreedyUniformity.OneLeaf
+module
+
+public import GreedyUniformity.OneLeaf
+
+public section
 
 namespace GreedyUniformity
 
