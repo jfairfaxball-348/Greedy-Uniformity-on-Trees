@@ -99,7 +99,7 @@ theorem sqrt_k_div_four_pow_le_order_scale
       0 ≤ Real.sqrt (Real.log (mixedSpiderTunedOrder k : ℝ)) /
         Real.sqrt (Real.log 2) := by positivity
   have hmul :=
-    mul_le_mul hsqrt hden (by positivity) hsqrt0
+    mul_le_mul hsqrt hden (by positivity) hlog0
   have hfour :
       (4 ^ k : ℝ) = (2 ^ k : ℝ) ^ 2 := by
     rw [← pow_mul]
