@@ -152,9 +152,13 @@ noncomputable def mixedSpiderCenterSet (k l : ℕ) :
     | .outer _ => True
     | _ => False
 
+section PalomarMixedSpiderMIS
+
+variable {k l : ℕ}
+
 /-- The non-centre candidate determined by the arm subset S. -/
 noncomputable def mixedSpiderNoncenterSet
-    {k l : ℕ} (S : Finset (Fin k)) : Finset (MixedSpiderVertex k l) := by
+    (S : Finset (Fin k)) : Finset (MixedSpiderVertex k l) := by
   classical
   exact Finset.univ.filter fun v =>
     match v with
@@ -162,6 +166,8 @@ noncomputable def mixedSpiderNoncenterSet
     | .inner i => i ∈ S
     | .outer i => i ∉ S
     | .leaf _ => True
+
+end PalomarMixedSpiderMIS
 
 /-- N=2^k, the number of non-centre arm patterns. -/
 def mixedSpiderN (k : ℕ) : ℕ := 2 ^ k
