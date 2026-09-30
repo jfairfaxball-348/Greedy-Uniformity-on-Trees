@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderFormula
+module
+
+public import GreedyUniformity.MixedSpiderFormula
+
+public section
 
 open scoped BigOperators
 
