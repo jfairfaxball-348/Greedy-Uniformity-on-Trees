@@ -1,5 +1,9 @@
-import GreedyUniformity.MixedSpiderAsymptotic
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
+module
+
+public import GreedyUniformity.MixedSpiderAsymptotic
+public import Mathlib.Analysis.SpecialFunctions.Log.Basic
+
+public section
 
 namespace GreedyUniformity
 
