@@ -68,7 +68,6 @@ theorem greedyProb_mixedSpiderNoncenter
   have hN : (2 ^ k : ℚ) ≠ 0 := by positivity
   have hm : (l + 2 * S.card + 1 : ℚ) ≠ 0 := by positivity
   field_simp [hN, hm]
-  push_cast
   ring
 
 /-- Frozen B2, centre part: exact binomial-sum probability of the unique
@@ -112,6 +111,7 @@ theorem greedyProb_mixedSpiderCenter :
     simp
   rw [huniv]
   simp only [mixedSpiderN, mixedSpiderDenom]
+  push_cast
 
 end Probability
 
