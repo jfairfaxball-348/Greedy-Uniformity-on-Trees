@@ -1,4 +1,8 @@
-import GreedyUniformity.Basic
+module
+
+public import GreedyUniformity.Basic
+
+public section
 
 namespace GreedyUniformity
 
