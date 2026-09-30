@@ -49,6 +49,12 @@ theorem bias_mixedSpider_eq_formulaBias
     rw [Finset.sum_map]
     apply Finset.sum_congr rfl
     intro S hS
+    change
+      |greedyProb (mixedSpider k l)
+          (mixedSpiderNoncenterSet (l := l) S) -
+          mixedSpiderUniformMass k| =
+        |mixedSpiderNoncenterFormula k l S.card -
+          mixedSpiderUniformMass k|
     rw [greedyProb_mixedSpiderNoncenter hl S]
   rw [hmap]
   have huniv :
@@ -57,7 +63,10 @@ theorem bias_mixedSpider_eq_formulaBias
     ext S
     simp
   rw [huniv]
-  rw [mixedSpider_sum_powerset_by_card]
+  rw [mixedSpider_sum_powerset_by_card k
+    (fun j =>
+      |mixedSpiderNoncenterFormula k l j -
+        mixedSpiderUniformMass k|)]
   rfl
 
 /-- The exact frozen Stage-3 expectation identity, now for the actual
