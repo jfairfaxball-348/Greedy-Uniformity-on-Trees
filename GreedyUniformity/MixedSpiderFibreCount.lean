@@ -242,8 +242,9 @@ theorem fibreCount_mixedSpiderNoncenter
         (mixedSpiderExceptionalOrders (l := l) S).card := by
   unfold fibreCount
   rw [fibre_mixedSpiderNoncenter_eq_sdiff hl S]
-  exact Finset.card_sdiff
-    (mixedSpiderExceptionalOrders_subset_orientationOrders S)
+  rw [Finset.card_sdiff]
+  rw [Finset.inter_eq_left.mpr
+    (mixedSpiderExceptionalOrders_subset_orientationOrders S)]
 
 /-- The part of the centre fibre having arm pattern S is exactly the
 exceptional order set indexed by S. -/
