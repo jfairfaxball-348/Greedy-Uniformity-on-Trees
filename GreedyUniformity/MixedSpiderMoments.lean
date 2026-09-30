@@ -153,6 +153,7 @@ theorem cast_binomialAverageQ_abs_W (k : ℕ) :
   unfold binomialAverageQ mixedSpiderAbsMomentSum
   push_cast
   simp only [mixedSpiderW, mixedSpiderWReal, Rat.cast_abs]
+  push_cast
   ring
 
 end GreedyUniformity
