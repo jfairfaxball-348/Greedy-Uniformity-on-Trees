@@ -1,4 +1,8 @@
-import GreedyUniformity.Model
+module
+
+public import GreedyUniformity.Model
+
+public section
 
 namespace GreedyUniformity
 
