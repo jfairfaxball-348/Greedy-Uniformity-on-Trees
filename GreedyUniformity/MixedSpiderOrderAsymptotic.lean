@@ -131,9 +131,13 @@ theorem bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq :
     (8 / Real.sqrt (Real.log 2) : ℝ)
   filter_upwards [Filter.eventually_atTop.2 ⟨1, fun k hk => hk⟩] with k hk
   have hkpos : 0 < k := by omega
+  have hbnonnegQ :
+      (0 : ℚ) ≤ bias (mixedSpider k (mixedSpiderTunedL k)) := by
+    unfold bias
+    positivity
   have hbnonneg :
       0 ≤ ((bias (mixedSpider k (mixedSpiderTunedL k)) : ℚ) : ℝ) := by
-    positivity
+    exact_mod_cast hbnonnegQ
   have htarget :
       0 ≤ Real.sqrt (Real.log (mixedSpiderTunedOrder k : ℝ)) /
         (mixedSpiderTunedOrder k : ℝ) ^ 2 := by positivity
