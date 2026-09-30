@@ -17,7 +17,7 @@ theorem mixedSpiderCenterSet_not_mem_noncenter_image :
   rcases Finset.mem_map.1 hmem with ⟨S, hS, hEq⟩
   have hmemEq :=
     congrArg
-      (fun I : Finset (MixedSpiderVertex k l) => center ∈ I) hEq
+      (fun I : Finset (MixedSpiderVertex k l) => MixedSpiderVertex.center ∈ I) hEq
   simpa [mixedSpiderNoncenterEmbedding] using hmemEq
 
 theorem mixedSpider_uniform_denominator
@@ -34,10 +34,10 @@ theorem bias_mixedSpider_eq_formulaBias
     bias (mixedSpider k l) = mixedSpiderFormulaBias k l := by
   classical
   unfold bias mixedSpiderFormulaBias
+  rw [mixedSpider_uniform_denominator hl]
   rw [maximalIndependentSets_mixedSpider_eq hl]
   rw [Finset.sum_insert mixedSpiderCenterSet_not_mem_noncenter_image]
   rw [greedyProb_mixedSpiderCenter]
-  rw [mixedSpider_uniform_denominator hl]
   have hmap :
       (∑ I ∈
           (Finset.univ : Finset (Finset (Fin k))).map
