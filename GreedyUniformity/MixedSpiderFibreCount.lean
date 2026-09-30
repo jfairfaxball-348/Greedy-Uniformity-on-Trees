@@ -243,7 +243,7 @@ theorem fibreCount_mixedSpiderNoncenter
   unfold fibreCount
   rw [fibre_mixedSpiderNoncenter_eq_sdiff hl S]
   rw [Finset.card_sdiff]
-  rw [Finset.inter_eq_left.mpr
+  rw [inter_eq_left.mpr
     (mixedSpiderExceptionalOrders_subset_orientationOrders S)]
 
 /-- The part of the centre fibre having arm pattern S is exactly the
