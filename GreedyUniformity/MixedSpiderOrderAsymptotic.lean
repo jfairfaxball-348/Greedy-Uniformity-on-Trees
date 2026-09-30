@@ -127,7 +127,8 @@ theorem bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq :
       (fun k : ℕ =>
         Real.sqrt (Real.log (mixedSpiderTunedOrder k : ℝ)) /
           (mixedSpiderTunedOrder k : ℝ) ^ 2) := by
-  apply (Asymptotics.IsBigOWith.of_bound ?_).isBigO
+  apply Asymptotics.IsBigO.of_bound
+    (8 / Real.sqrt (Real.log 2) : ℝ)
   filter_upwards [Filter.eventually_atTop.2 ⟨1, fun k hk => hk⟩] with k hk
   have hkpos : 0 < k := by omega
   have hbnonneg :
