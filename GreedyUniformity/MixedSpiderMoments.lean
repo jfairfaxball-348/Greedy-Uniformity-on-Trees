@@ -99,9 +99,9 @@ theorem sum_choose_mul_mixedSpiderWReal_sq (k : ℕ) :
         (k.choose j : ℝ) * mixedSpiderWReal k j ^ 2) =
       (k : ℝ) * (2 ^ k : ℝ) := by
   have hq := sum_choose_mul_mixedSpiderW_sq k
-  simp only [mixedSpiderW] at hq
-  simp only [mixedSpiderWReal]
-  exact_mod_cast hq
+  have hr := congrArg (fun q : ℚ => (q : ℝ)) hq
+  push_cast at hr
+  simpa [mixedSpiderW, mixedSpiderWReal] using hr
 
 /-- Finite Cauchy-Schwarz gives E|W| <= sqrt(k). -/
 theorem mixedSpider_absMoment_average_le_sqrt (k : ℕ) :
