@@ -1,4 +1,8 @@
-import GreedyUniformity.TreeA
+module
+
+public import GreedyUniformity.TreeA
+
+public section
 
 namespace GreedyUniformity
 
