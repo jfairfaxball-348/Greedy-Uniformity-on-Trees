@@ -243,62 +243,53 @@ I_x=
 \end{cases}
 \tag{5.6}
 \]
-Then \(I_y,I_x\in\mathcal M(T)\) and their greedy probabilities are strictly different.
+Then \(I_y,I_x\in\mathcal M(T)\) and their exact permutation fibres have different cardinalities; hence their greedy probabilities are strictly different.
 
 **Proof.** The set \(I_y\) is maximal because \(A\) is maximal in \(F\) and \(y\) dominates \(x,z\). If \(A\) dominates \(z\), then \(A\) itself is maximal in \(R\), so \(\{x\}\cup A\) is maximal in \(T\). If \(A\) does not dominate \(z\), then \(A\cup\{z\}\) is independent and maximal in \(R\), so \(\{x,z\}\cup A\) is maximal in \(T\).
 
-Use Lemma 5 to compare exact probabilities.
+Let \(\sigma\) be the transposition swapping \(x\) and \(y\), and for a vertex order \(\ell\) write \(\sigma\ell\) for the order obtained by applying \(\sigma\) entrywise. Because \(\sigma\) is a permutation of the vertex set, \(\ell\mapsto\sigma\ell\) is injective on the finite set of all vertex orders. The finite priority-certificate characterization of greedy output is used only to verify that the following fibre maps preserve the claimed target; the comparison itself is a strict finite fibre-count argument.
 
-**Case 1: \(A\) dominates \(z\).** Let
+**Case 1: \(A\) dominates \(z\).** Here \(I_x=\{x\}\cup A\). Swapping \(x\) and \(y\) sends every order in the fibre of \(I_x\) to an order in the fibre of \(I_y\):
 \[
-S=A\cap N_R(z)\ne\varnothing,\qquad
-M=\min_{a\in S}U_a,
-\]
-and let \(E\) be the priority-certificate event for output \(A\) on \(F\). For \(I_x=\{x\}\cup A\), the additional certificate conditions are \(U_y>U_x\) and \(U_z>M\). Hence
-\[
-\Pr_T(I_x)
-=\mathbb E\!\left[\mathbf1_E\frac{1-M}{2}\right].
+\sigma\bigl(\operatorname{fibre}(I_x)\bigr)
+\subseteq \operatorname{fibre}(I_y).
 \tag{5.7}
 \]
-For \(I_y=\{y\}\cup A\), conditional on \(U_y=t\) and the priorities in \(F\), the additional conditions are
+Indeed, the certificate for \(I_x\) transfers under the swap: the unique obstruction involving the pendant leaf \(x\) becomes the corresponding obstruction involving \(y\), while vertices of \(A\subseteq F\) are fixed by \(\sigma\).
+
+The inclusion is strict. Since \(I_y\) is maximal and \(y\in I_y\), \(z\notin I_y\), and \(yz\) is an edge, there is an order
 \[
-U_x>t,\qquad U_z>\min(t,M).
+\ell=y,z,\ldots
 \]
-Therefore
+in the fibre of \(I_y\). After swapping \(x\) and \(y\), the order begins \(x,z,\ldots\). The pendant leaf \(x\) is not adjacent to \(z\), so both \(x\) and then \(z\) are greedily selected. Hence \(\sigma\ell\) cannot lie in the fibre of \(I_x=\{x\}\cup A\), which does not contain \(z\). Because \(\sigma\) is an involution, this shows that \(\ell\) is not in the image of the fibre of \(I_x\). Therefore
 \[
-\Pr_T(I_y)=\mathbb E[\mathbf1_E K(M)],
-\]
-where
-\[
-K(s)=\int_0^1(1-t)(1-\min(t,s))\,dt
-=\frac{1-s}{2}+\frac{s^2(3-s)}6.
+|\operatorname{fibre}(I_x)|
+<
+|\operatorname{fibre}(I_y)|.
 \tag{5.8}
 \]
-For \(0<s<1\), \(K(s)>(1-s)/2\). The event \(E\) has positive probability and, on it, \(M\in(0,1)\) almost surely. Thus
+
+**Case 2: \(A\) does not dominate \(z\).** Here \(I_x=\{x,z\}\cup A\). In the reverse direction, swapping \(x\) and \(y\) sends every order in the fibre of \(I_y\) into the fibre of \(I_x\):
 \[
-\Pr_T(I_y)>\Pr_T(I_x).
+\sigma\bigl(\operatorname{fibre}(I_y)\bigr)
+\subseteq \operatorname{fibre}(I_x).
 \tag{5.9}
 \]
+Again this is checked by transporting the finite priority certificate. Since \(A\) does not dominate \(z\), the target after the swap contains \(z\), and the remaining target vertices in \(A\) are fixed.
 
-**Case 2: \(A\) does not dominate \(z\).** Here \(I_x=\{x,z\}\cup A\). Let \(E\) again be the event that the greedy output on \(F\) is \(A\); it has positive probability.
-
-For \(I_y\), the vertex \(z\) has no selected neighbour in \(A\), so both \(x\) and \(z\) must appear after \(y\), while the conditions within \(F\) are exactly \(E\). Hence
+This inclusion is also strict. Since \(I_x\) is maximal and contains \(z\) but not \(y\), there is an order
 \[
-\Pr_T(I_y)=\frac13\Pr_F(A).
+\ell=z,y,\ldots
+\]
+in the fibre of \(I_x\). Its swapped order begins \(z,x,\ldots\), so \(z\) is selected immediately. It therefore cannot lie in the fibre of \(I_y=\{y\}\cup A\), which excludes \(z\). By involutivity of \(\sigma\), \(\ell\) is missing from the image of the fibre of \(I_y\). Thus
+\[
+|\operatorname{fibre}(I_y)|
+<
+|\operatorname{fibre}(I_x)|.
 \tag{5.10}
 \]
 
-For \(I_x\), the event \(E\), together with
-\[
-U_y>\min(U_x,U_z),
-\]
-is sufficient for output \(I_x\). Indeed, \(z\) has no neighbour in \(A\), so selecting \(z\) cannot block a target vertex of \(A\); it can only add an earlier selected neighbour for vertices outside the target. The displayed local event has probability \(2/3\), independently of \(E\). Thus
-\[
-\Pr_T(I_x)\ge\frac23\Pr_F(A)
->\frac13\Pr_F(A)=\Pr_T(I_y).
-\tag{5.11}
-\]
-The paired maximal independent sets therefore have unequal probabilities in both cases. \(\square\)
+In either case the two maximal independent sets have unequal permutation-fibre cardinalities. Since all vertex orders are equally likely, their greedy probabilities are unequal. \(\square\)
 
 ## 6. Proof of Theorem A
 
@@ -385,7 +376,7 @@ This proves Theorem B. \(\square\)
 - **Lemma 6:** finite maximal-independent-set counting.
 - **Lemma 7:** tree diameter structure.
 - **Lemma 8:** Lemmas 6–7 plus the support/leaf order observation.
-- **Lemma 9:** Lemmas 5 and 7 plus the residual-forest pairing.
+- **Lemma 9:** Lemma 7 plus the residual-forest pairing, the finite priority-certificate/output equivalence, and strict injections between exact permutation fibres induced by swapping the pendant leaf with its support vertex.
 - **Theorem A:** Lemmas 7–9 plus direct \(K_1,K_2\) checks. Lemmas 2–4 are not required for the shortest proof, but supply the requested recurrence/fibre framework and are useful for later formalisation.
 - **Theorem B:** iid-priority representation, direct arm decomposition, and elementary binomial moment bounds.
 
