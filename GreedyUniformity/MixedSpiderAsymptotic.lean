@@ -197,7 +197,74 @@ theorem bias_mixedSpider_tuned_le_moments
   unfold mixedSpiderTunedExpectation
   have h1 := mixedSpider_first_average_le hk
   have h2 := mixedSpider_second_average_le hk
-  linarith
+  have h1' :
+      (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              mixedSpiderW k j ^ 2 /
+                (mixedSpiderA k ^ 2 *
+                  (mixedSpiderA k + mixedSpiderW k j))) ≤
+        (k : ℚ) / (2 ^ k : ℚ) ^ 3 := by
+    calc
+      (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              mixedSpiderW k j ^ 2 /
+                (mixedSpiderA k ^ 2 *
+                  (mixedSpiderA k + mixedSpiderW k j))) ≤
+          (1 / 2 : ℚ) *
+            (2 * (k : ℚ) / (2 ^ k : ℚ) ^ 3) := by
+              exact mul_le_mul_of_nonneg_left h1 (by norm_num)
+      _ = (k : ℚ) / (2 ^ k : ℚ) ^ 3 := by ring
+  have h2' :
+      (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              |mixedSpiderW k j| /
+                (mixedSpiderA k *
+                  (mixedSpiderA k + mixedSpiderW k j))) ≤
+        binomialAverageQ k (fun j => |mixedSpiderW k j|) /
+          (2 ^ k : ℚ) ^ 2 := by
+    calc
+      (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              |mixedSpiderW k j| /
+                (mixedSpiderA k *
+                  (mixedSpiderA k + mixedSpiderW k j))) ≤
+          (1 / 2 : ℚ) *
+            ((2 / (2 ^ k : ℚ) ^ 2) *
+              binomialAverageQ k (fun j => |mixedSpiderW k j|)) := by
+                exact mul_le_mul_of_nonneg_left h2 (by norm_num)
+      _ = binomialAverageQ k (fun j => |mixedSpiderW k j|) /
+          (2 ^ k : ℚ) ^ 2 := by ring
+  calc
+    (1 / 2 : ℚ) *
+        (binomialAverageQ k
+            (fun j =>
+              mixedSpiderW k j ^ 2 /
+                (mixedSpiderA k ^ 2 *
+                  (mixedSpiderA k + mixedSpiderW k j))) +
+          binomialAverageQ k
+            (fun j =>
+              |mixedSpiderW k j| /
+                (mixedSpiderA k *
+                  (mixedSpiderA k + mixedSpiderW k j)))) =
+      (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              mixedSpiderW k j ^ 2 /
+                (mixedSpiderA k ^ 2 *
+                  (mixedSpiderA k + mixedSpiderW k j))) +
+        (1 / 2 : ℚ) *
+          binomialAverageQ k
+            (fun j =>
+              |mixedSpiderW k j| /
+                (mixedSpiderA k *
+                  (mixedSpiderA k + mixedSpiderW k j))) := by ring
+    _ ≤ (k : ℚ) / (2 ^ k : ℚ) ^ 3 +
+        binomialAverageQ k (fun j => |mixedSpiderW k j|) /
+          (2 ^ k : ℚ) ^ 2 := add_le_add h1' h2'
 
 /-- Real-valued form of the explicit estimate, after Cauchy-Schwarz. -/
 theorem cast_bias_mixedSpider_tuned_le
