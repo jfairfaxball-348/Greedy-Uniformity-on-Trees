@@ -125,7 +125,8 @@ theorem mixedSpider_absMoment_average_le_sqrt (k : ℕ) :
     · intro j hj
       dsimp [r, f, g]
       rw [mul_pow, sq_abs]
-      exact le_rfl
+      exact le_refl
+        ((k.choose j : ℝ) ^ 2 * mixedSpiderWReal k j ^ 2)
   have hsumf : (∑ j ∈ s, f j) = (2 ^ k : ℝ) := by
     dsimp [s, f]
     exact_mod_cast Nat.sum_range_choose k
