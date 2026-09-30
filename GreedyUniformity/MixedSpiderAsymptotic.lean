@@ -345,9 +345,13 @@ theorem bias_mixedSpider_tuned_isBigO :
   apply Asymptotics.IsBigO.of_bound (2 : ℝ)
   filter_upwards [Filter.eventually_atTop.2 ⟨1, fun k hk => hk⟩] with k hk
   have hkpos : 0 < k := by omega
+  have hbnonnegQ :
+      (0 : ℚ) ≤ bias (mixedSpider k (mixedSpiderTunedL k)) := by
+    unfold bias
+    positivity
   have hbnonneg :
       0 ≤ ((bias (mixedSpider k (mixedSpiderTunedL k)) : ℚ) : ℝ) := by
-    positivity
+    exact_mod_cast hbnonnegQ
   have hg :
       0 ≤ Real.sqrt (k : ℝ) / (4 ^ k : ℝ) := by positivity
   rw [Real.norm_eq_abs, abs_of_nonneg hbnonneg,
