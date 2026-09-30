@@ -5,7 +5,7 @@ package GreedyUniformity where
   version := v!"0.1.0"
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "d13f23b723b8a846827a245b89c10fc7d3f11612"
+  "https://github.com/leanprover-community/mathlib4" @ "c55e6e786f49471c72fbddbec5415808896aec1e"
 
 @[default_target]
 lean_lib GreedyUniformity
