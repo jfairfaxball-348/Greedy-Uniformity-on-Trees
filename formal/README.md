@@ -1,16 +1,32 @@
 # Lean formalisation status
 
-**Stage:** 5 of 8 — COMPLETE  
-**Checkpoint:** 4 — Frozen A+B package verified  
+**Stage 5 theorem formalisation:** COMPLETE  
+**Stage 6 Palomar packaging:** PREPARED AND PREFLIGHTED; REGISTRATION PENDING  
 **Date:** 2026-09-30
 
-Stage 5 is complete. Frozen Theorems A and B are formalised in the pinned Lean environment and verified by the combined root build.
+Frozen Theorems A and B remain fully formalised. Stage 6 made a
+Palomar-required module/toolchain compatibility port without strengthening the
+frozen theorem statements.
 
-## Pinned environment
+## Environments
+
+### Stage-5 verification baseline
 
 - Lean: `4.34.1` (`leanprover/lean4:v4.34.1`)
 - Mathlib: `d13f23b723b8a846827a245b89c10fc7d3f11612` (tag `v4.34.1`)
-- Exact dependency lock: `lake-manifest.json`
+- GitHub Actions run #161 at `47802b8a18a92847e447e88c02ecb42620b3da09`
+
+That run passed the complete A+B root build, forbidden-placeholder rejection,
+and the Python regression suite.
+
+### Current Palomar-compatible environment
+
+Current PalomarSubmission policy requires Lean's module system and a toolchain
+at or above v4.35.0-rc2. The repository is therefore now pinned to:
+
+- Lean: `4.35.0-rc3` (`leanprover/lean4:v4.35.0-rc3`)
+- Mathlib: `c55e6e786f49471c72fbddbec5415808896aec1e` (tag `v4.35.0-rc3`)
+- exact dependency lock: `lake-manifest.json`
 
 Build with:
 
@@ -20,11 +36,17 @@ Run the computational regression suite with:
 
     python -m pytest -q
 
-The GitHub Actions workflow `.github/workflows/lean.yml` builds the root library, rejects `sorry`, `admit`, and `native_decide` in project Lean sources, and runs the Python tests.
+The ordinary GitHub Actions placeholder audit rejects `sorry`, `admit`, and
+`native_decide` in proof-development sources. It excludes only
+`GreedyUniformity/PalomarChallenge.lean`, where theorem holes are intentional
+and are checked against the proved Solution by Palomar Comparator.
 
 ## Exact finite model and bridge
 
-The finite sample space is `vertexOrders`, the complete duplicate-free vertex orders. The core model defines `greedyOutput`, exact permutation fibres and `fibreCount`, `greedyProb`, `uniformProb`, `GreedyLawEqUniform`, and exact rational total-variation `bias`.
+The finite sample space is `vertexOrders`, the complete duplicate-free vertex
+orders. The core model defines `greedyOutput`, exact permutation fibres and
+`fibreCount`, `greedyProb`, `uniformProb`, `GreedyLawEqUniform`, and exact
+rational total-variation `bias`.
 
 `GreedyUniformity/Bridge.lean` proves, among other results,
 
@@ -35,22 +57,22 @@ The finite sample space is `vertexOrders`, the complete duplicate-free vertex or
     uniformFibres_iff_greedyLawEqUniform
     bias_eq_zero_iff_greedyLawEqUniform
 
-Thus the finite fibre model is connected directly to the frozen random-permutation law and zero-bias formulation.
+Thus the finite fibre model is connected directly to the frozen
+random-permutation law and zero-bias formulation.
 
 ## Frozen Theorem A — formalised
-
-The structural proof is split across `Counting.lean`, `Pendant.lean`, `Marginal.lean`, `OrderCount.lean`, `MultiLeaf.lean`, `OneLeaf.lean`, `TreeA.lean`, and `TheoremA.lean`.
 
 The final frozen A statements are:
 
     GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
     GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
 
-where `IsK1OrK2 G` means that `G` is graph-isomorphic to `K₁` or `K₂`. No bounded-size weakening or subclass restriction is used.
+where `IsK1OrK2 G` means that `G` is graph-isomorphic to (K_1) or (K_2).
+No bounded-size weakening or subclass restriction is used.
 
 ## Frozen Theorem B — formalised
 
-The mixed-spider development is split across the `MixedSpider*` modules, `FirstInFinset.lean`, and `TheoremB.lean`. The final frozen B checkpoints are:
+The final frozen B checkpoints are:
 
     GreedyUniformity.mixedSpider_maximalIndependentSets_card
     GreedyUniformity.greedyProb_mixedSpiderCenter
@@ -60,26 +82,47 @@ The mixed-spider development is split across the `MixedSpider*` modules, `FirstI
     GreedyUniformity.bias_mixedSpider_tuned_isBigO
     GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
 
-They formalise exactly the frozen B1–B3 package: the `2^k+1` maximal-independent-set count, the exact centre/non-centre permutation-law probabilities, the tuned exact expectation identity and positive bias, and the two requested Big-O conclusions. No all-\(n\), minimizer, optimality, matching-lower-bound, or worldwide-priority statement is introduced.
+They formalise exactly the frozen B1–B3 package: the (2^k+1)
+maximal-independent-set count, the exact centre/non-centre permutation-law
+probabilities, the tuned exact expectation identity and positive bias, and the
+two stated Big-O conclusions. No all-(n), minimizer, optimality,
+matching-lower-bound, or worldwide-priority statement is introduced.
 
-## Final Stage-5 verification
+## Axiom boundary
 
-GitHub Actions run **#161** at verified A+B code head
-
-    47802b8a18a92847e447e88c02ecb42620b3da09
-
-passed:
-
-- the complete root `lake build` — **8954 jobs**;
-- forbidden-placeholder rejection for `sorry`, `admit`, and `native_decide`;
-- `python -m pytest -q` — **5 passed**.
-
-`GreedyUniformity/AxiomCheck.lean` prints the axioms of both final A theorems and all seven final B checkpoints. Every one reports exactly:
+Stage-5 `GreedyUniformity/AxiomCheck.lean` reports exactly
 
     [propext, Classical.choice, Quot.sound]
 
-There are no project-specific mathematical axioms in the final A+B theorem package.
+for both final A statements and all seven final B checkpoints. There are no
+project-specific mathematical axioms in the final A+B theorem package.
+
+## Palomar mechanical verification
+
+The Stage-6 package uses:
+
+- `GreedyUniformity/PalomarChallenge.lean`;
+- `GreedyUniformity/PalomarSolution.lean`;
+- `comparator.json`;
+- `formalization.yaml`;
+- Apache-2.0 `LICENSE`.
+
+The dedicated `mode: full` Palomar preflight is pinned to PalomarSubmission
+commit `65f0154ed776cd26c224254aa57b379137f28b0d` and
+`palomar-standard-v1`. A full pass has confirmed Challenge provenance,
+complete Solution build, Comparator success, permitted-axiom enforcement,
+con-ron, NanoDa, and Lean default-kernel replay with no warnings or errors.
+
+Comparator uses one narrowly documented `definition_names` entry,
+`GreedyUniformity.mixedSpiderNoncenterSet`, because separate Challenge/Solution
+compilation gives non-identical elaborated bodies for that definition. The
+Challenge states the intended finite-set definition explicitly; Comparator
+checks the definition type/safety and Solution-side axiom use, while the nine
+frozen theorem statements are compared exactly.
 
 ## Workflow boundary
 
-Stage 5 is complete. Stage 6 (Palomar registration) is next but has not begun. Paper writing (Stage 7) and arXiv submission (Stage 8) have not begun.
+Stage 6 is not complete until the responsible user actually submits the exact
+green commit to Palomar and receives/records the Palomar registration
+identifier. Stage 7 (paper writing) and Stage 8 (arXiv submission) have not
+begun.
