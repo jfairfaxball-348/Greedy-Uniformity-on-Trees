@@ -1,0 +1,22 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2",
+    "GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2",
+    "GreedyUniformity.mixedSpider_maximalIndependentSets_card",
+    "GreedyUniformity.greedyProb_mixedSpiderCenter",
+    "GreedyUniformity.greedyProb_mixedSpiderNoncenter",
+    "GreedyUniformity.bias_mixedSpider_tuned_eq_expectation",
+    "GreedyUniformity.bias_mixedSpider_tuned_pos",
+    "GreedyUniformity.bias_mixedSpider_tuned_isBigO",
+    "GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "enable_nanoda": true
+}
