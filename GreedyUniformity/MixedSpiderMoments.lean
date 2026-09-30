@@ -124,7 +124,7 @@ theorem mixedSpider_absMoment_average_le_sqrt (k : ℕ) :
       positivity
     · intro j hj
       dsimp [r, f, g]
-      rw [sq_abs]
+      rw [mul_pow, sq_abs]
       ring
   have hsumf : (∑ j ∈ s, f j) = (2 ^ k : ℝ) := by
     dsimp [s, f]
