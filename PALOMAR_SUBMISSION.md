@@ -9,8 +9,8 @@ Palomar registration has occurred.
 - Selected project: repository root
 - Comparator configuration: `comparator.json`
 - Metadata: `formalization.yaml`
-- Challenge: `Challenge.lean`
-- Solution: `Solution.lean`
+- Challenge: `GreedyUniformity/PalomarChallenge.lean`
+- Solution: `GreedyUniformity/PalomarSolution.lean`
 - Compared declarations: the two final Frozen A declarations and all seven
   final Frozen B checkpoints
 - Permitted axioms: `propext`, `Classical.choice`, `Quot.sound`

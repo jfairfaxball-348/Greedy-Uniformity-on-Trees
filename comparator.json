@@ -1,6 +1,6 @@
 {
-  "challenge_module": "Challenge",
-  "solution_module": "Solution",
+  "challenge_module": "GreedyUniformity.PalomarChallenge",
+  "solution_module": "GreedyUniformity.PalomarSolution",
   "theorem_names": [
     "GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2",
     "GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2",
