@@ -5,9 +5,10 @@
 **Current status:** Stage 5 — Lean formalisation, **COMPLETE**  
 **Next stage:** Stage 6 — Palomar registration, **NOT STARTED**  
 **Frozen A merge:** PR #3 → `main`, merge commit `3d624b55c81af3d078f9419addcf953aedc23e8b`  
-**Frozen B completion PR:** #4, `Stage 5: formalise Frozen Theorem B`  
+**Frozen B merge:** PR #4 → `main`, merge commit `240dd7ecfef52041541509083422010438c278d3`  
 **Verified A+B code head:** `47802b8a18a92847e447e88c02ecb42620b3da09`  
-**Verification workflow:** GitHub Actions run **#161**
+**Substantive verification workflow:** GitHub Actions run **#161**  
+**Completed branch verification:** GitHub Actions run **#162** at `1bc26af933609b520c86412f792e5a92f65e311d`
 
 The Stage-4 novelty classification remains **plausibly new with bounded uncertainty**. Do not upgrade it to worldwide-priority certainty. No all-\(n\) extremal, minimizer, optimality, matching-lower-bound, or “uniform greedy law implies well-covered” claim has been added.
 
@@ -84,6 +85,6 @@ Do not casually change these versions.
 
 ## Next-session boundary
 
-Stage 6 is the next permitted stage. Before doing substantive Palomar work, confirm PR #4 is merged into `main` and read the then-current repository state. Do not redo Stages 1–5 unless a narrowly targeted correction is forced by verified evidence.
+Stage 6 is the next permitted stage. PR #4 is merged into `main`; begin the next session by reading the then-current repository state and the current Palomar requirements. Do not redo Stages 1–5 unless a narrowly targeted correction is forced by verified evidence.
 
 Stage 7 (paper writing) and Stage 8 (arXiv submission) remain blocked until the fixed workflow reaches them.
