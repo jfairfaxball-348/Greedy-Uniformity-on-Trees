@@ -64,7 +64,9 @@ theorem inv_two_pow_sq_le_four_div_order_sq
     1 / (2 ^ k : ℝ) ^ 2 ≤
       4 / (mixedSpiderTunedOrder k : ℝ) ^ 2 := by
   have hNpos : 0 < (2 ^ k : ℝ) := by positivity
-  have hnpos : 0 < (mixedSpiderTunedOrder k : ℝ) := by positivity
+  have hnpos : 0 < (mixedSpiderTunedOrder k : ℝ) := by
+    unfold mixedSpiderTunedOrder
+    positivity
   have hnle :
       (mixedSpiderTunedOrder k : ℝ) ≤ 2 * (2 ^ k : ℝ) := by
     exact_mod_cast mixedSpiderTunedOrder_le_two_mul_two_pow hk
