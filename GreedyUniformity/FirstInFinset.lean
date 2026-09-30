@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.OrderCount
 public import Mathlib.Order.WellFounded
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

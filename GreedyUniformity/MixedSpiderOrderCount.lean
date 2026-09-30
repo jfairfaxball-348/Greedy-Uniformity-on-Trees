@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.MixedSpiderBiasFormula
 public import GreedyUniformity.OrderCount
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

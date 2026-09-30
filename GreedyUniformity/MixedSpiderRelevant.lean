@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.FirstInFinset
 public import GreedyUniformity.MixedSpiderOrderCount
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

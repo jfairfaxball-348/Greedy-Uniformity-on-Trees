@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.Marginal
 public import GreedyUniformity.OrderCount
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

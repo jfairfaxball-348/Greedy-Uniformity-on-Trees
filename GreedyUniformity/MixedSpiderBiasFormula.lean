@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.MixedSpiderCertificate
 
-public section
+@[expose] public section
 
 open scoped BigOperators
 

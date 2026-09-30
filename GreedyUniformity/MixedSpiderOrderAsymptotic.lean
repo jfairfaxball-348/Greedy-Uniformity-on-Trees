@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.MixedSpiderAsymptotic
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.TreeA
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

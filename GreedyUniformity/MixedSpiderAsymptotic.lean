@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.MixedSpiderMoments
 public import Mathlib.Analysis.Asymptotics.Basic
 
-public section
+@[expose] public section
 
 open scoped BigOperators
 

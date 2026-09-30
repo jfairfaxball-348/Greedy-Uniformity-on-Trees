@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.TheoremA
 public import GreedyUniformity.TheoremB
 
-public section
+@[expose] public section
 
 /-!
 # Greedy Uniformity on Trees — Palomar solution surface

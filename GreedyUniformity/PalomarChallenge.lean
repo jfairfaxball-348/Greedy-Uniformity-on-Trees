@@ -2,7 +2,7 @@ module
 
 public import Mathlib
 
-public section
+@[expose] public section
 
 /-!
 # Greedy Uniformity on Trees — frozen A+B statement package

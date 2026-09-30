@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.MixedSpiderFibreCount
 
-public section
+@[expose] public section
 
 open scoped BigOperators
 

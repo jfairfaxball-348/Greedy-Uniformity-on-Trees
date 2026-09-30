@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.MixedSpiderOrderAsymptotic
 
-public section
+@[expose] public section
 
 /-!
 # Frozen Theorem B package

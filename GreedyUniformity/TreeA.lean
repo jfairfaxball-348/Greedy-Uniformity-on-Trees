@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.OneLeaf
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

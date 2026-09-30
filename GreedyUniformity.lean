@@ -2,4 +2,4 @@ module
 
 public import GreedyUniformity.AxiomCheck
 
-public section
+@[expose] public section

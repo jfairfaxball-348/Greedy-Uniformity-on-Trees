@@ -4,7 +4,7 @@ public import GreedyUniformity.MixedSpiderBias
 public import Mathlib.Analysis.Real.Sqrt
 public import Mathlib.Algebra.Order.BigOperators.Ring.Finset
 
-public section
+@[expose] public section
 
 open scoped BigOperators
 

@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.Model
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

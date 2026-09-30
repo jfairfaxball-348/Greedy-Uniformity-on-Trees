@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.MultiLeaf
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 

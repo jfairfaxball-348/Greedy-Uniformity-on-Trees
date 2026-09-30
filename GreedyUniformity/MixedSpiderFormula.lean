@@ -3,7 +3,7 @@ module
 public import GreedyUniformity.MixedSpiderMIS
 public import Mathlib.Data.Nat.Choose.Sum
 
-public section
+@[expose] public section
 
 open scoped BigOperators
 

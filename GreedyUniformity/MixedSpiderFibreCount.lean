@@ -2,7 +2,7 @@ module
 
 public import GreedyUniformity.MixedSpiderExceptional
 
-public section
+@[expose] public section
 
 namespace GreedyUniformity
 
