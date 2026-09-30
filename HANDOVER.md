@@ -1,174 +1,188 @@
-# Stage-5 continuation handover — Frozen Theorem B next
+# Stage-5 continuation handover — Frozen Theorem B integration
 
-**Date:** 2026-09-29  
-**Completed:** Stages 1–4; Stage-5 finite-law bridge; **Frozen Theorem A formalisation**  
+**Date:** 2026-09-30  
+**Completed:** Stages 1–4; Stage-5 finite-law bridge; Frozen Theorem A  
 **Current stage:** Stage 5 — Lean formalisation, **IN PROGRESS**  
-**Checkpoint reached:** Frozen Theorem A complete  
-**A working branch:** `stage5-theorem-a`  
-**A integration PR:** #3, `Stage 5: formalise Frozen Theorem A`  
-**Verified A theorem/axiom head:** `4c11ed74a25195d8dbe32f09b5fdeb89692e3977`  
-**Pre-handover status-doc head:** `271fa199e899261dde8f9a81003200f2850b38ce`  
-**Do not begin:** Stages 6–8
+**Current B branch:** `stage5-theorem-b`  
+**Open B pull request:** #4, `Stage 5: formalise Frozen Theorem B`  
+**Pre-handover B code head:** `0d7827002876d0b149c55a136a263254163fc967`  
+**Last fully green workflow checkpoint:** `aad5dda57dfdc026bc5032eab448efbee521fb47` (run #111)  
+**Do not begin:** Stages 6–8 until the full Frozen A+B package is CI-green and the B axiom audit is verified.
 
-The Stage-4 verdict remains **PASS — FREEZE FOR FORMALISATION**. The novelty classification remains **plausibly new with bounded uncertainty**. No claim of worldwide priority has been added.
+The Stage-4 novelty classification remains **plausibly new with bounded uncertainty**. No worldwide-priority, all-n extremal, minimizer, optimality, matching-lower-bound, or “uniform greedy law implies well-covered” claim has been added.
 
-## Immediate first action next session
+## Repository integration state
 
-1. Check the latest GitHub Actions result on PR #3 / branch `stage5-theorem-a`.
-2. If the final handover/status head is green, merge PR #3 into `main`.
-3. Create a fresh branch for Frozen Theorem B (recommended: `stage5-theorem-b`).
-4. Continue **Stage 5 only** with Frozen B. Do not reopen Frozen A except for a narrowly targeted integration correction genuinely forced by B.
+Frozen Theorem A was merged through PR #3 into `main` at merge commit
 
-Do not start B on the A branch before integrating the completed A checkpoint.
+    3d624b55c81af3d078f9419addcf953aedc23e8b
 
-## Frozen Theorem A — completed
+and is treated as a stable dependency.
 
-The exact finite permutation-law bridge remains complete in `Bridge.lean`:
+Frozen Theorem B is being integrated through PR #4 on
 
-    vertexOrders_card
-    priorityCertificate_iff_greedyOutput_eq
-    fibre_nonempty_of_maximal
-    sum_fibreCount_eq_vertexOrders_card
-    uniformFibres_iff_greedyLawEqUniform
-    bias_eq_zero_iff_greedyLawEqUniform
+    stage5-theorem-b
 
-The structural/counting A chain is complete in:
+The substantive B source modules and final theorem statements are present. The remaining work is final root-build integration and verification, not a change to the frozen mathematics.
 
-- `GreedyUniformity/Counting.lean`
-- `GreedyUniformity/Pendant.lean`
-- `GreedyUniformity/Marginal.lean`
-- `GreedyUniformity/OrderCount.lean`
-- `GreedyUniformity/MultiLeaf.lean`
-- `GreedyUniformity/OneLeaf.lean`
-- `GreedyUniformity/TreeA.lean`
-- `GreedyUniformity/TheoremA.lean`
+The latest completed full-root CI before this handover was run **#135** at
 
-Important completed A theorems include:
+    9976bcd1b4cb3ca3b69759ac5d507817a1f1a148
 
-    not_uniformFibres_of_two_pendantLeaves
-    fibreCount_leaf_lt_center_of_dominates_z
-    fibreCount_center_lt_leaf_z_of_not_dominates_z
-    not_uniformFibres_of_one_pendantLeaf
-    tree_exists_pendantStar_of_three_le_card
-    tree_not_uniformFibres_of_three_le_card
-    uniformFibres_of_card_le_two
-    tree_uniformFibres_iff_card_eq_one_or_two
-    tree_greedyLawEqUniform_iff_card_eq_one_or_two
-    tree_bias_eq_zero_iff_card_eq_one_or_two
-    tree_greedyLawEqUniform_iff_isK1OrK2
-    tree_bias_eq_zero_iff_isK1OrK2
+and failed only in `GreedyUniformity/MixedSpiderBias.lean`, after successfully building through `GreedyUniformity.MixedSpiderProbability`.
 
-`IsK1OrK2 G` is the explicit graph-isomorphism formulation: `G` is isomorphic to the complete graph on `Fin 1` or on `Fin 2`.
+Run #135 reported two integration errors:
 
-### One-leaf case
+1. an unqualified `center` constructor in `mixedSpiderCenterSet_not_mem_noncenter_image`;
+2. a denominator rewrite in `bias_mixedSpider_eq_formulaBias` being attempted after the maximal-independent-set set had already been expanded.
 
-The Stage-3 continuous-priority integral was **not** reproduced. The Lean proof uses a finite permutation-fibre comparison.
+Both were repaired in code commit
 
-For a residual maximal independent set `A`, it builds the paired maximal sets and uses `Equiv.swap x y` on complete orders. The proof transports priority certificates under the swap and gives explicit target orders outside the swap image, yielding strict fibre inequalities in both cases:
+    0d7827002876d0b149c55a136a263254163fc967
 
-- if `A` dominates `z`: leaf fibre < centre fibre;
-- if `A` does not dominate `z`: centre fibre < leaf-plus-`z` fibre.
+by qualifying `MixedSpiderVertex.center` and moving `mixedSpider_uniform_denominator` before the structural MIS rewrite.
 
-This culminates in:
+At this handover, that repair has not yet received a completed CI result. Therefore **Stage 5 must not yet be marked complete**.
 
-    not_uniformFibres_of_one_pendantLeaf
+## Frozen Theorem B source status
 
-There was no mathematical discrepancy exposed by formalisation; the encountered failures were Lean elaboration/API issues and were repaired without changing the theorem.
+### B1 — maximal-independent-set count
 
-## Verification of Frozen A
+The mixed spider `T_{k,l}` is formalised with explicit vertex constructors and adjacency rules. The maximal independent sets are structurally classified as the unique centre-containing set plus one non-centre set for each subset of the k length-two arms.
 
-GitHub Actions run **#84** for head
+Final B1 theorem:
 
-    4c11ed74a25195d8dbe32f09b5fdeb89692e3977
+    GreedyUniformity.mixedSpider_maximalIndependentSets_card
 
-passed:
+stating, in the frozen regime `0 < l`,
 
-- `lake build`;
-- forbidden-placeholder rejection;
-- `python -m pytest -q`, with **4 passed**.
+    |MIS(T_{k,l})| = 2^k + 1.
 
-The placeholder check covers `sorry`, `admit`, and `native_decide`.
+### B2 — exact finite permutation-law probabilities
 
-`GreedyUniformity/AxiomCheck.lean` runs Lean axiom printing on both final A statements. The exact reported dependencies for each are:
+The proof uses the repository's exact finite permutation model, with arm-orientation classes, relevant-vertex first-position counts, exceptional-order counts, exact fibre cardinalities, and the bridge to `greedyProb`.
+
+Final B2 theorems:
+
+    GreedyUniformity.greedyProb_mixedSpiderCenter
+    GreedyUniformity.greedyProb_mixedSpiderNoncenter
+
+These formalise the frozen formulas
+
+    p_c = 2^{-k} * Σ_{j=0}^k binom(k,j)/(l + 2j + 1)
+
+and, for a non-centre set with j inner-arm choices,
+
+    q_j = (l + 2j) / (2^k * (l + 2j + 1)).
+
+The auxiliary exact closed-form layer includes `mixedSpiderCenterFormula`, `mixedSpiderNoncenterFormula`, and the binomial/powerset regrouping lemmas.
+
+### B3 — tuned sparse-bias family
+
+The tuned parameter is
+
+    mixedSpiderTunedL k = 2^k - k.
+
+The exact Stage-3 expectation identity is formalised through
+
+    GreedyUniformity.bias_mixedSpider_tuned_eq_expectation
+
+with the finite expectation expression `mixedSpiderTunedExpectation k`.
+
+The positive-bias statement is
+
+    GreedyUniformity.bias_mixedSpider_tuned_pos
+
+for `0 < k`.
+
+The two frozen asymptotic conclusions are
+
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
+
+corresponding to
+
+    b(T_{k,2^k-k}) = O(sqrt(k) / 4^k)
+
+and, along
+
+    n_k = 2^k + k + 1,
+
+    b(T_{k,2^k-k}) = O(sqrt(log n_k) / n_k^2).
+
+No lower bound, all-n theorem, or optimality statement has been introduced.
+
+## Important B modules
+
+The current B chain includes:
+
+- `GreedyUniformity/MixedSpider.lean`
+- `GreedyUniformity/MixedSpiderMIS.lean`
+- `GreedyUniformity/MixedSpiderFormula.lean`
+- `GreedyUniformity/MixedSpiderTuned.lean`
+- `GreedyUniformity/MixedSpiderBiasFormula.lean`
+- `GreedyUniformity/MixedSpiderOrderCount.lean`
+- `GreedyUniformity/FirstInFinset.lean`
+- `GreedyUniformity/MixedSpiderRelevant.lean`
+- `GreedyUniformity/MixedSpiderExceptional.lean`
+- `GreedyUniformity/MixedSpiderFibreCount.lean`
+- `GreedyUniformity/MixedSpiderProbability.lean`
+- `GreedyUniformity/MixedSpiderBias.lean`
+- `GreedyUniformity/MixedSpiderMoments.lean`
+- `GreedyUniformity/MixedSpiderAsymptotic.lean`
+- `GreedyUniformity/MixedSpiderOrderAsymptotic.lean`
+- `GreedyUniformity/TheoremB.lean`
+
+`GreedyUniformity.lean` imports `TheoremB`, so the final verification is a true combined A+B root build.
+
+## Axiom audit status
+
+`GreedyUniformity/AxiomCheck.lean` now requests `#print axioms` for all seven final B checkpoints:
+
+    mixedSpider_maximalIndependentSets_card
+    greedyProb_mixedSpiderCenter
+    greedyProb_mixedSpiderNoncenter
+    bias_mixedSpider_tuned_eq_expectation
+    bias_mixedSpider_tuned_pos
+    bias_mixedSpider_tuned_isBigO
+    bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
+
+The previously verified Frozen A final theorems report exactly
 
     [propext, Classical.choice, Quot.sound]
 
-No project-specific mathematical axiom occurs in the Frozen A proof chain.
+No final claim is made yet about the B axiom output because no CI-green full-root run containing the complete B audit has completed. The next session must inspect and record the actual output rather than assume it matches A.
+
+There are no intended project-specific mathematical axioms, `sorry`, `admit`, or `native_decide`.
+
+## Verification history
+
+The last completely green workflow on the B branch is run **#111** at
+
+    aad5dda57dfdc026bc5032eab448efbee521fb47
+
+which passed the workflow checks then present:
+
+- `lake build`;
+- forbidden-placeholder rejection;
+- Python regression tests.
+
+After adding the final root import / axiom integration, CI exposed a sequence of pinned-Mathlib elaboration/API issues. These were repaired without changing the frozen theorem statements. Run #135 reached `MixedSpiderBias.lean`; its two reported errors were repaired in `0d7827002876d0b149c55a136a263254163fc967`.
+
+## Exact first action next session
+
+1. Check PR #4 and the newest GitHub Actions run for the handover head.
+2. If the run fails, read the **first failing Lean module/error only** and continue the narrow integration repair from there; do not reopen B1/B2/B3 mathematically.
+3. If the run is green, inspect the `#print axioms` output for all seven B final theorems and verify that only acceptable standard Lean/Mathlib axioms occur.
+4. Then update `CLAIMS.md`, `ROADMAP.md`, `formal/README.md`, `README.md`, and this handover to mark Frozen B / Stage 5 complete, update PR #4 with the final verification record, and merge PR #4 into `main`.
+5. Stop after preparing the repository for Stage 6. **Do not begin Palomar registration in that same Stage-5 completion pass unless a new session explicitly starts Stage 6.**
 
 ## Pinned environment
 
 - Lean: **4.34.1**
 - Toolchain: `leanprover/lean4:v4.34.1`
-- Mathlib: **d13f23b723b8a846827a245b89c10fc7d3f11612**
+- Mathlib: `d13f23b723b8a846827a245b89c10fc7d3f11612`
 - Dependency lock: `lake-manifest.json`
 - CI: `.github/workflows/lean.yml`
 
 Do not casually change these versions.
-
-## Main objective next session — Frozen Theorem B only
-
-Formalise exactly the Stage-4-frozen mixed-spider theorem package already recorded in `CLAIMS.md` and `proof/INFORMAL_PROOF.md`.
-
-The frozen content is:
-
-1. For the mixed spider `T_{k,l}`, the number of maximal independent sets is exactly
-   [
-   2^k+1.
-   ]
-
-2. With `N=2^k`, the centre-containing output probability is
-   [
-   p_c=2^{-k}\sum_{j=0}^k {k\choose j}\frac1{l+2j+1},
-   ]
-   and each particular type-`j` non-centre maximal independent set has probability
-   [
-   q_j=\frac{l+2j}{2^k(l+2j+1)}.
-   ]
-
-3. Under the tuned choice
-   [
-   l=2^k-k,
-   ]
-   prove positive bias and
-   [
-   b(T)=O(\sqrt{k}/4^k)
-        =O(\sqrt{\log n_k}/n_k^2)
-   ]
-   along
-   [
-   n_k=2^k+k+1.
-   ]
-
-Use the already-formalised finite permutation model where practical. If a rational/probability identity is cleaner via exact finite counting than through continuous priorities, prefer the finite proof.
-
-## Frozen-B integrity constraints
-
-Do **not** introduce or claim:
-
-- “uniform greedy law implies well-covered”;
-- an all-(n) extremal theorem;
-- optimality or minimizer claims for the mixed spiders;
-- a matching lower bound for (a_n);
-- worldwide-priority certainty;
-- any strengthening beyond the Stage-4-frozen B package.
-
-The novelty verdict remains only **plausibly new with bounded uncertainty**.
-
-If formalisation exposes a genuine mathematical discrepancy, document it explicitly in `proof/INFORMAL_PROOF.md` and `CLAIMS.md` rather than weakening or patching silently.
-
-## Completion requirements for Stage 5
-
-Stage 5 is **not complete** at this handover because Frozen B remains.
-
-Before Stage 5 can be declared complete, Frozen B must also have:
-
-- a passing `lake build`;
-- passing placeholder rejection;
-- passing Python regression tests;
-- no `sorry`;
-- no `admit`;
-- no project-specific mathematical axioms;
-- no `native_decide` in the final proof chain;
-- final theorem axiom inspection recorded accurately.
-
-Only after the full frozen A+B package is formalised and verified should Stage 6 (Palomar registration) begin.
