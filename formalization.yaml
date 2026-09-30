@@ -96,8 +96,13 @@ automation:
 fidelity:
   divergences: >-
     No known divergence in the frozen theorem statements. The Lean development
-    uses the exact finite permutation model; the informal proof may also use
-    equivalent random-priority language for exposition. Comparator lists
+    uses the exact finite permutation model. In particular, the detailed
+    one-pendant-leaf branch in proof/INFORMAL_PROOF.md now follows the recorded
+    proof: swapping the pendant leaf with its support vertex gives injections
+    between exact permutation fibres, and explicit prefix witness orders show
+    those injections are strict in the two domination cases. Equivalent
+    random-priority language remains only as background/exposition elsewhere.
+    Comparator lists
     GreedyUniformity.mixedSpiderNoncenterSet in definition_names because the
     separately compiled Mathlib-only Challenge and proof-development Solution
     elaborate that one definition to non-identical bodies even though the

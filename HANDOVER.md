@@ -1,11 +1,11 @@
-# Stage-6 Palomar packaging handover — ready for user registration
+# Stage-6 Palomar packaging handover — Palomar review correction
 
 **Date:** 2026-09-30  
 **Completed:** Stages 1–5  
 **Current stage:** Stage 6 — Palomar registration, **IN PROGRESS**  
 **Repository-side package:** **PREPARED**  
-**Dedicated Palomar full preflight:** **PASSED**  
-**External Palomar registration:** **NOT YET PERFORMED**  
+**Dedicated Palomar full preflight:** **PASSED BEFORE SUBMISSION; CORRECTED HEAD MUST PASS AGAIN**  
+**External Palomar registration:** **NOT YET COMPLETED**  
 **Working branch:** `stage6-palomar-preflight`
 
 The Stage-4 novelty classification remains exactly **plausibly new with bounded
@@ -72,6 +72,27 @@ to:
 This was a packaging compatibility correction required by current Palomar
 policy, not a mathematical change.
 
+## First Palomar submission review and correction
+
+The first browser submission used commit
+`ed5d05baf8850226e7de21c7350dccb21f909d43`. Mechanical verification passed,
+but Palomar's private automated editorial review requested one documentation
+correction: the detailed one-pendant-leaf account in
+`proof/INFORMAL_PROOF.md` described the earlier iid-priority argument rather
+than the strict permutation-fibre injections used by the recorded Lean proof.
+
+The mathematical statements and Lean proofs were not changed. Commit
+`c45b3c9f21802da05bc054b694fc911e28e8c411` replaced that Lemma 9 account
+with the recorded finite argument: swap the pendant leaf (x) with its support
+vertex (y); obtain a fibre injection in each domination case; and use an
+explicit adjacent-prefix order to exhibit an element missing from the image,
+making the injection strict. The dependency description was updated at the
+same time. `formalization.yaml` now calls out this alignment explicitly.
+
+Palomar requires a **new submission** for the corrected commit. The existing
+submission should not be treated as registered, and the existing Palomar ID
+field remains blank because the result is not yet in the public registry.
+
 ## Mechanical preflight record
 
 The reusable workflow is pinned to PalomarSubmission commit
@@ -115,8 +136,8 @@ Do **not** begin Stage 7 yet. To complete Stage 6, the responsible user must:
 9. review the Apache-2.0 licence choice and the human/AI-production metadata;
 10. submit and record the resulting Palomar identifier.
 
-Until step 10 has actually occurred, the correct status is **package prepared,
-preflight passed, ready for user registration — not registered**.
+Until a corrected submission is accepted and a Palomar identifier has actually
+been received, the correct status is **Stage 6 in progress — not registered**.
 
 Stage 7 (paper writing) and Stage 8 (arXiv submission) remain blocked until
 Palomar registration is actually complete.
