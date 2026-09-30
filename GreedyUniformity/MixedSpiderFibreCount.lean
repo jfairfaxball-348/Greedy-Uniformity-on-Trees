@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderExceptional
+module
+
+public import GreedyUniformity.MixedSpiderExceptional
+
+public section
 
 namespace GreedyUniformity
 
