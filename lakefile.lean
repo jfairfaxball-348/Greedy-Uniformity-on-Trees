@@ -9,3 +9,7 @@ require mathlib from git
 
 @[default_target]
 lean_lib GreedyUniformity
+
+lean_lib Challenge
+
+lean_lib Solution
