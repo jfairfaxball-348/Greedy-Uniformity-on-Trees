@@ -328,8 +328,13 @@ theorem cast_bias_mixedSpider_tuned_le_two_sqrt_div_four_pow
     _ ≤ 2 * (Real.sqrt (k : ℝ) / (2 ^ k : ℝ) ^ 2) := by
       linarith
     _ = 2 * Real.sqrt (k : ℝ) / (4 ^ k : ℝ) := by
-      rw [show (4 ^ k : ℝ) = (2 ^ k : ℝ) ^ 2 by
-        norm_num [← pow_mul]]
+      have hpow : (4 ^ k : ℝ) = (2 ^ k : ℝ) ^ 2 := by
+        calc
+          (4 ^ k : ℝ) = (((2 : ℝ) ^ 2) ^ k) := by norm_num
+          _ = (2 : ℝ) ^ (2 * k) := by rw [← pow_mul]
+          _ = (2 : ℝ) ^ (k * 2) := by rw [Nat.mul_comm]
+          _ = ((2 : ℝ) ^ k) ^ 2 := by rw [pow_mul]
+      rw [hpow]
       ring
 
 /-- Frozen B3 first asymptotic conclusion. -/
