@@ -1,90 +1,122 @@
-# Stage-5 completion handover — ready for Stage 6
+# Stage-6 Palomar packaging handover — ready for user registration
 
 **Date:** 2026-09-30  
 **Completed:** Stages 1–5  
-**Current status:** Stage 5 — Lean formalisation, **COMPLETE**  
-**Next stage:** Stage 6 — Palomar registration, **NOT STARTED**  
-**Frozen A merge:** PR #3 → `main`, merge commit `3d624b55c81af3d078f9419addcf953aedc23e8b`  
-**Frozen B merge:** PR #4 → `main`, merge commit `240dd7ecfef52041541509083422010438c278d3`  
-**Verified A+B code head:** `47802b8a18a92847e447e88c02ecb42620b3da09`  
-**Substantive verification workflow:** GitHub Actions run **#161**  
-**Completed branch verification:** GitHub Actions run **#162** at `1bc26af933609b520c86412f792e5a92f65e311d`
+**Current stage:** Stage 6 — Palomar registration, **IN PROGRESS**  
+**Repository-side package:** **PREPARED**  
+**Dedicated Palomar full preflight:** **PASSED**  
+**External Palomar registration:** **NOT YET PERFORMED**  
+**Working branch:** `stage6-palomar-preflight`
 
-The Stage-4 novelty classification remains **plausibly new with bounded uncertainty**. Do not upgrade it to worldwide-priority certainty. No all-\(n\) extremal, minimizer, optimality, matching-lower-bound, or “uniform greedy law implies well-covered” claim has been added.
+The Stage-4 novelty classification remains exactly **plausibly new with bounded
+uncertainty**. Do not strengthen it to worldwide-priority certainty. No all-(n)
+extremal, minimizer, global-optimality, matching-lower-bound, or
+“uniform greedy law implies well-covered” claim has been added.
 
-## Stage-5 completion record
+## Frozen theorem boundary
 
-Run #161 passed the complete combined A+B root build:
+The final Theorem A declarations remain:
 
-- `lake build` completed successfully — **8954 jobs**;
-- the forbidden-placeholder check passed, covering `sorry`, `admit`, and `native_decide`;
-- `python -m pytest -q` passed — **5 passed**.
+    GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
+    GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
 
-`GreedyUniformity/AxiomCheck.lean` inspected the two final A statements and all seven final B checkpoints. Every printed axiom set is exactly:
+The final Theorem B checkpoints remain:
 
-    [propext, Classical.choice, Quot.sound]
+    GreedyUniformity.mixedSpider_maximalIndependentSets_card
+    GreedyUniformity.greedyProb_mixedSpiderCenter
+    GreedyUniformity.greedyProb_mixedSpiderNoncenter
+    GreedyUniformity.bias_mixedSpider_tuned_eq_expectation
+    GreedyUniformity.bias_mixedSpider_tuned_pos
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
 
-There are no project-specific mathematical axioms in the final theorem package.
+Stage 6 did not strengthen or reopen these mathematical statements. The
+Palomar-required module/public-visibility port changes repository format only.
 
-## Frozen Theorem A
+## Current Palomar package
 
-Frozen A remains the stable dependency merged through PR #3:
+- selected project: repository root;
+- metadata: `formalization.yaml`;
+- Comparator configuration: `comparator.json`;
+- Challenge: `GreedyUniformity/PalomarChallenge.lean`;
+- Solution: `GreedyUniformity/PalomarSolution.lean`;
+- licence: Apache-2.0;
+- compared theorems: all two final A declarations plus all seven final B
+  checkpoints;
+- permitted axioms: `propext`, `Classical.choice`, `Quot.sound`;
+- single Comparator definition hole:
+  `GreedyUniformity.mixedSpiderNoncenterSet`.
 
-    tree_greedyLawEqUniform_iff_isK1OrK2
-    tree_bias_eq_zero_iff_isK1OrK2
+The Challenge gives the intended finite-set definition of
+`mixedSpiderNoncenterSet` explicitly. Separate Challenge/Solution compilation
+produced non-identical elaborated bodies for that one definition, so the
+Palomar-supported `definition_names` mechanism is used narrowly. Comparator
+still checks its type and safety, the verifier checks the Solution-side body for
+permitted axioms, and all nine theorem statements are compared exactly.
 
-It was not reopened mathematically during the B integration.
+## Palomar-forced environment migration
 
-## Frozen Theorem B
+Stage 5 was verified under Lean 4.34.1 and Mathlib
+`d13f23b723b8a846827a245b89c10fc7d3f11612`.
 
-Final B1 theorem:
+Current PalomarSubmission commit
+`65f0154ed776cd26c224254aa57b379137f28b0d` requires the Lean module system
+and a toolchain at or above v4.35.0-rc2. Stage 6 therefore moved the repository
+to:
 
-    mixedSpider_maximalIndependentSets_card
+- Lean: **4.35.0-rc3**
+- toolchain: `leanprover/lean4:v4.35.0-rc3`
+- Mathlib: `c55e6e786f49471c72fbddbec5415808896aec1e` (tag `v4.35.0-rc3`)
+- exact dependency lock: `lake-manifest.json`
 
-formalises `|MIS(T_{k,l})| = 2^k + 1` in the frozen regime.
+This was a packaging compatibility correction required by current Palomar
+policy, not a mathematical change.
 
-Final B2 theorems:
+## Mechanical preflight record
 
-    greedyProb_mixedSpiderCenter
-    greedyProb_mixedSpiderNoncenter
+The reusable workflow is pinned to PalomarSubmission commit
+`65f0154ed776cd26c224254aa57b379137f28b0d`, with:
 
-formalise the exact finite permutation-law formulas
+- `mode: full`;
+- `execution_profile: palomar-standard-v1`;
+- explicit `comparator_config_path: comparator.json`.
 
-    p_c = 2^{-k} * Σ_{j=0}^k binom(k,j)/(l + 2j + 1)
+A full predictive preflight passed on package commit
+`6f4e72ba8d01a34310eb40710c0557f507aea392` in workflow run #7
+(GitHub Actions run id `36718192673`). Its mechanical report had:
 
-and, for a particular type-j non-centre maximal independent set,
+- status: `pass`;
+- stage: `complete`;
+- warnings: none;
+- errors: none;
+- Challenge trust level: `high`;
+- con-ron: accepted;
+- NanoDa: accepted;
+- Lean default kernel: accepted.
 
-    q_j = (l + 2j)/(2^k * (l + 2j + 1)).
+That pass is the substantive package checkpoint before the final documentation
+batch. The final registration commit is re-run through the same full preflight
+after this handover update; use the exact final green commit reported at the end
+of the Stage-6 session.
 
-Final B3 theorems:
+## What remains for the responsible user
 
-    bias_mixedSpider_tuned_eq_expectation
-    bias_mixedSpider_tuned_pos
-    bias_mixedSpider_tuned_isBigO
-    bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
+Do **not** begin Stage 7 yet. To complete Stage 6, the responsible user must:
 
-cover the tuning `l = 2^k-k`, the exact Stage-3 expectation identity, positive bias for `k>0`, and
+1. open the Palomar submission interface and authenticate through the browser;
+2. submit repository `jfairfaxball-348/Greedy-Uniformity-on-Trees`;
+3. use the exact 40-character commit SHA from the final green full preflight;
+4. select the repository root as the project;
+5. use `comparator.json` as the Comparator configuration path;
+6. use the default `formalization.yaml` metadata path;
+7. leave existing Palomar ID blank for a new registration;
+8. personally confirm the “responsible author or maintainer” relationship only
+   if that statement is true;
+9. review the Apache-2.0 licence choice and the human/AI-production metadata;
+10. submit and record the resulting Palomar identifier.
 
-    b(T) = O(sqrt(k)/4^k)
+Until step 10 has actually occurred, the correct status is **package prepared,
+preflight passed, ready for user registration — not registered**.
 
-together with, along `n_k = 2^k+k+1`,
-
-    b(T) = O(sqrt(log n_k)/n_k^2).
-
-The formalisation exposed only Lean elaboration/API integration issues; the frozen B mathematics and theorem scope were not strengthened.
-
-## Pinned environment
-
-- Lean: **4.34.1**
-- Toolchain: `leanprover/lean4:v4.34.1`
-- Mathlib: `d13f23b723b8a846827a245b89c10fc7d3f11612`
-- Exact dependency lock: `lake-manifest.json`
-- CI: `.github/workflows/lean.yml`
-
-Do not casually change these versions.
-
-## Next-session boundary
-
-Stage 6 is the next permitted stage. PR #4 is merged into `main`; begin the next session by reading the then-current repository state and the current Palomar requirements. Do not redo Stages 1–5 unless a narrowly targeted correction is forced by verified evidence.
-
-Stage 7 (paper writing) and Stage 8 (arXiv submission) remain blocked until the fixed workflow reaches them.
+Stage 7 (paper writing) and Stage 8 (arXiv submission) remain blocked until
+Palomar registration is actually complete.
