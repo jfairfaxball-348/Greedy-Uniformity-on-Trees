@@ -26,8 +26,8 @@ theorem mem_mixedSpiderFirstCenterPatternOrders_iff
           (mixedSpiderRelevant_nonempty S) order = center ∧
         mixedSpiderArmPattern order = T := by
   classical
-  simp [mixedSpiderFirstCenterPatternOrders,
-    mem_firstInFinsetOrders_iff]
+  simpa [mixedSpiderFirstCenterPatternOrders,
+    mem_firstInFinsetOrders_iff, and_assoc]
 
 /-- Inside the centre-first orders for R_S, all arm patterns are equinumerous. -/
 theorem mixedSpiderFirstCenterPatternOrders_card_eq_empty
