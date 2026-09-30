@@ -62,7 +62,7 @@ related_formalizations: []
 
 status:
   scope: >-
-    The registered package comprises exactly two final Theorem A declarations
+    The submission package comprises exactly two final Theorem A declarations
     and seven final Theorem B checkpoints. Theorem A classifies exact
     greedy-law uniformity, and equivalently zero bias, for finite nonempty
     trees as precisely K1 or K2. Theorem B treats the explicit mixed-spider
@@ -97,7 +97,14 @@ fidelity:
   divergences: >-
     No known divergence in the frozen theorem statements. The Lean development
     uses the exact finite permutation model; the informal proof may also use
-    equivalent random-priority language for exposition.
+    equivalent random-priority language for exposition. Comparator lists
+    GreedyUniformity.mixedSpiderNoncenterSet in definition_names because the
+    separately compiled Mathlib-only Challenge and proof-development Solution
+    elaborate that one definition to non-identical bodies even though the
+    Challenge states the intended finite-set definition and the Solution uses
+    the corresponding proof-development definition. Palomar therefore checks
+    its type, safety and Solution-side axiom use rather than body identity; all
+    nine theorem declarations remain compared by statement.
 
 review:
   status: "self-assessed"
