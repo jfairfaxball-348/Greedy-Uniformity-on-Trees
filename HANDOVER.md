@@ -95,6 +95,8 @@ field remains blank because the result is not yet in the public registry.
 
 ## Mechanical preflight record
 
+Every ordinary push to `stage6-palomar-preflight` runs the full predictive preflight. Use the exact branch-head SHA whose corresponding run finishes green as the next Palomar submission commit.
+
 The reusable workflow is pinned to PalomarSubmission commit
 `65f0154ed776cd26c224254aa57b379137f28b0d`, with:
 
