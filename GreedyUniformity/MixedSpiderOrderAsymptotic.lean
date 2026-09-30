@@ -102,8 +102,11 @@ theorem sqrt_k_div_four_pow_le_order_scale
     mul_le_mul hsqrt hden (by positivity) hlog0
   have hfour :
       (4 ^ k : ℝ) = (2 ^ k : ℝ) ^ 2 := by
-    rw [← pow_mul]
-    norm_num
+    calc
+      (4 ^ k : ℝ) = (((2 : ℝ) ^ 2) ^ k) := by norm_num
+      _ = (2 : ℝ) ^ (2 * k) := by rw [← pow_mul]
+      _ = (2 : ℝ) ^ (k * 2) := by rw [Nat.mul_comm]
+      _ = ((2 : ℝ) ^ k) ^ 2 := by rw [pow_mul]
   rw [hfour]
   calc
     Real.sqrt (k : ℝ) / (2 ^ k : ℝ) ^ 2 =
