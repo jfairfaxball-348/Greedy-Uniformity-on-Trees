@@ -67,8 +67,11 @@ theorem sum_choose_mul_mixedSpiderW_sq (k : ℕ) :
         _ = 2 * ((k : ℚ) * (2 ^ k : ℚ)) +
             2 * (2 ^ k : ℚ) := by
               rw [ih]
-              congr 1
-              exact_mod_cast Nat.sum_range_choose k
+              have hchoose :
+                  (∑ i ∈ Finset.range (k + 1), (k.choose i : ℚ)) =
+                    (2 ^ k : ℚ) := by
+                exact_mod_cast Nat.sum_range_choose k
+              rw [hchoose]
         _ = ((k + 1 : ℕ) : ℚ) * (2 ^ (k + 1) : ℚ) := by
               push_cast
               rw [pow_succ]
