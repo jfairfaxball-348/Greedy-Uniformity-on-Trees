@@ -342,7 +342,7 @@ theorem bias_mixedSpider_tuned_isBigO :
     (fun k : ℕ =>
       ((bias (mixedSpider k (mixedSpiderTunedL k)) : ℚ) : ℝ)) =O[Filter.atTop]
       (fun k : ℕ => Real.sqrt (k : ℝ) / (4 ^ k : ℝ)) := by
-  apply (Asymptotics.IsBigOWith.of_bound ?_).isBigO
+  apply (Asymptotics.IsBigOWith.of_bound (2 : ℝ) ?_).isBigO
   filter_upwards [Filter.eventually_atTop.2 ⟨1, fun k hk => hk⟩] with k hk
   have hkpos : 0 < k := by omega
   have hbnonneg :
