@@ -1,0 +1,159 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Greedy Uniformity on Trees"
+  description: >-
+    Formalization of exact distributional results for the random-permutation
+    greedy maximal-independent-set process on finite trees. For every finite
+    nonempty tree, the complete greedy output law is uniform over maximal
+    independent sets exactly for K1 and K2. For the mixed-spider family
+    T_{k,l}, the development counts maximal independent sets, proves exact
+    output probabilities, and for l=2^k-k proves positive total-variation bias
+    with decay O(sqrt(k)/4^k), equivalently O(sqrt(log n_k)/n_k^2) along
+    n_k=2^k+k+1. The Stage-4 novelty classification is "plausibly new with
+    bounded uncertainty"; no worldwide-priority, global-optimality, matching
+    lower-bound, all-n extremal, or other stronger claim is made.
+  authors:
+    - name: "John Fairfax-Ball"
+      github: "jfairfaxball-348"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - name: "John Fairfax-Ball"
+      github: "jfairfaxball-348"
+
+classification:
+  arxiv: ["math.CO", "math.PR"]
+  msc2020: ["05C05", "05C69"]
+
+sources:
+  - title: "Greedy Uniformity on Trees — frozen A+B theorem package"
+    authors:
+      - "John Fairfax-Ball"
+    type: "original-proof"
+    relationship: "other"
+    note: >-
+      This repository is the result-origin record for the frozen theorem
+      package. The literature audit classifies novelty only as "plausibly new
+      with bounded uncertainty".
+  - title: "Greedy maximal independent sets via local limits"
+    authors:
+      - "Michael Krivelevich"
+      - "Tamás Mészáros"
+      - "Peleg Michaeli"
+      - "Clara Shikhelman"
+    id: "arXiv:1907.07216"
+    type: "paper"
+    location: "https://arxiv.org/abs/1907.07216"
+    relationship: "background"
+    note: "Same random-permutation greedy-MIS model; background on size, density, local limits, graph sequences, and trees."
+  - title: "Unified framework for asymptotically uniform iterative construction of generalised random graphs with local constraints"
+    authors:
+      - "Ivan Kryven"
+      - "Rik Versendaal"
+      - "Mike de Vries"
+    id: "arXiv:2608.07239v1"
+    type: "preprint"
+    location: "https://arxiv.org/abs/2608.07239"
+    relationship: "background"
+    note: "Background on exact/asymptotic uniformity for iterative graph constructions; the Stage-4 audit records the distinctions from the frozen claims."
+
+related_formalizations: []
+
+status:
+  scope: >-
+    The registered package comprises exactly two final Theorem A declarations
+    and seven final Theorem B checkpoints. Theorem A classifies exact
+    greedy-law uniformity, and equivalently zero bias, for finite nonempty
+    trees as precisely K1 or K2. Theorem B treats the explicit mixed-spider
+    family: the maximal-independent-set count, exact centre and non-centre
+    probabilities, the tuned exact bias identity and positivity, and the two
+    stated asymptotic upper bounds. It does not formalize or claim a matching
+    lower bound, global extremality, an all-n optimum, or worldwide priority.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["OpenAI ChatGPT (session-specific historical model mix not fully recorded; Stage 6 uses GPT-5.6 Sol)"]
+      framework: "ChatGPT"
+      tool_setup: "User-directed AI agent with authenticated GitHub tooling; Lean verification performed in GitHub Actions."
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "not tracked"
+        hardware: "hosted model and GitHub Actions runners"
+      prompting_notes: "Work was organized as a fixed eight-stage, user-directed research workflow; repository handovers and audit logs record the staged decisions."
+  spend_usd: "not tracked"
+  notes: >-
+    AI assistance was material in research planning, literature-audit support,
+    proof development, Lean formalization, and Palomar packaging. The human
+    author/maintainer fixed the project scope and workflow and retains
+    responsibility for the submission. Exact historical model/session metadata
+    was not reconstructed when it was not already recorded.
+
+fidelity:
+  divergences: >-
+    No known divergence in the frozen theorem statements. The Lean development
+    uses the exact finite permutation model; the informal proof may also use
+    equivalent random-priority language for exposition.
+
+review:
+  status: "self-assessed"
+  reviewers: []
+  notes: >-
+    Stages 2 and 4 performed structured prior-art and statement audits, and
+    Stage 5 was checked by Lean/Mathlib CI including placeholder rejection and
+    theorem axiom reports. No independent human peer review is documented.
+
+alignment:
+  namespace: "GreedyUniformity"
+  statements:
+    - source: "Frozen Theorem A — exact law"
+      lean: "GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2"
+      module: "GreedyUniformity.TheoremA"
+      status: "proved"
+      note: "Exact graph-isomorphism formulation: a finite nonempty tree has uniform greedy output law iff it is K1 or K2."
+    - source: "Frozen Theorem A — zero bias"
+      lean: "GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2"
+      module: "GreedyUniformity.TheoremA"
+      status: "proved"
+      note: "Equivalent total-variation zero-bias formulation."
+    - source: "Frozen B1"
+      lean: "GreedyUniformity.mixedSpider_maximalIndependentSets_card"
+      module: "GreedyUniformity.MixedSpiderMIS"
+      status: "proved"
+      note: "For l>0, T_{k,l} has exactly 2^k+1 maximal independent sets."
+    - source: "Frozen B2 — centre"
+      lean: "GreedyUniformity.greedyProb_mixedSpiderCenter"
+      module: "GreedyUniformity.MixedSpiderProbability"
+      status: "proved"
+      note: "Exact centre-containing maximal-independent-set probability."
+    - source: "Frozen B2 — non-centre"
+      lean: "GreedyUniformity.greedyProb_mixedSpiderNoncenter"
+      module: "GreedyUniformity.MixedSpiderProbability"
+      status: "proved"
+      note: "Exact probability for each non-centre arm pattern."
+    - source: "Frozen B3 — exact expectation"
+      lean: "GreedyUniformity.bias_mixedSpider_tuned_eq_expectation"
+      module: "GreedyUniformity.MixedSpiderBias"
+      status: "proved"
+      note: "Exact bias identity for the tuned family l=2^k-k."
+    - source: "Frozen B3 — positivity"
+      lean: "GreedyUniformity.bias_mixedSpider_tuned_pos"
+      module: "GreedyUniformity.MixedSpiderBias"
+      status: "proved"
+      note: "Positive bias for every k>0 in the tuned family."
+    - source: "Frozen B3 — k-scale asymptotic"
+      lean: "GreedyUniformity.bias_mixedSpider_tuned_isBigO"
+      module: "GreedyUniformity.MixedSpiderAsymptotic"
+      status: "proved"
+      note: "Bias is O(sqrt(k)/4^k)."
+    - source: "Frozen B3 — order-scale asymptotic"
+      lean: "GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq"
+      module: "GreedyUniformity.MixedSpiderOrderAsymptotic"
+      status: "proved"
+      note: "Along n_k=2^k+k+1, bias is O(sqrt(log n_k)/n_k^2)."
+
+acknowledgements: "Lean 4, Mathlib, Palomar's Comparator/verifier tooling, and the literature cited in BIBLIOGRAPHY.md."
