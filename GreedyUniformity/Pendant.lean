@@ -1,4 +1,8 @@
-import GreedyUniformity.Counting
+module
+
+public import GreedyUniformity.Counting
+
+public section
 
 namespace GreedyUniformity
 
