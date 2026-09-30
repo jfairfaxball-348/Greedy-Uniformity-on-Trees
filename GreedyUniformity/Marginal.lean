@@ -1,4 +1,8 @@
-import GreedyUniformity.Pendant
+module
+
+public import GreedyUniformity.Pendant
+
+public section
 
 namespace GreedyUniformity
 
