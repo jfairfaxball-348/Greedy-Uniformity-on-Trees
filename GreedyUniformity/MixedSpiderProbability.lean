@@ -112,6 +112,7 @@ theorem greedyProb_mixedSpiderCenter :
   rw [huniv]
   simp only [mixedSpiderN, mixedSpiderDenom]
   push_cast
+  rfl
 
 end Probability
 
