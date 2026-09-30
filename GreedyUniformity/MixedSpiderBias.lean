@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderProbability
+module
+
+public import GreedyUniformity.MixedSpiderProbability
+
+public section
 
 open scoped BigOperators
 
