@@ -7,6 +7,7 @@ from experiments.greedy_uniformity import (
     brute_force_distribution,
     census,
     family_bias_formula,
+    tuned_family_expectation_formula,
     mixed_spider,
     mixed_spider_distribution_by_type,
     mixed_spider_formula,
@@ -52,3 +53,11 @@ def test_mixed_spider_formula_12_cases():
                 assert type_probs[j] == {fq[j]}
                 assert mult[j] == math.comb(k, j)
             assert bias(mixed_spider(k, l)) == family_bias_formula(k, l)
+
+
+def test_tuned_family_expectation_identity():
+    for k in range(1, 13):
+        l = 2**k - k
+        b = family_bias_formula(k, l)
+        assert tuned_family_expectation_formula(k) == b
+        assert b > 0

@@ -1,10 +1,10 @@
 # Lean formalisation status
 
-**Stage:** 5 of 8 — IN PROGRESS  
-**Checkpoint:** 3 — Frozen Theorem A complete  
-**Date:** 2026-09-29
+**Stage:** 5 of 8 — COMPLETE  
+**Checkpoint:** 4 — Frozen A+B package verified  
+**Date:** 2026-09-30
 
-This directory documents the formalisation boundary. Stage 5 is not complete because Frozen Theorem B remains to be formalised.
+Stage 5 is complete. Frozen Theorems A and B are formalised in the pinned Lean environment and verified by the combined root build.
 
 ## Pinned environment
 
@@ -24,19 +24,7 @@ The GitHub Actions workflow `.github/workflows/lean.yml` builds the root library
 
 ## Exact finite model and bridge
 
-The random scan order is a duplicate-free list that is a permutation of `Finset.univ.toList`. The finite sample space is `vertexOrders`.
-
-For a finite simple graph `G`:
-
-- `greedyStep`, `greedyScan`, and `greedyOutput` implement deterministic random-order greedy MIS;
-- `IsMaximalIndependent` is independence plus domination;
-- `fibre G I` is the exact set of complete vertex orders whose output is `I`;
-- `fibreCount G I` is its cardinality;
-- `greedyProb G I` is the exact rational fibre probability;
-- `uniformProb G I` is the rational uniform maximal-independent-set probability;
-- `GreedyLawEqUniform G` is pointwise equality of the two complete output laws;
-- `bias G` is the exact rational total-variation expression;
-- `PriorityCertificate G I l` is the finite earlier-selected-neighbour certificate.
+The finite sample space is `vertexOrders`, the complete duplicate-free vertex orders. The core model defines `greedyOutput`, exact permutation fibres and `fibreCount`, `greedyProb`, `uniformProb`, `GreedyLawEqUniform`, and exact rational total-variation `bias`.
 
 `GreedyUniformity/Bridge.lean` proves, among other results,
 
@@ -47,50 +35,51 @@ For a finite simple graph `G`:
     uniformFibres_iff_greedyLawEqUniform
     bias_eq_zero_iff_greedyLawEqUniform
 
-Thus the finite fibre model is proved equivalent to the frozen random-permutation law and zero-bias formulation.
+Thus the finite fibre model is connected directly to the frozen random-permutation law and zero-bias formulation.
 
 ## Frozen Theorem A — formalised
 
-The structural proof is split across:
+The structural proof is split across `Counting.lean`, `Pendant.lean`, `Marginal.lean`, `OrderCount.lean`, `MultiLeaf.lean`, `OneLeaf.lean`, `TreeA.lean`, and `TheoremA.lean`.
 
-- `Counting.lean`: the factor-two maximal-independent-set counting bound;
-- `Pendant.lean`: support-vertex decomposition;
-- `Marginal.lean`: uniform-fibre-to-marginal inequality;
-- `OrderCount.lean`: exact one-third first-of-three counting;
-- `MultiLeaf.lean`: the two-or-more-pendant-leaf obstruction;
-- `OneLeaf.lean`: the exactly-one-pendant-leaf obstruction via finite permutation-fibre swaps and explicit missed target orders;
-- `TreeA.lean`: the diameter-end structure and the all-trees-on-at-least-three-vertices obstruction;
-- `TheoremA.lean`: the one/two-vertex base cases and the exact graph-isomorphism statement.
-
-The final frozen statements are:
+The final frozen A statements are:
 
     GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
     GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2
 
-where `IsK1OrK2 G` means that `G` is graph-isomorphic to the complete graph on one or two vertices, i.e. `K₁` or `K₂`.
+where `IsK1OrK2 G` means that `G` is graph-isomorphic to `K₁` or `K₂`. No bounded-size weakening or subclass restriction is used.
 
-No bounded-size weakening or subclass restriction is used.
+## Frozen Theorem B — formalised
 
-## Verification of checkpoint 3
+The mixed-spider development is split across the `MixedSpider*` modules, `FirstInFinset.lean`, and `TheoremB.lean`. The final frozen B checkpoints are:
 
-GitHub Actions run **#84** at verified proof head `4c11ed74a25195d8dbe32f09b5fdeb89692e3977` passed:
+    GreedyUniformity.mixedSpider_maximalIndependentSets_card
+    GreedyUniformity.greedyProb_mixedSpiderCenter
+    GreedyUniformity.greedyProb_mixedSpiderNoncenter
+    GreedyUniformity.bias_mixedSpider_tuned_eq_expectation
+    GreedyUniformity.bias_mixedSpider_tuned_pos
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO
+    GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
 
-- `lake build`;
-- forbidden-placeholder rejection;
-- `python -m pytest -q` — **4 passed**.
+They formalise exactly the frozen B1–B3 package: the `2^k+1` maximal-independent-set count, the exact centre/non-centre permutation-law probabilities, the tuned exact expectation identity and positive bias, and the two requested Big-O conclusions. No all-\(n\), minimizer, optimality, matching-lower-bound, or worldwide-priority statement is introduced.
 
-`GreedyUniformity/AxiomCheck.lean` prints the axioms of both final A theorems. The run reports exactly:
+## Final Stage-5 verification
+
+GitHub Actions run **#161** at verified A+B code head
+
+    47802b8a18a92847e447e88c02ecb42620b3da09
+
+passed:
+
+- the complete root `lake build` — **8954 jobs**;
+- forbidden-placeholder rejection for `sorry`, `admit`, and `native_decide`;
+- `python -m pytest -q` — **5 passed**.
+
+`GreedyUniformity/AxiomCheck.lean` prints the axioms of both final A theorems and all seven final B checkpoints. Every one reports exactly:
 
     [propext, Classical.choice, Quot.sound]
 
-for each theorem. There are no project-specific mathematical axioms, and the proof chain contains no `sorry`, `admit`, or `native_decide`.
-
-## Remaining Stage-5 work
-
-Frozen Theorem B remains untouched in this checkpoint. The next session should formalise exactly the audited mixed-spider package B1–B3, without adding all-`n`, minimizer, optimality, matching-lower-bound, or worldwide-priority claims.
-
-After B is complete, run the final combined A+B build, placeholder rejection, Python regressions, and theorem axiom inspection before marking Stage 5 complete.
+There are no project-specific mathematical axioms in the final A+B theorem package.
 
 ## Workflow boundary
 
-Do not begin Palomar registration (Stage 6), paper writing (Stage 7), or arXiv submission (Stage 8) until Frozen A and B are both soundly formalised and Stage 5 is explicitly complete.
+Stage 5 is complete. Stage 6 (Palomar registration) is next but has not begun. Paper writing (Stage 7) and arXiv submission (Stage 8) have not begun.

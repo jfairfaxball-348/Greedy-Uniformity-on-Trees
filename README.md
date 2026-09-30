@@ -4,7 +4,7 @@ Research repository for the distribution of random greedy maximal independent se
 
 ## Current status
 
-**Stages 1–4 are complete. Stage 5 (Lean formalisation) is IN PROGRESS. Checkpoint 3 includes the pinned Lean/Mathlib environment, the exact finite greedy-order model and law bridge, and a complete Lean formalisation of Frozen Theorem A. Frozen Theorem B remains to be formalised.**
+**Stages 1–5 are complete. The pinned Lean/Mathlib development now contains the exact finite greedy-order model and law bridge together with complete formalizations of Frozen Theorems A and B. Stage 6 (Palomar registration) is next and has not begun.**
 
 Stage 2 gave PASS FOR PROOF, not a priority certificate. Stage 3 produced the complete informal proof. Stage 4 then re-audited the **actual proved theorem and proof shape** against current primary literature. The final classification is deliberately bounded: both A and B are **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
 
@@ -49,7 +49,7 @@ See audit/PRIOR_ART_NOVELTY_AUDIT.md and audit/SEARCH_LOG.md for the complete fi
 
 ## Reproducibility
 
-The Stage-5 Lean environment is pinned to **Lean 4.34.1** and Mathlib commit `d13f23b723b8a846827a245b89c10fc7d3f11612` (Mathlib tag `v4.34.1`). The exact dependency graph is committed in `lake-manifest.json`. `GreedyUniformity/Bridge.lean` proves the exact finite-law bridge, and `GreedyUniformity/TheoremA.lean` proves Frozen A in both greedy-law and zero-bias graph-isomorphism forms. GitHub Actions run #84 passed the build, placeholder rejection, and all Python tests; `AxiomCheck.lean` reports only `propext`, `Classical.choice`, and `Quot.sound` for the final A theorems. See `formal/README.md` for the precise checkpoint boundary.
+The Stage-5 Lean environment is pinned to **Lean 4.34.1** and Mathlib commit `d13f23b723b8a846827a245b89c10fc7d3f11612` (Mathlib tag `v4.34.1`). The exact dependency graph is committed in `lake-manifest.json`. `GreedyUniformity/Bridge.lean` proves the exact finite-law bridge; `TheoremA.lean` and `TheoremB.lean` expose the frozen theorem-package boundaries. GitHub Actions run **#161** at `47802b8a18a92847e447e88c02ecb42620b3da09` passed the complete A+B root build (**8954 jobs**), forbidden-placeholder rejection, and the Python suite (**5 passed**). `AxiomCheck.lean` reports exactly `[propext, Classical.choice, Quot.sound]` for both final A statements and all seven final B checkpoints. See `formal/README.md` for the complete verification record.
 
 Lean build:
 
@@ -67,6 +67,6 @@ Stage 3 added a targeted proof-certificate checker rather than a larger blind ce
 
 This project is separate from **ProbStack — Random Stacking on Trees** and from TreeStack. No conclusion from those repositories is imported as evidence.
 
-Lean formalisation has reached checkpoint 3, but Stage 5 is not complete: the finite-law bridge and Frozen Theorem A are formalised, while Frozen Theorem B remains. Palomar registration, paper writing, and arXiv submission have not begun. Stage 5 must continue without silently strengthening or weakening the frozen statements.
+Lean formalisation is complete for the frozen A+B package. Palomar registration, paper writing, and arXiv submission have not begun. The Stage-4 novelty status remains **plausibly new with bounded uncertainty**, and the frozen package must not be silently strengthened into all-\(n\), minimizer, optimality, matching-lower-bound, well-covered-converse, or worldwide-priority claims.
 
 Start with PROJECT_CHARTER.md, CLAIMS.md, audit/PRIOR_ART_NOVELTY_AUDIT.md, audit/SEARCH_LOG.md, proof/INFORMAL_PROOF.md, experiments/VERIFIED_RESULTS.md, and HANDOVER.md.
