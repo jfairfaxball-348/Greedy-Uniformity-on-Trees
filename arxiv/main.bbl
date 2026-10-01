@@ -1,0 +1,93 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Contat(2022)]{Contat2021}
+Alice Contat.
+\newblock Surprising identities for the greedy independent set on {C}ayley
+  trees.
+\newblock \emph{Journal of Applied Probability}, 59\penalty0 (4):\penalty0
+  1042--1058, 2022.
+\newblock \doi{10.1017/jpr.2022.3}.
+\newblock arXiv:2103.03800.
+
+\bibitem[Dall'Asta et~al.(2009)Dall'Asta, Pin, and
+  Ramezanpour]{DallAstaEtAl2009}
+Luca Dall'Asta, Paolo Pin, and Abolfazl Ramezanpour.
+\newblock Statistical mechanics of maximal independent sets.
+\newblock \emph{Physical Review E}, 80, 2009.
+\newblock arXiv:0907.3309.
+
+\bibitem[Dehling et~al.(2008)Dehling, Fleurke, and K{\"u}lske]{DehlingEtAl2008}
+H.~G. Dehling, S.~R. Fleurke, and C.~K{\"u}lske.
+\newblock Parking on a random tree.
+\newblock \emph{Journal of Statistical Physics}, 133:\penalty0 151--157, 2008.
+\newblock arXiv:0711.4061.
+
+\bibitem[Gadouleau and Kutner(2025)]{GadouleauKutner2025}
+Maximilien Gadouleau and David~C. Kutner.
+\newblock Generalising the maximum independent set algorithm via {B}oolean
+  networks.
+\newblock \emph{Information and Computation}, 303:\penalty0 105266, 2025.
+\newblock \doi{10.1016/j.ic.2025.105266}.
+
+\bibitem[Gazmuri(1984)]{Gazmuri1984}
+P.~G. Gazmuri.
+\newblock Independent sets in random sparse graphs.
+\newblock \emph{Networks}, 14:\penalty0 367--377, 1984.
+
+\bibitem[Krivelevich et~al.(2024)Krivelevich, M{\'e}sz{\'a}ros, Michaeli, and
+  Shikhelman]{KrivelevichEtAl2020}
+Michael Krivelevich, Tam{\'a}s M{\'e}sz{\'a}ros, Peleg Michaeli, and Clara
+  Shikhelman.
+\newblock Greedy maximal independent sets via local limits.
+\newblock \emph{Random Structures \& Algorithms}, 64\penalty0 (4):\penalty0
+  986--1015, 2024.
+\newblock \doi{10.1002/rsa.21200}.
+\newblock arXiv:1907.07216.
+
+\bibitem[Kryven et~al.(2026)Kryven, Versendaal, and de~Vries]{KryvenEtAl2026}
+Ivan Kryven, Rik Versendaal, and Mike de~Vries.
+\newblock Unified framework for asymptotically uniform iterative construction
+  of generalised random graphs with local constraints.
+\newblock arXiv:2608.07239v1, 2026.
+\newblock Version 1, submitted August 7, 2026.
+
+\bibitem[{OEIS Foundation Inc.}(2026)]{OEISA000055}
+{OEIS Foundation Inc.}
+\newblock {A000055}: Number of trees with $n$ unlabeled nodes.
+\newblock The On-Line Encyclopedia of Integer Sequences, 2026.
+\newblock URL \url{https://oeis.org/A000055}.
+\newblock Database entry, accessed 2026.
+
+\bibitem[Penrose and Sudbury(2005)]{PenroseSudbury2005}
+M.~D. Penrose and A.~Sudbury.
+\newblock Exact and approximate results for deposition and annihilation
+  processes on graphs.
+\newblock \emph{Annals of Applied Probability}, 15:\penalty0 853--889, 2005.
+
+\bibitem[Pippenger(1989)]{Pippenger1989}
+Nicholas Pippenger.
+\newblock Random sequential adsorption on graphs.
+\newblock \emph{SIAM Journal on Discrete Mathematics}, 2\penalty0 (3):\penalty0
+  393--401, 1989.
+\newblock \doi{10.1137/0402034}.
+
+\bibitem[Sagan and Vatter(2006)]{SaganVatter2006}
+Bruce~E. Sagan and Vincent~R. Vatter.
+\newblock Maximal and maximum independent sets in graphs with at most $r$
+  cycles.
+\newblock \emph{Journal of Graph Theory}, 53\penalty0 (4):\penalty0 283--314,
+  2006.
+\newblock \doi{10.1002/jgt.20186}.
+\newblock arXiv:math/0505048.
+
+\bibitem[Sudbury(2009)]{Sudbury2009}
+Aidan~W. Sudbury.
+\newblock Random sequential adsorption on random trees.
+\newblock \emph{Journal of Statistical Physics}, 136:\penalty0 51--58, 2009.
+
+\end{thebibliography}
