@@ -1,17 +1,43 @@
-# Stage-6 Palomar packaging handover — Palomar review correction
+# Stage-6 completion handover — ready for Stage 7
 
-**Date:** 2026-09-30  
-**Completed:** Stages 1–5  
-**Current stage:** Stage 6 — Palomar registration, **IN PROGRESS**  
-**Repository-side package:** **PREPARED**  
-**Dedicated Palomar full preflight:** **PASSED BEFORE SUBMISSION; CORRECTED HEAD MUST PASS AGAIN**  
-**External Palomar registration:** **NOT YET COMPLETED**  
-**Working branch:** `stage6-palomar-preflight`
+**Date:** 2026-10-01  
+**Completed:** Stages 1–6  
+**Current status:** Stage 6 — Palomar registration, **COMPLETE**  
+**Next stage:** Stage 7 — research paper, **NOT STARTED**  
+**Palomar ID:** `PALOMAR-2026-10-01-000003`  
+**Palomar version:** 1  
+**Palomar trust:** high  
+**Registered source commit:** `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`  
+**Stage-6 package merge:** PR #5 → `main`, merge commit `2ef08c9d964dffb66c314930a3b89bbc28b33999`
 
 The Stage-4 novelty classification remains exactly **plausibly new with bounded
 uncertainty**. Do not strengthen it to worldwide-priority certainty. No all-(n)
 extremal, minimizer, global-optimality, matching-lower-bound, or
 “uniform greedy law implies well-covered” claim has been added.
+
+## Palomar registration record
+
+The corrected Stage-6 package was accepted into the public Palomar registry as:
+
+    PALOMAR-2026-10-01-000003
+
+version 1, published at `2026-10-01T00:28:54Z`, with status `registered` and
+trust level `high`.
+
+Public entry:
+
+    https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-01-000003&version=1
+
+Palomar preserved the exact registered source commit
+
+    1733c29a5165148d71a2f0bd1ed2dcd7c35309ce
+
+under:
+
+    PalomarArchive/jfairfaxball-348--Greedy-Uniformity-on-Trees--0c04ff5c5faa
+
+The registry lists all nine intended theorem declarations: the two final
+Theorem A declarations and all seven final Theorem B checkpoints.
 
 ## Frozen theorem boundary
 
@@ -30,116 +56,55 @@ The final Theorem B checkpoints remain:
     GreedyUniformity.bias_mixedSpider_tuned_isBigO
     GreedyUniformity.bias_mixedSpider_tuned_isBigO_sqrt_log_order_div_order_sq
 
-Stage 6 did not strengthen or reopen these mathematical statements. The
-Palomar-required module/public-visibility port changes repository format only.
+Stage 6 did not strengthen or reopen these mathematical statements.
 
-## Current Palomar package
+## Palomar package and environment
 
-- selected project: repository root;
-- metadata: `formalization.yaml`;
-- Comparator configuration: `comparator.json`;
-- Challenge: `GreedyUniformity/PalomarChallenge.lean`;
-- Solution: `GreedyUniformity/PalomarSolution.lean`;
-- licence: Apache-2.0;
-- compared theorems: all two final A declarations plus all seven final B
-  checkpoints;
-- permitted axioms: `propext`, `Classical.choice`, `Quot.sound`;
-- single Comparator definition hole:
-  `GreedyUniformity.mixedSpiderNoncenterSet`.
+The registered package uses:
 
-The Challenge gives the intended finite-set definition of
-`mixedSpiderNoncenterSet` explicitly. Separate Challenge/Solution compilation
-produced non-identical elaborated bodies for that one definition, so the
-Palomar-supported `definition_names` mechanism is used narrowly. Comparator
-still checks its type and safety, the verifier checks the Solution-side body for
-permitted axioms, and all nine theorem statements are compared exactly.
+- repository root as the selected project;
+- `formalization.yaml`;
+- `comparator.json`;
+- `GreedyUniformity/PalomarChallenge.lean`;
+- `GreedyUniformity/PalomarSolution.lean`;
+- Apache-2.0;
+- permitted axioms `propext`, `Classical.choice`, and `Quot.sound`.
 
-## Palomar-forced environment migration
+Current Palomar policy required the packaging-only migration to:
 
-Stage 5 was verified under Lean 4.34.1 and Mathlib
-`d13f23b723b8a846827a245b89c10fc7d3f11612`.
+- Lean **4.35.0-rc3**;
+- toolchain `leanprover/lean4:v4.35.0-rc3`;
+- Mathlib `c55e6e786f49471c72fbddbec5415808896aec1e`.
 
-Current PalomarSubmission commit
-`65f0154ed776cd26c224254aa57b379137f28b0d` requires the Lean module system
-and a toolchain at or above v4.35.0-rc2. Stage 6 therefore moved the repository
-to:
+The Stage-5 mathematical package had already been verified under Lean 4.34.1 /
+Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612`. The Stage-6 migration was
+for Palomar compatibility, not a change of theorem scope.
 
-- Lean: **4.35.0-rc3**
-- toolchain: `leanprover/lean4:v4.35.0-rc3`
-- Mathlib: `c55e6e786f49471c72fbddbec5415808896aec1e` (tag `v4.35.0-rc3`)
-- exact dependency lock: `lake-manifest.json`
+## Review correction incorporated before registration
 
-This was a packaging compatibility correction required by current Palomar
-policy, not a mathematical change.
+The first browser submission at commit
+`ed5d05baf8850226e7de21c7350dccb21f909d43` passed mechanical verification
+but received an editorial request to align the detailed one-pendant-leaf
+informal proof with the strict permutation-fibre injection used by Lean.
 
-## First Palomar submission review and correction
+That documentation correction was made before the successful registration.
+The theorem statements and Lean proofs were not changed.
 
-The first browser submission used commit
-`ed5d05baf8850226e7de21c7350dccb21f909d43`. Mechanical verification passed,
-but Palomar's private automated editorial review requested one documentation
-correction: the detailed one-pendant-leaf account in
-`proof/INFORMAL_PROOF.md` described the earlier iid-priority argument rather
-than the strict permutation-fibre injections used by the recorded Lean proof.
+## Stage-7 boundary
 
-The mathematical statements and Lean proofs were not changed. Commit
-`c45b3c9f21802da05bc054b694fc911e28e8c411` replaced that Lemma 9 account
-with the recorded finite argument: swap the pendant leaf (x) with its support
-vertex (y); obtain a fibre injection in each domination case; and use an
-explicit adjacent-prefix order to exhibit an element missing from the image,
-making the injection strict. The dependency description was updated at the
-same time. `formalization.yaml` now calls out this alignment explicitly.
+Stage 7 may now begin. The paper must be written from the frozen, audited,
+formalised, and Palomar-registered theorem package. In particular:
 
-Palomar requires a **new submission** for the corrected commit. The existing
-submission should not be treated as registered, and the existing Palomar ID
-field remains blank because the result is not yet in the public registry.
+- preserve the exact A+B theorem scope;
+- preserve the novelty wording **plausibly new with bounded uncertainty**;
+- clearly separate standard/background ingredients from contribution-level
+  claims;
+- state the exact greedy-permutation model and total-variation bias definition;
+- present the structural proof of Theorem A and the mixed-spider calculations
+  of Theorem B;
+- accurately describe the Lean formalisation and Palomar registration;
+- do not add an all-n extremal, optimality, matching-lower-bound,
+  well-covered-converse, or worldwide-priority claim without a new proof and
+  audit.
 
-## Mechanical preflight record
-
-Every ordinary push to `stage6-palomar-preflight` runs the full predictive preflight. Use the exact branch-head SHA whose corresponding run finishes green as the next Palomar submission commit.
-
-The reusable workflow is pinned to PalomarSubmission commit
-`65f0154ed776cd26c224254aa57b379137f28b0d`, with:
-
-- `mode: full`;
-- `execution_profile: palomar-standard-v1`;
-- explicit `comparator_config_path: comparator.json`.
-
-A full predictive preflight passed on package commit
-`6f4e72ba8d01a34310eb40710c0557f507aea392` in workflow run #7
-(GitHub Actions run id `36718192673`). Its mechanical report had:
-
-- status: `pass`;
-- stage: `complete`;
-- warnings: none;
-- errors: none;
-- Challenge trust level: `high`;
-- con-ron: accepted;
-- NanoDa: accepted;
-- Lean default kernel: accepted.
-
-That pass is the substantive package checkpoint before the final documentation
-batch. The final registration commit is re-run through the same full preflight
-after this handover update; use the exact final green commit reported at the end
-of the Stage-6 session.
-
-## What remains for the responsible user
-
-Do **not** begin Stage 7 yet. To complete Stage 6, the responsible user must:
-
-1. open the Palomar submission interface and authenticate through the browser;
-2. submit repository `jfairfaxball-348/Greedy-Uniformity-on-Trees`;
-3. use the exact 40-character commit SHA from the final green full preflight;
-4. select the repository root as the project;
-5. use `comparator.json` as the Comparator configuration path;
-6. use the default `formalization.yaml` metadata path;
-7. leave existing Palomar ID blank for a new registration;
-8. personally confirm the “responsible author or maintainer” relationship only
-   if that statement is true;
-9. review the Apache-2.0 licence choice and the human/AI-production metadata;
-10. submit and record the resulting Palomar identifier.
-
-Until a corrected submission is accepted and a Palomar identifier has actually
-been received, the correct status is **Stage 6 in progress — not registered**.
-
-Stage 7 (paper writing) and Stage 8 (arXiv submission) remain blocked until
-Palomar registration is actually complete.
+Stage 8 (arXiv submission) remains blocked until the Stage-7 paper is complete.
