@@ -1,7 +1,21 @@
 # Palomar Stage-6 package
 
-This file records repository-side preparation only. It is **not** evidence that
-Palomar registration has occurred.
+This file records both the repository-side Palomar preparation and the final
+registration outcome.
+
+## Registration record
+
+- Palomar ID: `PALOMAR-2026-10-01-000003`
+- Version: **1**
+- Status: **registered**
+- Trust level: **high**
+- Published: **2026-10-01T00:28:54Z**
+- Immutable source commit: `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`
+- Preserved archive: `PalomarArchive/jfairfaxball-348--Greedy-Uniformity-on-Trees--0c04ff5c5faa`
+- Public entry: https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-01-000003&version=1
+
+The registry record contains all nine intended theorem declarations: the two
+final Theorem A declarations and all seven final Theorem B checkpoints.
 
 ## Submission unit
 
@@ -90,8 +104,8 @@ the full preflight before submitting.
 
 ## Remaining boundary
 
-The package is prepared and mechanically preflighted. **Palomar registration is
-not complete.** Stage 6 completes only after the responsible user submits the
-exact green commit through Palomar and receives/records the resulting Palomar
-registration identifier. Stages 7 and 8 must not begin before that external
-registration step is complete.
+The package is prepared, mechanically preflighted, and **registered** as
+`PALOMAR-2026-10-01-000003` version 1 from immutable source commit
+`1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`. Stage 6 is complete. Stage 7
+paper writing is now the next permitted stage; Stage 8 remains blocked until
+the fixed workflow reaches it.
