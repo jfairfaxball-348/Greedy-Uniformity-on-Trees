@@ -1,0 +1,121 @@
+name: arXiv preflight
+
+on:
+  push:
+    branches:
+      - stage8-arxiv-packaging
+  pull_request:
+    paths:
+      - 'arxiv/**'
+      - 'ARXIV_SUBMISSION.md'
+      - 'ARXIV_PREFLIGHT.md'
+      - 'HANDOVER.md'
+      - 'README.md'
+      - 'ROADMAP.md'
+      - '.github/workflows/arxiv-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arxiv-preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX and PDF inspection tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-bibtex-extra lmodern poppler-utils
+
+      - name: Audit source staging directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          find arxiv -maxdepth 1 -type f -printf '%f\n' | sort > /tmp/arxiv-files.txt
+          if grep -E '\.(aux|log|out|toc|fls|fdb_latexmk|synctex\.gz|pdf)$' /tmp/arxiv-files.txt; then
+            echo "Generated clutter is present in arxiv/."
+            exit 1
+          fi
+          python3 - <<'PY'
+          from pathlib import Path
+          allowed = {"main.tex", "references.bib", "main.bbl"}
+          files = {p.name for p in Path("arxiv").iterdir() if p.is_file()}
+          extra = files - allowed
+          required = {"main.tex", "references.bib"}
+          missing = required - files
+          if extra or missing:
+              raise SystemExit(f"arxiv/ file audit failed: extra={sorted(extra)}, missing={sorted(missing)}")
+          PY
+          cmp -s paper/main.tex arxiv/main.tex
+          cmp -s paper/references.bib arxiv/references.bib
+          grep -Fq 'plausibly new with bounded uncertainty' arxiv/main.tex
+
+      - name: Build in a clean standalone directory
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          cp arxiv/main.tex arxiv/references.bib "$work/"
+          cd "$work"
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          bibtex main
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+          pdftotext main.pdf main.txt
+          printf 'WORKDIR=%s\n' "$work" >> "$GITHUB_ENV"
+          pdflatex --version | head -2
+          bibtex --version | head -2 || true
+
+      - name: Verify build logs and rendered text
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$WORKDIR/main.log"
+          blg="$WORKDIR/main.blg"
+          txt="$WORKDIR/main.txt"
+          for pattern in \
+            'There were undefined references' \
+            'Citation .* undefined' \
+            'Reference .* undefined' \
+            'multiply defined' \
+            'Overfull \\hbox' \
+            'Underfull \\hbox' \
+            '^!'; do
+            if grep -Eiq "$pattern" "$log"; then
+              echo "Preflight log failure: $pattern"
+              grep -Ein "$pattern" "$log" || true
+              exit 1
+            fi
+          done
+          if grep -Eiq 'Warning--|error' "$blg"; then
+            echo "BibTeX preflight warning/error"
+            cat "$blg"
+            exit 1
+          fi
+          grep -Fq 'Greedy Uniformity on Trees:' "$txt"
+          grep -Fq 'John Fairfax-Ball' "$txt"
+          grep -Fq 'plausibly new with bounded uncertainty' "$txt"
+          grep -Fq 'PALOMAR-2026-10-01-000003' "$txt"
+
+      - name: Check frozen BBL when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f arxiv/main.bbl ]; then
+            cmp -s arxiv/main.bbl "$WORKDIR/main.bbl"
+          fi
+
+      - name: Upload preflight artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: arxiv-preflight
+          if-no-files-found: error
+          path: |
+            ${{ env.WORKDIR }}/main.pdf
+            ${{ env.WORKDIR }}/main.log
+            ${{ env.WORKDIR }}/main.blg
+            ${{ env.WORKDIR }}/main.bbl
