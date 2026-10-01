@@ -4,7 +4,7 @@ Research repository for the distribution of random greedy maximal independent se
 
 ## Current status
 
-**Stages 1–5 are complete. Stage 6 repository packaging is prepared and the dedicated full Palomar preflight has passed; actual Palomar registration has not yet been performed. Stage 7 paper writing and Stage 8 arXiv submission remain blocked.**
+**Stages 1–6 are complete. The frozen A+B theorem package is registered with Palomar as `PALOMAR-2026-10-01-000003` (version 1, high trust), from immutable source commit `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`. Stage 7 paper writing is next; Stage 8 arXiv submission remains blocked until the paper stage is complete.**
 
 Stage 2 gave PASS FOR PROOF, not a priority certificate. Stage 3 produced the complete informal proof. Stage 4 then re-audited the **actual proved theorem and proof shape** against current primary literature. The final classification is deliberately bounded: both A and B are **plausibly new with bounded uncertainty**, not “definitely novel” or “unique worldwide”.
 
@@ -77,6 +77,6 @@ The ordinary proof-source placeholder audit still rejects `sorry`, `admit`, and 
 
 This project is separate from **ProbStack — Random Stacking on Trees** and from TreeStack. No conclusion from those repositories is imported as evidence.
 
-Lean formalisation is complete for the frozen A+B package. The Palomar package is prepared and mechanically preflighted, but **Palomar registration is not complete until the responsible user submits the exact green commit and receives a Palomar identifier**. Paper writing and arXiv submission have not begun. The Stage-4 novelty status remains **plausibly new with bounded uncertainty**, and the frozen package must not be silently strengthened into all-(n), minimizer, optimality, matching-lower-bound, well-covered-converse, or worldwide-priority claims.
+Lean formalisation is complete for the frozen A+B package. Palomar registration is also complete: **PALOMAR-2026-10-01-000003**, version 1, registered from source commit `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`. Paper writing has not yet begun, and arXiv submission remains a later Stage-8 task. The Stage-4 novelty status remains **plausibly new with bounded uncertainty**, and the frozen package must not be silently strengthened into all-(n), minimizer, optimality, matching-lower-bound, well-covered-converse, or worldwide-priority claims.
 
 Start with `PROJECT_CHARTER.md`, `CLAIMS.md`, `audit/PRIOR_ART_NOVELTY_AUDIT.md`, `audit/SEARCH_LOG.md`, `proof/INFORMAL_PROOF.md`, `experiments/VERIFIED_RESULTS.md`, `PALOMAR_SUBMISSION.md`, and `HANDOVER.md`.
