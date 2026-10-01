@@ -25,4 +25,29 @@ The workflow checks the final log/BLG for unresolved citations/references, BibTe
 
 The first clean compile on GitHub Actions confirmed TeX Live 2023 and produced a 10-page PDF; its preflight gate failed only because the earlier `bibtex8` invocation emitted a locale-CS-file diagnostic. The workflow now uses standard `bibtex`, matching arXiv's normal BibTeX path rather than suppressing that diagnostic.
 
-The final repository record must identify the exact green bundle commit and CI run.
+## Final verified bundle
+
+The frozen upload bundle is the `arxiv/` directory at commit
+`14b3c6ecbbf423eebefa8f673124793f3e3f3c02`. It contains exactly
+`main.tex`, `references.bib`, and `main.bbl`.
+
+GitHub Actions arXiv preflight run **#7** at that exact commit passed. Its final
+artifact ID is `11149926165` and artifact digest is
+`sha256:507e4813e0f8c0a0dece20506be50e8f40a3ac5789874e4b9242c2c3b2d5d88e`.
+The final build used pdfTeX / TeX Live 2023 and standard BibTeX, produced a
+10-page PDF, regenerated a `main.bbl` byte-for-byte identical to the frozen
+bundle file, and passed the warning/reference/rendered-text gates.
+
+The final-run PDF SHA-256 is
+`39f2e4944d269ce974e7150bfa23bde6668096afbbc6294a267a30eed8b614ac`;
+the generated/frozen BBL SHA-256 is
+`ba54dacfb08fce17c8e33f89f6ec982c34028eec71281ef466fee987b1377e1f`.
+
+The PDF was rendered to images and visually checked across all 10 pages. No
+clipped text, overlaps, broken glyphs, truncated equations, malformed table,
+or broken page layout was found. A render comparison with the immediately
+preceding green standalone build reported zero changed pages out of ten;
+the differing raw PDF hashes are attributable to build-level PDF metadata.
+
+Packaging/preflight is complete. Final arXiv submission remains a separate
+human-author action and has not been performed.
