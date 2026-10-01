@@ -202,7 +202,7 @@ The committed GitHub sources were also fetched back and checked against the
 locally compiled copies. The resulting Git blob SHAs are:
 
 - `paper/main.tex`:
-  `4cf5f2f9af071762e85f24b62055f416d605ecf0`;
+  `aaec8f050c456e453abc76cacce167613d7c6d45`;
 - `paper/references.bib`:
   `afd675585ca2c5918afe72e324d46cd7a16774c7`;
 - `paper/README.md`:
