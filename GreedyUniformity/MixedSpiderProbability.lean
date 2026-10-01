@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderFibreCount
+module
+
+public import GreedyUniformity.MixedSpiderFibreCount
+
+@[expose] public section
 
 open scoped BigOperators
 

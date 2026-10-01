@@ -1,5 +1,9 @@
-import GreedyUniformity.MixedSpiderMoments
-import Mathlib.Analysis.Asymptotics.Basic
+module
+
+public import GreedyUniformity.MixedSpiderMoments
+public import Mathlib.Analysis.Asymptotics.Basic
+
+@[expose] public section
 
 open scoped BigOperators
 

@@ -1,5 +1,9 @@
-import GreedyUniformity.MixedSpiderBiasFormula
-import GreedyUniformity.OrderCount
+module
+
+public import GreedyUniformity.MixedSpiderBiasFormula
+public import GreedyUniformity.OrderCount
+
+@[expose] public section
 
 namespace GreedyUniformity
 

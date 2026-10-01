@@ -21,8 +21,8 @@ jobs:
         run: lake build
       - name: Reject placeholders
         run: |
-          if grep -R -n -E '\\b(sorry|admit|native_decide)\\b' GreedyUniformity GreedyUniformity.lean; then
-            echo "Forbidden Lean placeholder found"
+          if grep -R -n -E '\\b(sorry|admit|native_decide)\\b' --exclude='PalomarChallenge.lean' GreedyUniformity GreedyUniformity.lean; then
+            echo "Forbidden Lean placeholder found outside the intentional Palomar Challenge holes"
             exit 1
           fi
       - name: Python tests

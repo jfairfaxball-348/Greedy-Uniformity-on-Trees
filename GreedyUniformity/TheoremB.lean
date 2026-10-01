@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderOrderAsymptotic
+module
+
+public import GreedyUniformity.MixedSpiderOrderAsymptotic
+
+@[expose] public section
 
 /-!
 # Frozen Theorem B package

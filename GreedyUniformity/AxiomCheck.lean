@@ -1,5 +1,9 @@
-import GreedyUniformity.TheoremA
-import GreedyUniformity.TheoremB
+module
+
+public import GreedyUniformity.TheoremA
+public import GreedyUniformity.TheoremB
+
+@[expose] public section
 
 #print axioms GreedyUniformity.tree_greedyLawEqUniform_iff_isK1OrK2
 #print axioms GreedyUniformity.tree_bias_eq_zero_iff_isK1OrK2

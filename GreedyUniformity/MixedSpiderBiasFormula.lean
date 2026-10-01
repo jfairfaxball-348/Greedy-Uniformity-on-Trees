@@ -1,4 +1,8 @@
-import GreedyUniformity.MixedSpiderCertificate
+module
+
+public import GreedyUniformity.MixedSpiderCertificate
+
+@[expose] public section
 
 open scoped BigOperators
 

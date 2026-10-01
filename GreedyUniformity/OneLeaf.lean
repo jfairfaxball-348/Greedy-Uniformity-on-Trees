@@ -1,4 +1,8 @@
-import GreedyUniformity.MultiLeaf
+module
+
+public import GreedyUniformity.MultiLeaf
+
+@[expose] public section
 
 namespace GreedyUniformity
 

@@ -1,5 +1,9 @@
-import GreedyUniformity.Marginal
-import GreedyUniformity.OrderCount
+module
+
+public import GreedyUniformity.Marginal
+public import GreedyUniformity.OrderCount
+
+@[expose] public section
 
 namespace GreedyUniformity
 

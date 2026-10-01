@@ -1,5 +1,9 @@
-import GreedyUniformity.FirstInFinset
-import GreedyUniformity.MixedSpiderOrderCount
+module
+
+public import GreedyUniformity.FirstInFinset
+public import GreedyUniformity.MixedSpiderOrderCount
+
+@[expose] public section
 
 namespace GreedyUniformity
 

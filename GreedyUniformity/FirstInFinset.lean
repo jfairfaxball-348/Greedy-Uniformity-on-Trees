@@ -1,5 +1,9 @@
-import GreedyUniformity.OrderCount
-import Mathlib.Order.WellFounded
+module
+
+public import GreedyUniformity.OrderCount
+public import Mathlib.Order.WellFounded
+
+@[expose] public section
 
 namespace GreedyUniformity
 

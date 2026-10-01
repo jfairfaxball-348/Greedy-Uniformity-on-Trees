@@ -1,4 +1,8 @@
-import GreedyUniformity.Bridge
+module
+
+public import GreedyUniformity.Bridge
+
+@[expose] public section
 
 namespace GreedyUniformity
 

@@ -1,5 +1,9 @@
-import GreedyUniformity.MixedSpiderMIS
-import Mathlib.Data.Nat.Choose.Sum
+module
+
+public import GreedyUniformity.MixedSpiderMIS
+public import Mathlib.Data.Nat.Choose.Sum
+
+@[expose] public section
 
 open scoped BigOperators
 
