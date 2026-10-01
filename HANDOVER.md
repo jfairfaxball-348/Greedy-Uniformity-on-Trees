@@ -204,7 +204,7 @@ locally compiled copies. The resulting Git blob SHAs are:
 - `paper/main.tex`:
   `4cf5f2f9af071762e85f24b62055f416d605ecf0`;
 - `paper/references.bib`:
-  `85070a83a0e21f0a551d2bb95b5790b366a03d45`;
+  `afd675585ca2c5918afe72e324d46cd7a16774c7`;
 - `paper/README.md`:
   `0f45dc583187bd2921a33a42eecad429b9111576`.
 
