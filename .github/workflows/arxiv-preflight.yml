@@ -9,6 +9,9 @@ on:
       - 'arxiv/**'
       - 'ARXIV_SUBMISSION.md'
       - 'ARXIV_PREFLIGHT.md'
+      - 'HANDOVER.md'
+      - 'README.md'
+      - 'ROADMAP.md'
       - '.github/workflows/arxiv-preflight.yml'
   workflow_dispatch:
 
@@ -24,7 +27,9 @@ jobs:
       - name: Install TeX and PDF inspection tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends             texlive-latex-base texlive-latex-recommended texlive-latex-extra             texlive-fonts-recommended texlive-bibtex-extra lmodern poppler-utils
+          sudo apt-get install -y --no-install-recommends \
+            texlive-latex-base texlive-latex-recommended texlive-latex-extra \
+            texlive-fonts-recommended texlive-bibtex-extra lmodern poppler-utils
 
       - name: Audit source staging directory
         shell: bash
@@ -57,13 +62,13 @@ jobs:
           cp arxiv/main.tex arxiv/references.bib "$work/"
           cd "$work"
           pdflatex -interaction=nonstopmode -halt-on-error main.tex
-          bibtex8 main
+          bibtex main
           pdflatex -interaction=nonstopmode -halt-on-error main.tex
           pdflatex -interaction=nonstopmode -halt-on-error main.tex
           pdftotext main.pdf main.txt
           printf 'WORKDIR=%s\n' "$work" >> "$GITHUB_ENV"
           pdflatex --version | head -2
-          bibtex8 --version | head -2 || true
+          bibtex --version | head -2 || true
 
       - name: Verify build logs and rendered text
         shell: bash
@@ -72,7 +77,14 @@ jobs:
           log="$WORKDIR/main.log"
           blg="$WORKDIR/main.blg"
           txt="$WORKDIR/main.txt"
-          for pattern in             'There were undefined references'             'Citation .* undefined'             'Reference .* undefined'             'multiply defined'             'Overfull \\hbox'             'Underfull \\hbox'             '^!'; do
+          for pattern in \
+            'There were undefined references' \
+            'Citation .* undefined' \
+            'Reference .* undefined' \
+            'multiply defined' \
+            'Overfull \\hbox' \
+            'Underfull \\hbox' \
+            '^!'; do
             if grep -Eiq "$pattern" "$log"; then
               echo "Preflight log failure: $pattern"
               grep -Ein "$pattern" "$log" || true
@@ -88,6 +100,14 @@ jobs:
           grep -Fq 'John Fairfax-Ball' "$txt"
           grep -Fq 'plausibly new with bounded uncertainty' "$txt"
           grep -Fq 'PALOMAR-2026-10-01-000003' "$txt"
+
+      - name: Check frozen BBL when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f arxiv/main.bbl ]; then
+            cmp -s arxiv/main.bbl "$WORKDIR/main.bbl"
+          fi
 
       - name: Upload preflight artifacts
         uses: actions/upload-artifact@v4
