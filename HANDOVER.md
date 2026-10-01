@@ -6,6 +6,9 @@
 **Next stage:** Stage 8 — arXiv submission, **NOT STARTED**  
 **Stage-7 branch:** `stage7-paper`  
 **Stage-7 paper PR:** #6  
+**Stage-7 paper merge commit:** `7d99135280949947a15a61233a8c669e1c0ff8ce`  
+**Final Stage-7 paper branch head:** `abd61dd85e98b7fd483b906674704fe152f37bdb`  
+**Final Stage-7 CI:** GitHub Actions Lean run #170 — **PASS**  
 **Manuscript:** `paper/main.tex`  
 **Bibliography:** `paper/references.bib`  
 **Paper title:** *Greedy Uniformity on Trees: Exact Obstruction and Near-Uniform Spiders*  
@@ -16,8 +19,11 @@
 **Registered source commit:** `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`
 
 Stage 7 is complete. The research manuscript has been written from the frozen,
-audited, formalised, and Palomar-registered A+B theorem package. No Stage-8
-arXiv submission or arXiv account action was performed in Stage 7.
+audited, formalised, and Palomar-registered A+B theorem package and merged to
+`main` through PR #6. The final PR head passed the repository's Lean build,
+forbidden-placeholder gate, and Python regression suite in GitHub Actions run
+#170 before merge. No Stage-8 arXiv submission or arXiv account action was
+performed in Stage 7.
 
 The Stage-4 novelty classification remains exactly **plausibly new with bounded
 uncertainty**. The manuscript does not claim worldwide priority, an all-(n)
