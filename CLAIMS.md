@@ -27,8 +27,8 @@ Status vocabulary: **definition**, **proved-background**, **proved-informal**, *
 
 ## Current boundary
 
-Stages 1–5 are complete. The exact audited A+B package is frozen and fully formalised in Lean. The Stage-4 novelty classification remains **plausibly new with bounded uncertainty**; no worldwide-priority, all-\(n\) extremal, minimizer, optimality, matching-lower-bound, or “uniform greedy law implies well-covered” claim is made.
+All eight stages are complete. The exact audited A+B package is frozen and fully formalised in Lean; registered with Palomar as `PALOMAR-2026-10-01-000003`, version 1, high trust; written up in `paper/main.tex`; and published on arXiv as [`arXiv:2610.02276`](https://arxiv.org/abs/2610.02276), version 1, submitted 2026-10-01. The arXiv-issued DataCite DOI is [`10.48550/arXiv.2610.02276`](https://doi.org/10.48550/arXiv.2610.02276), and the recorded arXiv licence is CC BY 4.0.
+
+The Stage-4 novelty classification remains **plausibly new with bounded uncertainty**; no worldwide-priority, all-\(n\) extremal, minimizer, optimality, matching-lower-bound, or “uniform greedy law implies well-covered” claim is made.
 
 GitHub Actions run **#161** at verified A+B code head `47802b8a18a92847e447e88c02ecb42620b3da09` passed the complete root `lake build` (**8954 jobs**), forbidden-placeholder rejection, and the Python regression suite (**5 passed**). `GreedyUniformity/AxiomCheck.lean` reports exactly `[propext, Classical.choice, Quot.sound]` for both final A statements and all seven final B checkpoints. There are no project-specific mathematical axioms and no `sorry`, `admit`, or `native_decide` in the project Lean sources.
-
-Stage 6 (Palomar registration) is the next stage but has **not begun**. Paper writing and arXiv submission have not begun.
