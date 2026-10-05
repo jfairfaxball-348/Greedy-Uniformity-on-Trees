@@ -1,8 +1,9 @@
 # Lean formalisation status
 
 **Stage 5 theorem formalisation:** COMPLETE  
-**Stage 6 Palomar packaging:** PREPARED AND PREFLIGHTED; REGISTRATION PENDING  
-**Date:** 2026-09-30
+**Stage 6 Palomar registration:** COMPLETE — `PALOMAR-2026-10-01-000003`, version 1, high trust  
+**Publication status:** `arXiv:2610.02276` v1 is live  
+**Status refreshed:** 2026-10-05
 
 Frozen Theorems A and B remain fully formalised. Stage 6 made a
 Palomar-required module/toolchain compatibility port without strengthening the
@@ -120,9 +121,13 @@ Challenge states the intended finite-set definition explicitly; Comparator
 checks the definition type/safety and Solution-side axiom use, while the nine
 frozen theorem statements are compared exactly.
 
-## Workflow boundary
+## Workflow completion
 
-Stage 6 is not complete until the responsible user actually submits the exact
-green commit to Palomar and receives/records the Palomar registration
-identifier. Stage 7 (paper writing) and Stage 8 (arXiv submission) have not
-begun.
+Stage 6 is complete: the frozen theorem package is registered with Palomar as
+`PALOMAR-2026-10-01-000003`, version 1, high trust, from immutable source
+commit `1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`.
+
+Stages 7 and 8 are also complete. The research manuscript is `paper/main.tex`,
+and the paper is live as [`arXiv:2610.02276`](https://arxiv.org/abs/2610.02276),
+version 1, submitted 2026-10-01, with arXiv-issued DOI
+[`10.48550/arXiv.2610.02276`](https://doi.org/10.48550/arXiv.2610.02276).
