@@ -106,6 +106,8 @@ the full preflight before submitting.
 
 The package is prepared, mechanically preflighted, and **registered** as
 `PALOMAR-2026-10-01-000003` version 1 from immutable source commit
-`1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`. Stage 6 is complete. Stage 7
-paper writing is now the next permitted stage; Stage 8 remains blocked until
-the fixed workflow reaches it.
+`1733c29a5165148d71a2f0bd1ed2dcd7c35309ce`. Stage 6 is complete. The later
+workflow stages are now complete as well: the paper was written in Stage 7 and
+is live on arXiv as [`arXiv:2610.02276`](https://arxiv.org/abs/2610.02276)
+(v1, submitted 2026-10-01) with arXiv-issued DOI
+[`10.48550/arXiv.2610.02276`](https://doi.org/10.48550/arXiv.2610.02276).
