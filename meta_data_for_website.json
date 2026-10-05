@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "title": "Greedy Uniformity on Trees: Exact Obstruction and Near-Uniform Spiders",
+  "slug": "greedy-uniformity-on-trees",
+  "status": "arXiv preprint",
+  "headline": "Random-order greedy maximal independent sets are exactly uniform on a finite tree only for K₁ and K₂, while explicit spiders approach uniformity.",
+  "year": 2026,
+  "date": "2026-10-05",
+  "description": "For a uniformly random ordering of the vertices of a finite tree, this project compares the greedy maximal-independent-set law with the uniform law on maximal independent sets. It proves exact uniformity iff the tree is K₁ or K₂, and gives an explicit mixed-spider family $T_{k,2^k-k}$ with positive total-variation bias $O(\\sqrt{k}/4^k)=O(\\sqrt{\\log n_k}/n_k^2)$ along $n_k=2^k+k+1$. The frozen A+B package is formalised in Lean and registered with Palomar; the all-$n$ extremal minimisation problem and optimality of the construction remain open. The literature audit supports only “plausibly new with bounded uncertainty”, not an unconditional historical-priority claim.",
+  "topics": [
+    "Combinatorics",
+    "Graph theory",
+    "Probability",
+    "Greedy algorithms",
+    "Maximal independent sets",
+    "Trees",
+    "Lean 4",
+    "Mathlib"
+  ],
+  "github_url": "https://github.com/jfairfaxball-348/Greedy-Uniformity-on-Trees",
+  "palomar_id": "PALOMAR-2026-10-01-000003",
+  "palomar_url": "https://palomar-registry.org/entry.html?id=PALOMAR-2026-10-01-000003&version=1",
+  "paper_url": "https://arxiv.org/pdf/2610.02276",
+  "arxiv_id": "2610.02276",
+  "arxiv_url": "https://arxiv.org/abs/2610.02276",
+  "doi": "10.48550/arXiv.2610.02276",
+  "formalisation_system": "Lean 4.35.0-rc3 / Mathlib v4.35.0-rc3",
+  "verification": "Lean 4.35.0-rc3 / Mathlib commit c55e6e786f49471c72fbddbec5415808896aec1e machine-checks the exact finite-law bridge, both final Theorem A declarations and all seven final Theorem B checkpoints; axiom checks report only propext, Classical.choice and Quot.sound, with no project-specific axioms or sorry/admit/native_decide in the project Lean sources. GitHub Actions passed the complete Lean build and 5 Python regression tests, while exact computation checks all 436 nonisomorphic unlabeled trees on 1–11 vertices and targeted local proof certificates. Palomar entry PALOMAR-2026-10-01-000003, version 1, is registered with high trust from immutable source commit 1733c29a5165148d71a2f0bd1ed2dcd7c35309ce. Lean and Palomar verify the formal statements and package integrity; they are not peer review or novelty certification.",
+  "attribution": "John Fairfax-Ball is the author and repository maintainer. The random-order greedy maximal-independent-set / iid-priority / random-sequential-adsorption process is established prior art; Gadouleau–Kutner already exhibit the unequal P₃ permutation fibres, and Sagan–Vatter provide standard maximal-independent-set counting machinery used as background. This project’s audited contribution is the exact finite-tree obstruction and the explicit near-uniform mixed-spider family; Mathlib supplies foundational library results and Palomar supplies an external registry/verification record. The literature search supports only “plausibly new with bounded uncertainty”.",
+  "original_source": "John Fairfax-Ball, “Greedy Uniformity on Trees: Exact Obstruction and Near-Uniform Spiders”, arXiv:2610.02276 (2026). Relevant prior context includes Michael Krivelevich, Tamás Mészáros, Peleg Michaeli and Clara Shikhelman, “Greedy maximal independent sets via local limits”, arXiv:1907.07216 / Random Structures & Algorithms; Ivan Kryven, Rik Versendaal and Mike de Vries, “Unified framework for asymptotically uniform iterative construction of generalised random graphs with local constraints”, arXiv:2608.07239v1 (2026); and Maximilien Gadouleau and David C. Kutner, “Generalising the maximum independent set algorithm via Boolean networks”, Information and Computation 303 (2025), 105266.",
+  "featured": true,
+  "additional_links": [
+    {
+      "label": "Literature / novelty audit",
+      "url": "https://github.com/jfairfaxball-348/Greedy-Uniformity-on-Trees/blob/main/audit/PRIOR_ART_NOVELTY_AUDIT.md"
+    },
+    {
+      "label": "Lean formalisation",
+      "url": "https://github.com/jfairfaxball-348/Greedy-Uniformity-on-Trees/tree/main/GreedyUniformity"
+    },
+    {
+      "label": "Computational verification results",
+      "url": "https://github.com/jfairfaxball-348/Greedy-Uniformity-on-Trees/blob/main/experiments/VERIFIED_RESULTS.md"
+    }
+  ]
+}
