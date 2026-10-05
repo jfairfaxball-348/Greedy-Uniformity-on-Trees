@@ -1,16 +1,22 @@
 # arXiv Stage-8 submission record
 
-**Status:** repository-side packaging/preflight **COMPLETE**; final arXiv submission is awaiting explicit human-author approval. No arXiv submission has been created, no arXiv licence has been selected, and no arXiv identifier/version exists yet.
+**Status:** **COMPLETE.** The paper is live as [`arXiv:2610.02276`](https://arxiv.org/abs/2610.02276), version 1, submitted 2026-10-01. The arXiv-issued DataCite DOI is [`10.48550/arXiv.2610.02276`](https://doi.org/10.48550/arXiv.2610.02276), and the recorded submission licence is CC BY 4.0.
 
 ## Metadata
 
 - **Title:** Greedy Uniformity on Trees: Exact Obstruction and Near-Uniform Spiders
 - **Author:** John Fairfax-Ball
+- **arXiv identifier:** `2610.02276` / `arXiv:2610.02276`
+- **Version:** `v1`
+- **Submission history:** Thu, 1 Oct 2026 10:07:00 UTC
+- **Record:** https://arxiv.org/abs/2610.02276
+- **arXiv-issued DOI:** https://doi.org/10.48550/arXiv.2610.02276
+- **Recorded licence:** CC BY 4.0
 - **Primary category:** `math.CO`
 - **Secondary category:** `math.PR`
 - **Suggested comments:** `10 pages; no figures.`
 - **Journal reference:** none asserted.
-- **DOI:** none asserted.
+- **DOI:** `10.48550/arXiv.2610.02276` (arXiv-issued DataCite DOI).
 - **Report number:** none asserted.
 - **Affiliation / ORCID / institutional email / funding:** not asserted; do not invent.
 - **Manuscript source base:** repository `main` commit `083ddf8abcb87a3a60f0c4e32eb79df49128766e`.
@@ -77,12 +83,10 @@ The upload source preserves exactly the frozen A+B theorem package:
 
 There is no all-`n` result, minimizer theorem, global extremal theorem, optimality theorem, matching lower bound, or worldwide-priority claim. Novelty status remains exactly **plausibly new with bounded uncertainty**. Lean/Palomar are described only as formal-verification/registration evidence, not peer review or novelty certification.
 
-## arXiv licence: human choice required
+## Recorded licence and publication outcome
 
-Do **not** select a licence automatically. The author must choose the arXiv submission licence. Current arXiv choices include CC BY 4.0, CC BY-SA 4.0, CC BY-NC-SA 4.0, CC BY-NC-ND 4.0, the arXiv.org perpetual non-exclusive licence 1.0, and CC0. The repository's Apache-2.0 licence is separate and does not determine this choice.
+The live arXiv record links **Creative Commons Attribution 4.0 International (CC BY 4.0)** as the submission licence. This is separate from the repository's Apache-2.0 software/source licence.
 
-## Final submission: explicit author action required
+The final author submission is complete. arXiv lists the paper as `arXiv:2610.02276` [math.CO], with `math.PR` as the secondary subject, and records v1 as submitted on 2026-10-01 at 10:07:00 UTC. The record also provides the arXiv-issued DataCite DOI `10.48550/arXiv.2610.02276`.
 
-The final arXiv step remains intentionally unperformed. The human author should log in to arXiv, create the submission, use the metadata above, upload the three files from `arxiv/`, select `pdflatex` with TeX Live 2023, personally choose the arXiv licence, compile/preview, compare the arXiv-generated PDF with the preflight rendering, and review the title, author, abstract, categories, comments, and source-file list.
-
-Only after that review and explicit author approval should the final arXiv submit action be taken. Record an arXiv identifier/version in this repository only after arXiv actually accepts the submission.
+No journal reference or external journal DOI is asserted. Future repository updates should preserve the distinction between the immutable preflight bundle record and any later arXiv version that may be posted.
