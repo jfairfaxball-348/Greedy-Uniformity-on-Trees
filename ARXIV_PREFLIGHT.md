@@ -1,6 +1,6 @@
 # arXiv packaging and preflight notes
 
-Stage 8 is split into (a) repository-side packaging/preflight and (b) the final human-author arXiv submission. This file documents part (a). It does not authorize or perform part (b).
+Stage 8 was split into (a) repository-side packaging/preflight and (b) the final human-author arXiv submission. This file records the completed pre-submission part (a). The final submission has since occurred; see `ARXIV_SUBMISSION.md` for the live publication record.
 
 ## Compatibility review
 
@@ -49,5 +49,8 @@ or broken page layout was found. A render comparison with the immediately
 preceding green standalone build reported zero changed pages out of ten;
 the differing raw PDF hashes are attributable to build-level PDF metadata.
 
-Packaging/preflight is complete. Final arXiv submission remains a separate
-human-author action and has not been performed.
+Packaging/preflight was completed before the author submission and is retained here as the reproducible package record.
+
+## Post-submission record
+
+The verified bundle was subsequently submitted and is now live as [`arXiv:2610.02276`](https://arxiv.org/abs/2610.02276), version 1, submitted 2026-10-01. arXiv lists `math.CO` as the primary subject and `math.PR` as secondary, provides the DataCite DOI [`10.48550/arXiv.2610.02276`](https://doi.org/10.48550/arXiv.2610.02276), and links the submission licence as CC BY 4.0.
